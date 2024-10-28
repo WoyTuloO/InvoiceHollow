@@ -6,7 +6,8 @@ package com.woytuloo.accountingapp.main;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
-import javax.swing.ImageIcon;
+import com.woytuloo.accountingapp.menu.MenuEvent;
+import java.awt.CardLayout;
 import javax.swing.SwingUtilities;
 
 /**
@@ -24,9 +25,24 @@ public class Main extends javax.swing.JFrame {
            
         
         initComponents();
+        menu1.setEvent( new MenuEvent(){
+            @Override
+            public void selected(int index, int subIndex){
+                    String indexStr = index + " " + subIndex;
+                    cardLayout.show(background1,  indexStr);
+
+                
+                System.out.println(index + " " + subIndex);
+            }
+        });
         mvPanel1.initMv(this);
-        ChartsGenerator.showIncomeChart(testBarChart);
+        topMvPanelPlusButtons1.initMv(this);
+        ChartsGenerator.showIncomeChart(incomeChart);
+        ChartsGenerator.showWorkDoneChart(workDoneChart);
     }
+    
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,16 +58,25 @@ public class Main extends javax.swing.JFrame {
         menu1 = new com.woytuloo.accountingapp.menu.Menu();
         mvPanel1 = new com.woytuloo.accountingapp.component.mvPanel();
         background1 = new com.woytuloo.accountingapp.component.Background();
-        jPanel2 = new javax.swing.JPanel();
-        testBarChart = new javax.swing.JPanel();
-        testBarChart1 = new javax.swing.JPanel();
+        dashBoardPanel = new javax.swing.JPanel();
+        incomeChart = new javax.swing.JPanel();
+        workDoneChart = new javax.swing.JPanel();
+        infoPanel = new javax.swing.JPanel();
+        archiveMenuCard = new javax.swing.JPanel();
+        newInvoice = new javax.swing.JPanel();
+        buttonPanel1 = new com.woytuloo.accountingapp.component.ButtonPanel();
+        jPanel8 = new javax.swing.JPanel();
+        buttonPanel2 = new com.woytuloo.accountingapp.component.ButtonPanel();
         jPanel3 = new javax.swing.JPanel();
+        buttonPanel3 = new com.woytuloo.accountingapp.component.ButtonPanel();
+        topMvPanelPlusButtons1 = new com.woytuloo.accountingapp.component.TopMvPanelPlusButtons();
+        controllJButton1 = new com.woytuloo.accountingapp.component.ControllJButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(30, 30, 30));
-
-        customScrollpane2.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel1.setBackground(new java.awt.Color(20, 20, 20));
 
         menu1.setBackground(new java.awt.Color(20, 20, 20));
         customScrollpane2.setViewportView(menu1);
@@ -60,69 +85,174 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(customScrollpane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(mvPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(customScrollpane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mvPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(mvPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(customScrollpane2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(mvPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(customScrollpane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         background1.setOpaque(true);
+        cardLayout = new CardLayout();
         background1.setLayout(new java.awt.CardLayout());
+        background1.setLayout(cardLayout);
 
-        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.setOpaque(false);
+        dashBoardPanel.setForeground(new java.awt.Color(255, 255, 255));
+        dashBoardPanel.setOpaque(false);
 
-        testBarChart.setOpaque(false);
-        testBarChart.setLayout(new java.awt.BorderLayout());
+        incomeChart.setMaximumSize(new java.awt.Dimension(600, 356));
+        incomeChart.setOpaque(false);
+        incomeChart.setLayout(new java.awt.BorderLayout());
 
-        testBarChart1.setOpaque(false);
-        testBarChart1.setLayout(new java.awt.BorderLayout());
+        workDoneChart.setMaximumSize(new java.awt.Dimension(600, 356));
+        workDoneChart.setOpaque(false);
+        workDoneChart.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(testBarChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(testBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(646, Short.MAX_VALUE))
+        infoPanel.setBackground(new java.awt.Color(51, 51, 51));
+        infoPanel.setOpaque(false);
+
+        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
+        infoPanel.setLayout(infoPanelLayout);
+        infoPanelLayout.setHorizontalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 810, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(testBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(testBarChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+        infoPanelLayout.setVerticalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 236, Short.MAX_VALUE)
         );
 
-        background1.add(jPanel2, "card2");
+        javax.swing.GroupLayout dashBoardPanelLayout = new javax.swing.GroupLayout(dashBoardPanel);
+        dashBoardPanel.setLayout(dashBoardPanelLayout);
+        dashBoardPanelLayout.setHorizontalGroup(
+            dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashBoardPanelLayout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(incomeChart, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(workDoneChart, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+            .addGroup(dashBoardPanelLayout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        dashBoardPanelLayout.setVerticalGroup(
+            dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashBoardPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(incomeChart, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(workDoneChart, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(55, 55, 55)
+                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(146, Short.MAX_VALUE))
+        );
 
+        background1.add(dashBoardPanel, "0 0");
+
+        archiveMenuCard.setOpaque(false);
+
+        newInvoice.setBackground(new java.awt.Color(0, 153, 204));
+        newInvoice.setOpaque(false);
+
+        buttonPanel1.setText("buttonPanel1");
+
+        javax.swing.GroupLayout newInvoiceLayout = new javax.swing.GroupLayout(newInvoice);
+        newInvoice.setLayout(newInvoiceLayout);
+        newInvoiceLayout.setHorizontalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(buttonPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+        );
+        newInvoiceLayout.setVerticalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(buttonPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+        );
+
+        jPanel8.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel8.setOpaque(false);
+
+        buttonPanel2.setText("buttonPanel2");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addComponent(buttonPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(buttonPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 153, 204));
         jPanel3.setOpaque(false);
+
+        buttonPanel3.setText("buttonPanel3");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1267, Short.MAX_VALUE)
+            .addComponent(buttonPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 940, Short.MAX_VALUE)
+            .addComponent(buttonPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        background1.add(jPanel3, "card3");
+        javax.swing.GroupLayout archiveMenuCardLayout = new javax.swing.GroupLayout(archiveMenuCard);
+        archiveMenuCard.setLayout(archiveMenuCardLayout);
+        archiveMenuCardLayout.setHorizontalGroup(
+            archiveMenuCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(archiveMenuCardLayout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(newInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+        archiveMenuCardLayout.setVerticalGroup(
+            archiveMenuCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(archiveMenuCardLayout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addGroup(archiveMenuCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
+        );
+
+        background1.add(archiveMenuCard, "2 0");
+
+        topMvPanelPlusButtons1.setBackground(new java.awt.Color(20, 20, 20));
+
+        javax.swing.GroupLayout topMvPanelPlusButtons1Layout = new javax.swing.GroupLayout(topMvPanelPlusButtons1);
+        topMvPanelPlusButtons1.setLayout(topMvPanelPlusButtons1Layout);
+        topMvPanelPlusButtons1Layout.setHorizontalGroup(
+            topMvPanelPlusButtons1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMvPanelPlusButtons1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(controllJButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        topMvPanelPlusButtons1Layout.setVerticalGroup(
+            topMvPanelPlusButtons1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(controllJButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,16 +262,23 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(topMvPanelPlusButtons1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(topMvPanelPlusButtons1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+
 
     /**
      * @param args the command line arguments
@@ -177,16 +314,25 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
-
+    private CardLayout cardLayout;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel archiveMenuCard;
     private com.woytuloo.accountingapp.component.Background background1;
+    private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel1;
+    private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel2;
+    private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel3;
+    private com.woytuloo.accountingapp.component.ControllJButton controllJButton1;
     private com.woytuloo.accountingapp.component.CustomScrollpane customScrollpane2;
+    private javax.swing.JPanel dashBoardPanel;
+    private javax.swing.JPanel incomeChart;
+    private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel8;
     private com.woytuloo.accountingapp.menu.Menu menu1;
     private com.woytuloo.accountingapp.component.mvPanel mvPanel1;
-    private javax.swing.JPanel testBarChart;
-    private javax.swing.JPanel testBarChart1;
+    private javax.swing.JPanel newInvoice;
+    private com.woytuloo.accountingapp.component.TopMvPanelPlusButtons topMvPanelPlusButtons1;
+    private javax.swing.JPanel workDoneChart;
     // End of variables declaration//GEN-END:variables
 }

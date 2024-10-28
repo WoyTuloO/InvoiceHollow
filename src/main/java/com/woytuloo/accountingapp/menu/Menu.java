@@ -21,11 +21,12 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Menu extends JComponent {
     private int autoindex;
+    private MenuEvent event;
     private MigLayout layout;
     private String[][] menuItems = new String [][]{
         {"Panel główny"},
         {"Faktury","Nowa Faktura","Wystaw korektę","Nowy szablon"},
-        {"Archiwum", "Lista adresów", "Lista adresatów"}
+        {"Archiwum"}
  
         };
     
@@ -48,9 +49,10 @@ public class Menu extends JComponent {
     private void addMenu(String name, int index){        
         MenuItem item = new MenuItem(name, index, menuItems[index].length > 1);
         
-        item.addActionListener( new ActionListener(){
+        item.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
+                    if(menuItems[index].length > 1){
                         if(!item.isSelected()){
                             item.setSelected(true);
                             addSubMenu(item, index, menuItems[index].length, getComponentZOrder(item));
@@ -59,7 +61,14 @@ public class Menu extends JComponent {
                             item.setSelected(false);
                             hideSubMenu(item, index);
                         }
-                        
+                    }else{
+                        if(getEvent() != null){
+                            getEvent().selected(index, 0);
+                            
+                        }           
+                    }
+                    
+                    
                 }
 
         });
@@ -77,14 +86,23 @@ public class Menu extends JComponent {
         
         for(int i = 1; i< len; i++){
             MenuItem sub = new MenuItem(menuItems[index][i],i,false);
+            sub.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e){
+                    if(getEvent()!=null){
+                        getEvent().selected(index, sub.getIndex());
+                    }
+                }
+            });
+            
+            
             sub.initSubMenu(i, len);
             p.add(sub);
             
         }
-        
         add(p, zOrder+1);
         revalidate();
-        repaint();
+
         
         
     }
@@ -99,15 +117,29 @@ public class Menu extends JComponent {
         }
         
         revalidate();
-        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(30,30,30));
-        g2.fill(new Rectangle2D.Double(0,0,getWidth(),getHeight()));
+        g2.setColor(new Color(45,45,60));
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+        //g2.fill(new Rectangle2D.Double(0,0,getWidth(),getHeight()));
         super.paintComponent(g);
+    }
+
+    /**
+     * @return the event
+     */
+    public MenuEvent getEvent() {
+        return event;
+    }
+
+    /**
+     * @param event the event to set
+     */
+    public void setEvent(MenuEvent event) {
+        this.event = event;
     }
     
     
