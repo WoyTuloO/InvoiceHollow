@@ -4,6 +4,9 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,8 +24,8 @@ public class mvPanel extends javax.swing.JPanel {
      */
     public mvPanel() {
         initComponents();
-        ImageIcon icon = new ImageIcon (getClass().getResource("/Images/wiewior4.png"));
-        Image img = icon.getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon (getClass().getResource("/Images/mainIcon.png"));
+        Image img = icon.getImage().getScaledInstance(133, 100,  java.awt.Image.SCALE_SMOOTH);
         logoLabel1.setIcon(new ImageIcon(img));
         
     }
@@ -45,13 +48,28 @@ public class mvPanel extends javax.swing.JPanel {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent me) {
-                int newX = me.getXOnScreen() - x -10;        //  -14 - to cancel out the horizontal movement when frame is decorated
-                int newY = me.getYOnScreen() - y -31;       //  -31 - to cancel out the vertical movement when frame is decorated
+                int newX = me.getXOnScreen() - x - 6;        //  -14 - to cancel out the horizontal movement when frame is decorated
+                int newY = me.getYOnScreen() - y - 34;       //  -31 - to cancel out the vertical movement when frame is decorated
                 f.setLocation(newX, newY);
 
             }
         });
     }
+
+    
+    
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        Color c = new Color (45,45,60);
+        g2.setColor(c);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+          
+        
+    }
+    
+    
     
     
     
@@ -70,7 +88,7 @@ public class mvPanel extends javax.swing.JPanel {
 
         logoLabel1 = new com.woytuloo.accountingapp.component.LogoLabel();
 
-        setBackground(new java.awt.Color(30, 30, 30));
+        setBackground(new java.awt.Color(45, 45, 45));
         setPreferredSize(new java.awt.Dimension(185, 185));
 
         logoLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -80,11 +98,15 @@ public class mvPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 83, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

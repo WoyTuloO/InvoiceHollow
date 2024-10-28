@@ -96,19 +96,21 @@ public class MenuItem extends JButton {
             this.setLen(len);
             this.setFont(new Font("Verdana", 1, 14));
             setOpaque(true);
+            setContentAreaFilled(true);
             this.setBorder(new EmptyBorder(9,33,9,10));
-            this.setBackground(new Color(2,2,2));
+            this.setBackground(new Color(45,45,60));
 
 
         }
 
     @Override
     protected void paintComponent(Graphics g) {
-            super.paintComponent(g); 
-
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
+
+
         if(len !=0){
                 if(subMenuIndex == len - 1){
                     g2.setColor(new Color(100,100,100));
@@ -122,6 +124,7 @@ public class MenuItem extends JButton {
 
             }        
         }
+
     
     }
         
