@@ -28,6 +28,8 @@ public class Background extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBackground(new java.awt.Color(20, 20, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -43,10 +45,10 @@ public class Background extends javax.swing.JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        GradientPaint grad = new GradientPaint(0,0,new Color(30,30,40),getWidth(),getHeight(), new Color(60,60,80));
+        GradientPaint grad = new GradientPaint(0,0,new Color(30,40,60),getWidth(),getHeight(), new Color(60,70,100));
         g2.setPaint(grad);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.fillRect(0, 0, getWidth(), getHeight());  
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(),15,15);  
         
     } 
   
