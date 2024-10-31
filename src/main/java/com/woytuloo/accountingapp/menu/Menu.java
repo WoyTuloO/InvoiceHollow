@@ -40,9 +40,7 @@ public class Menu extends JComponent {
         setOpaque(true);
         for(int i= 0; i < menuItems.length; i++){
             addMenu(menuItems[i][0],i);
-        }
-        
-        
+        }   
     }
     
     
@@ -63,17 +61,11 @@ public class Menu extends JComponent {
                         }
                     }else{
                         if(getEvent() != null){
-                            getEvent().selected(index, 0);
-                            
+                            getEvent().selected(index, 0);                 
                         }           
-                    }
-                    
-                    
+                    }         
                 }
-
         });
-        
-        
         add(item);
         revalidate();
         repaint();
@@ -94,11 +86,8 @@ public class Menu extends JComponent {
                     }
                 }
             });
-            
-            
             sub.initSubMenu(i, len);
             p.add(sub);
-            
         }
         add(p, zOrder+1);
         revalidate();
@@ -122,9 +111,8 @@ public class Menu extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(45,45,60));
+        g2.setColor(new Color(30,40,60));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-        //g2.fill(new Rectangle2D.Double(0,0,getWidth(),getHeight()));
         super.paintComponent(g);
     }
 

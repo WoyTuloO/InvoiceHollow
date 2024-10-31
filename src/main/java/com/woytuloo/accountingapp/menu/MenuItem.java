@@ -98,7 +98,7 @@ public class MenuItem extends JButton {
             setOpaque(true);
             setContentAreaFilled(true);
             this.setBorder(new EmptyBorder(9,33,9,10));
-            this.setBackground(new Color(45,45,60));
+            this.setBackground(new Color(30,40,60));
 
 
         }
