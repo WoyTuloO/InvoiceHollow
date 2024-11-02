@@ -61,13 +61,19 @@ public class InvoiceBlueprintAdder {
     
     
     public void fillCollection(String name, Map<String, String> map){
-        Invoice inv = new Invoice(name, copyBlueprintFile(srcFile,name), map);  
+        String nameWType = name + "." + getType(srcFile);
+        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), map);  
         
         this.collection.put(name,inv);
     }
     
+    public String getType(File src){
+        return src.getName().split("\\.")[1];
+
+    }
+    
     public String copyBlueprintFile(File src, String name){
-        String type = src.getName().split("\\.")[1];
+        String type = getType(src);
         
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         
@@ -97,20 +103,7 @@ public class InvoiceBlueprintAdder {
             e.printStackTrace();
         }
         return targetFilePath.toString();
-    }
-    
-    
-    
-    
-    public void updateCsv(Invoice invoice){
-        FileInputStream fis = null;
-//        try{
-//            fis = new FileInputStream();
-//        }catch(Exception ex){
-//
-//        }
-    }
-    
+    }  
 
     
     public void setData(File file, Map<String, String> cellDataMap){
@@ -127,6 +120,9 @@ public class InvoiceBlueprintAdder {
         } catch (IOException ex) {
             Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
         Sheet sheet = workbook.getSheetAt(0);
 
         for (Map.Entry<String, String> entry : cellDataMap.entrySet()) {

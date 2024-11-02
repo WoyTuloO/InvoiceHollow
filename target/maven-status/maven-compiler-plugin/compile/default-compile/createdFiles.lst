@@ -3,9 +3,11 @@ com\woytuloo\accountingapp\menu\Menu$2.class
 com\woytuloo\accountingapp\main\Main$9.class
 com\woytuloo\accountingapp\main\Main$2.class
 com\woytuloo\accountingapp\component\Background.class
+com\woytuloo\accountingapp\InvoiceManagement\invoiceGenerator.class
 com\woytuloo\accountingapp\component\LogoLabel.class
 com\woytuloo\accountingapp\main\Main$12.class
 com\woytuloo\accountingapp\main\Main$10.class
+com\woytuloo\accountingapp\main\Main$15.class
 com\woytuloo\accountingapp\component\mvPanel$1.class
 com\woytuloo\accountingapp\menu\Menu.class
 com\woytuloo\accountingapp\menu\MenuItem.class

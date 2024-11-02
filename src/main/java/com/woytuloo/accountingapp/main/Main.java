@@ -14,7 +14,9 @@ import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -85,6 +87,11 @@ public class Main extends javax.swing.JFrame {
         buttonPanel2 = new com.woytuloo.accountingapp.component.ButtonPanel();
         blueprintsChoice = new javax.swing.JPanel();
         buttonPanel3 = new com.woytuloo.accountingapp.component.ButtonPanel();
+        newInvoice = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        paramValueTable = new javax.swing.JTable();
+        generateInvoice = new javax.swing.JButton();
+        invoiceChoiceCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(20, 20, 20));
@@ -453,6 +460,69 @@ public class Main extends javax.swing.JFrame {
 
         background1.add(archiveMenuCard, "card4");
 
+        newInvoice.setOpaque(false);
+        newInvoice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                newInvoiceFocusGained(evt);
+            }
+        });
+
+        paramValueTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Parametr", "Wartość"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(paramValueTable);
+
+        generateInvoice.setText("Generuj");
+
+        invoiceChoiceCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        invoiceChoiceCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceChoiceComboActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout newInvoiceLayout = new javax.swing.GroupLayout(newInvoice);
+        newInvoice.setLayout(newInvoiceLayout);
+        newInvoiceLayout.setHorizontalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceLayout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addGroup(newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+        newInvoiceLayout.setVerticalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        background1.add(newInvoice, "card5");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -524,6 +594,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_addNewParameterButtonActionPerformed
 
     private void saveFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFormActionPerformed
+        if(!blueprintNametf.getText().isEmpty())
+            new JOptionPane();
         
         Map<String, String> map= new HashMap<>();
         for(int i=0;i<paramCellCombo.getItemCount(); i++){
@@ -582,6 +654,18 @@ public class Main extends javax.swing.JFrame {
             this.blueprintNametf.setText("Nazwa Szablonu");
     }//GEN-LAST:event_blueprintNametfFocusLost
 
+    private void newInvoiceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_newInvoiceFocusGained
+        //fill combo
+        this.invoiceCollection.forEach((name,invoice)->{
+            this.invoiceChoiceCombo.addItem(name);
+        });
+        
+    }//GEN-LAST:event_newInvoiceFocusGained
+
+    private void invoiceChoiceComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceChoiceComboActionPerformed
+     
+    }//GEN-LAST:event_invoiceChoiceComboActionPerformed
+
 
 
     /**
@@ -638,15 +722,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel dashBoardPanel;
     private javax.swing.JButton deleteParameterButton;
     private javax.swing.JLabel fileNameLabel;
+    private javax.swing.JButton generateInvoice;
     private javax.swing.JPanel incomeChart;
     private javax.swing.JPanel infoPanel;
+    private javax.swing.JComboBox<String> invoiceChoiceCombo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel lastInvoicesChoice;
     private com.woytuloo.accountingapp.menu.Menu menu1;
     private com.woytuloo.accountingapp.component.mvPanel mvPanel1;
+    private javax.swing.JPanel newInvoice;
     private javax.swing.JComboBox<String> paramCellCombo;
+    private javax.swing.JTable paramValueTable;
     private javax.swing.JTextField parameterNameTf;
     private javax.swing.JPanel registryChoice;
     private javax.swing.JButton saveForm;
