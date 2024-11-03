@@ -32,10 +32,11 @@ public class invoiceGenerator {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Nazwa parametru");
         model.addColumn("Wartość");
-        invoiceCollection.get(invoiceChoiceCombo.getSelectedItem()).getParamCellMap().forEach((paramName, cell)->{
-            model.addRow( new Object[]{paramName,""});
-        });
-        paramValueTable.setModel(model);   
+//        invoiceCollection.get(invoiceChoiceCombo.getSelectedItem()).getParamCellMap().forEach((paramName, cell)->{
+//            model.addRow( new Object[]{paramName,""});
+//        });
+//        paramValueTable.setModel(model);
+
     }
     
     
