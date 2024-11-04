@@ -4,15 +4,12 @@
  */
 package com.woytuloo.accountingapp.InvoiceManagement;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -39,6 +36,11 @@ public class InvoiceBlueprintAdder {
         this.label = lab;
         this.collection = coll;     
     }
+
+    public InvoiceBlueprintAdder(Map<String, Invoice> coll){
+        this.collection = coll;
+        readData();
+    }
     
     public void addNewBlueprint(){
         if((srcFile = setFile()) == null)
@@ -62,7 +64,8 @@ public class InvoiceBlueprintAdder {
     
     public void fillCollection(String name, Map<String, String> map){
         String nameWType = name + "." + getType(srcFile);
-        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), map);  
+        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), map);
+        inv.saveToCsv();
         
         this.collection.put(name,inv);
     }
@@ -151,7 +154,48 @@ public class InvoiceBlueprintAdder {
             Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
         }  
         
-        }     
+        }
+
+    public void initialFill(String name, String path, Map<String, String> map){
+        Invoice inv = new Invoice(name, path, map);
+        this.collection.put(name.split("\\.")[0],inv);
+    }
+
+         public void readData(){
+             BufferedReader reader = null;
+
+             String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
+             Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
+             Path formsDataPath = Paths.get(configDirPath.toString(),"FormsData.csv");
+
+             try {
+                if(Files.notExists(configDirPath))
+                    return;
+
+                if(Files.notExists(formsDataPath))
+                    return;
+
+
+
+                reader = new BufferedReader(new FileReader(formsDataPath.toString()));
+                String line;
+                while((line = reader.readLine()) != null){
+                    String [] data = line.split(",");
+                    String name = data[0];
+                    String path = data[1];
+                    Map<String, String> map = new HashMap<>();
+                    for(int i = 2; i < data.length; i++){
+                        String [] cellData = data[i].split(":");
+                        map.put(cellData[0], cellData[1]);
+                    }
+                    initialFill(name, path, map);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+         }
     }
     
     

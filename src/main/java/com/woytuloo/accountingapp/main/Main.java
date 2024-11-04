@@ -44,8 +44,11 @@ public class Main extends javax.swing.JFrame {
         mvPanel1.initMv(this);
         topMvPanelPlusButtons1.initMv(this);
         invoiceCollection = new HashMap<>();
+        
+        loadConfig();
         ChartsGenerator.showIncomeChart(incomeChart);
         ChartsGenerator.showWorkDoneChart(workDoneChart);
+        initCardLayout();
     }
     
     /**
@@ -76,6 +79,11 @@ public class Main extends javax.swing.JFrame {
         paramCellCombo = new javax.swing.JComboBox<>();
         saveForm = new javax.swing.JButton();
         deleteParameterButton = new javax.swing.JButton();
+        newInvoice = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        paramValueTable = new javax.swing.JTable();
+        generateInvoice = new javax.swing.JButton();
+        invoiceChoiceCombo = new javax.swing.JComboBox<>();
         dashBoardPanel = new javax.swing.JPanel();
         incomeChart = new javax.swing.JPanel();
         workDoneChart = new javax.swing.JPanel();
@@ -87,11 +95,6 @@ public class Main extends javax.swing.JFrame {
         buttonPanel2 = new com.woytuloo.accountingapp.component.ButtonPanel();
         blueprintsChoice = new javax.swing.JPanel();
         buttonPanel3 = new com.woytuloo.accountingapp.component.ButtonPanel();
-        newInvoice = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        paramValueTable = new javax.swing.JTable();
-        generateInvoice = new javax.swing.JButton();
-        invoiceChoiceCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(20, 20, 20));
@@ -301,6 +304,63 @@ public class Main extends javax.swing.JFrame {
 
         background1.add(addNewForm, "card4");
 
+        newInvoice.setOpaque(false);
+
+        paramValueTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Parametr", "Wartość"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(paramValueTable);
+
+        generateInvoice.setText("Generuj");
+
+        invoiceChoiceCombo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                invoiceChoiceComboFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout newInvoiceLayout = new javax.swing.GroupLayout(newInvoice);
+        newInvoice.setLayout(newInvoiceLayout);
+        newInvoiceLayout.setHorizontalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceLayout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addGroup(newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+        newInvoiceLayout.setVerticalGroup(
+            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        background1.add(newInvoice, "card5");
+
         dashBoardPanel.setForeground(new java.awt.Color(255, 255, 255));
         dashBoardPanel.setOpaque(false);
 
@@ -460,69 +520,6 @@ public class Main extends javax.swing.JFrame {
 
         background1.add(archiveMenuCard, "card4");
 
-        newInvoice.setOpaque(false);
-        newInvoice.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                newInvoiceFocusGained(evt);
-            }
-        });
-
-        paramValueTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Parametr", "Wartość"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(paramValueTable);
-
-        generateInvoice.setText("Generuj");
-
-        invoiceChoiceCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        invoiceChoiceCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                invoiceChoiceComboActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout newInvoiceLayout = new javax.swing.GroupLayout(newInvoice);
-        newInvoice.setLayout(newInvoiceLayout);
-        newInvoiceLayout.setHorizontalGroup(
-            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newInvoiceLayout.createSequentialGroup()
-                .addGap(166, 166, 166)
-                .addGroup(newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(166, Short.MAX_VALUE))
-        );
-        newInvoiceLayout.setVerticalGroup(
-            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newInvoiceLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-
-        background1.add(newInvoice, "card5");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -594,8 +591,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_addNewParameterButtonActionPerformed
 
     private void saveFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFormActionPerformed
-        if(!blueprintNametf.getText().isEmpty())
-            new JOptionPane();
+        if(!blueprintNametf.getText().equals("Nazwa Szablonu"))
+            new JOptionPane().setVisible(true);
         
         Map<String, String> map= new HashMap<>();
         for(int i=0;i<paramCellCombo.getItemCount(); i++){
@@ -654,18 +651,31 @@ public class Main extends javax.swing.JFrame {
             this.blueprintNametf.setText("Nazwa Szablonu");
     }//GEN-LAST:event_blueprintNametfFocusLost
 
-    private void newInvoiceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_newInvoiceFocusGained
-        //fill combo
+    private void invoiceChoiceComboFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_invoiceChoiceComboFocusGained
         this.invoiceCollection.forEach((name,invoice)->{
+            for(int i = 0 ; i < invoiceChoiceCombo.getItemCount() ; i++){
+                if(invoiceChoiceCombo.getItemAt(i).equals(name))
+                    return;
+            }
             this.invoiceChoiceCombo.addItem(name);
         });
-        
-    }//GEN-LAST:event_newInvoiceFocusGained
+    }//GEN-LAST:event_invoiceChoiceComboFocusGained
 
-    private void invoiceChoiceComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceChoiceComboActionPerformed
-     
-    }//GEN-LAST:event_invoiceChoiceComboActionPerformed
+    private void loadConfig(){
+        this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
+    }
 
+    private void initCardLayout(){
+        background1.remove(dashBoardPanel);
+        background1.remove(archiveMenuCard);
+        background1.remove(addNewForm);
+        background1.remove(newInvoice);
+
+        background1.add(dashBoardPanel, "0 0");
+        background1.add(archiveMenuCard, "2 0");
+        background1.add(addNewForm, "1 2");
+        background1.add(newInvoice, "1 1");
+    }
 
 
     /**

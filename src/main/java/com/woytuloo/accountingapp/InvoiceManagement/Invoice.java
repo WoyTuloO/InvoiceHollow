@@ -30,12 +30,8 @@ public class Invoice {
         name = nam;
         filePath = fp;
         propertyCellMap = properties;
-        
-        
-        this.saveToCsv();
-        
-        
     }
+
  
     public void addProperty(String name, String CellData){
         propertyCellMap.put(name, CellData);
@@ -74,29 +70,29 @@ public class Invoice {
             if (Files.notExists(configDirPath)) {
                 Files.createDirectory(configDirPath);
                 System.out.println("Folder Config został utworzony.");
-                if(Files.notExists(formsDataPath)){
-                    Files.createDirectory(formsDataPath);
-                    System.out.println("Folder FormsData został utworzony.");
-                }
             }
-            
-            String in = this.formatToCsv();
+            if(Files.notExists(formsDataPath)){
+                Files.createFile(formsDataPath);
+                System.out.println("Folder FormsData został utworzony.");
+            }
+
+
+
+            String in = this.formatToCsv() + "\n";
             
             BufferedReader reader = new BufferedReader( new FileReader(formsDataPath.toString()));
             String line;
-            while((line = reader.readLine()) != null){
-                if(line.equals(in)){
+            while((line = reader.readLine()) != null ) {
+                if (line.equals(in)) {
                     return;
                 }
-                else{
-                    FileWriter pw = new FileWriter(formsDataPath.toString(), true);
-                    pw.append(in);
-                    pw.flush();
-                    pw.close();
-                }
             }
-           
-            
+
+            FileWriter pw = new FileWriter(formsDataPath.toString(), true);
+            pw.append(in);
+            pw.flush();
+            pw.close();
+
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
             e.printStackTrace();

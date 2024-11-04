@@ -45,7 +45,7 @@ public class Menu extends JComponent {
     
     private void addMenu(String name, int index){        
         MenuItem item = new MenuItem(name, index, menuItems[index].length > 1);
-        
+
         item.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
@@ -60,9 +60,9 @@ public class Menu extends JComponent {
                         }
                     }else{
                         if(getEvent() != null){
-                            getEvent().selected(index, 0);                 
-                        }           
-                    }         
+                            getEvent().selected(index, 0);
+                        }
+                    }
                 }
         });
         add(item);
@@ -90,20 +90,15 @@ public class Menu extends JComponent {
         }
         add(p, zOrder+1);
         revalidate();
+}
 
-        
-        
-    }
-    
     private void hideSubMenu(MenuItem item, int index){
         for(Component c : getComponents()){
             if(c instanceof JPanel && c.getName() != null && c.getName().equals(index + "")){
                 remove(c);
                 break;          
             }
-
         }
-        
         revalidate();
     }
 
