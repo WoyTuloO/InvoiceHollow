@@ -6,7 +6,8 @@ package com.woytuloo.accountingapp.charts;
 
 import java.awt.*;
 import java.util.HashMap;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -114,11 +115,12 @@ public class ChartsGenerator {
         
         JFreeChart chart = ChartFactory.createBarChart("","","Faktury",
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(30,30,30));
+        chart.setBackgroundPaint(new Color(15,15,20));
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
         categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255,0,0));
+
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
         domainAxis.setTickLabelPaint(new Color(0,50,160));
@@ -135,14 +137,12 @@ public class ChartsGenerator {
 
 
 
-        categoryPlot.setBackgroundPaint(new Color(30,30,30));
+        categoryPlot.setBackgroundPaint(new Color(15,15,20));
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
         Color clr3 = new Color(0,50,160);
         renderer.setSeriesPaint(0, clr3);
         renderer.setDefaultLegendTextPaint(new Color(255,0,0));
-        
-        
         ChartPanel barpChartPanel = new ChartPanel(chart);
         p.removeAll();
         p.add(barpChartPanel, BorderLayout.CENTER);

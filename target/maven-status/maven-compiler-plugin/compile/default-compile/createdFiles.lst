@@ -2,6 +2,7 @@ com\woytuloo\accountingapp\charts\ChartsGenerator.class
 com\woytuloo\accountingapp\main\Main$9.class
 com\woytuloo\accountingapp\main\Main$2.class
 com\woytuloo\accountingapp\component\Background.class
+com\woytuloo\accountingapp\InvoiceManagement\StartupInitialization.class
 com\woytuloo\accountingapp\main\Main$12.class
 com\woytuloo\accountingapp\main\Main$15.class
 com\woytuloo\accountingapp\component\mvPanel$1.class
@@ -18,6 +19,7 @@ com\woytuloo\accountingapp\component\ControllJButton$1.class
 com\woytuloo\accountingapp\main\Main$14.class
 com\woytuloo\accountingapp\main\Main$3.class
 com\woytuloo\accountingapp\menu\Menu$2.class
+com\woytuloo\accountingapp\main\Main$17.class
 com\woytuloo\accountingapp\InvoiceManagement\invoiceGenerator.class
 com\woytuloo\accountingapp\component\LogoLabel.class
 com\woytuloo\accountingapp\main\Main$10.class
@@ -36,6 +38,8 @@ com\woytuloo\accountingapp\main\Main$1.class
 com\woytuloo\accountingapp\component\CustomTabbPane.class
 com\woytuloo\accountingapp\main\Main$5.class
 com\woytuloo\accountingapp\component\TopMvPanelPlusButtons.class
+com\woytuloo\accountingapp\main\Main$16.class
 com\woytuloo\accountingapp\component\mvPanel$2.class
+com\woytuloo\accountingapp\component\RoundedInfoPanel.class
 com\woytuloo\accountingapp\menu\MenuEvent.class
 com\woytuloo\accountingapp\main\Main.class
