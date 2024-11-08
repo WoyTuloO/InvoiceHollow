@@ -20,7 +20,9 @@ public class ButtonPanel extends JButton {
     public ButtonPanel(){
         setFocusPainted(false);
         setContentAreaFilled(false);
+        setRolloverEnabled(true);
     }
+    
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -32,6 +34,7 @@ public class ButtonPanel extends JButton {
         g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
         super.paintComponent(g);
     }
+    
 
     
     

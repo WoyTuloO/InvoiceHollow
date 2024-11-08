@@ -10,13 +10,13 @@ import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.menu.MenuEvent;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -46,8 +46,8 @@ public class Main extends javax.swing.JFrame {
         invoiceCollection = new HashMap<>();
         
         loadConfig();
-        ChartsGenerator.showIncomeChart(incomeChart);
-        ChartsGenerator.showWorkDoneChart(workDoneChart);
+        ChartsGenerator.showIncomeChart(roundedInfoPanel1.getIncomeChart());
+        ChartsGenerator.showWorkDoneChart(roundedInfoPanel1.getWorkDoneChart());
         initCardLayout();
     }
     
@@ -85,9 +85,7 @@ public class Main extends javax.swing.JFrame {
         generateInvoice = new javax.swing.JButton();
         invoiceChoiceCombo = new javax.swing.JComboBox<>();
         dashBoardPanel = new javax.swing.JPanel();
-        incomeChart = new javax.swing.JPanel();
-        workDoneChart = new javax.swing.JPanel();
-        infoPanel = new javax.swing.JPanel();
+        roundedInfoPanel1 = new com.woytuloo.accountingapp.component.RoundedInfoPanel();
         archiveMenuCard = new javax.swing.JPanel();
         lastInvoicesChoice = new javax.swing.JPanel();
         buttonPanel1 = new com.woytuloo.accountingapp.component.ButtonPanel();
@@ -153,6 +151,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(20, 20, 20));
 
+        chooseNewBlueprint.setBackground(new java.awt.Color(51, 51, 51));
         chooseNewBlueprint.setText("Wybierz plik");
         chooseNewBlueprint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +161,7 @@ public class Main extends javax.swing.JFrame {
 
         fileNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
+        blueprintNametf.setBackground(new java.awt.Color(51, 51, 51));
         blueprintNametf.setText("Nazwa Szablonu");
         blueprintNametf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -201,6 +201,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        parameterNameTf.setBackground(new java.awt.Color(51, 51, 51));
         parameterNameTf.setText("Nazwa parametru");
         parameterNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -216,6 +217,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        cellNameTf.setBackground(new java.awt.Color(51, 51, 51));
         cellNameTf.setText("Komórka  (np. B3)");
         cellNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -226,6 +228,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        addNewParameterButton.setBackground(new java.awt.Color(51, 51, 51));
         addNewParameterButton.setText("Dodaj");
         addNewParameterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,12 +236,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        paramCellCombo.setBackground(new java.awt.Color(51, 51, 51));
         paramCellCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paramCellComboActionPerformed(evt);
             }
         });
 
+        saveForm.setBackground(new java.awt.Color(51, 51, 51));
         saveForm.setText("Zapisz Szablon");
         saveForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +251,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        deleteParameterButton.setBackground(new java.awt.Color(51, 51, 51));
         deleteParameterButton.setText("Usuń");
         deleteParameterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,6 +312,7 @@ public class Main extends javax.swing.JFrame {
 
         newInvoice.setOpaque(false);
 
+        paramValueTable.setBackground(new java.awt.Color(51, 51, 51));
         paramValueTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -327,8 +334,10 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(paramValueTable);
 
+        generateInvoice.setBackground(new java.awt.Color(51, 51, 51));
         generateInvoice.setText("Generuj");
 
+        invoiceChoiceCombo.setBackground(new java.awt.Color(51, 51, 51));
         invoiceChoiceCombo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 invoiceChoiceComboFocusGained(evt);
@@ -364,53 +373,23 @@ public class Main extends javax.swing.JFrame {
         dashBoardPanel.setForeground(new java.awt.Color(255, 255, 255));
         dashBoardPanel.setOpaque(false);
 
-        incomeChart.setMaximumSize(new java.awt.Dimension(600, 356));
-        incomeChart.setOpaque(false);
-        incomeChart.setLayout(new java.awt.BorderLayout());
-
-        workDoneChart.setMaximumSize(new java.awt.Dimension(600, 356));
-        workDoneChart.setOpaque(false);
-        workDoneChart.setLayout(new java.awt.BorderLayout());
-
-        infoPanel.setBackground(new java.awt.Color(51, 51, 51));
-        infoPanel.setOpaque(false);
-
-        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
-        infoPanel.setLayout(infoPanelLayout);
-        infoPanelLayout.setHorizontalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
-        );
-        infoPanelLayout.setVerticalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 236, Short.MAX_VALUE)
-        );
+        roundedInfoPanel1.setBackground(new java.awt.Color(255, 0, 102));
 
         javax.swing.GroupLayout dashBoardPanelLayout = new javax.swing.GroupLayout(dashBoardPanel);
         dashBoardPanel.setLayout(dashBoardPanelLayout);
         dashBoardPanelLayout.setHorizontalGroup(
             dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dashBoardPanelLayout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(incomeChart, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(workDoneChart, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-            .addGroup(dashBoardPanelLayout.createSequentialGroup()
-                .addGap(161, 161, 161)
-                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dashBoardPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundedInfoPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1187, Short.MAX_VALUE)
+                .addContainerGap())
         );
         dashBoardPanelLayout.setVerticalGroup(
             dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashBoardPanelLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(incomeChart, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(workDoneChart, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55)
-                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(roundedInfoPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(397, Short.MAX_VALUE))
         );
 
         background1.add(dashBoardPanel, "card2");
@@ -427,6 +406,19 @@ public class Main extends javax.swing.JFrame {
         buttonPanel1.setText("Ostatnie Faktury");
         buttonPanel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonPanel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                buttonPanel1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buttonPanel1MouseReleased(evt);
+            }
+        });
+        buttonPanel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPanel1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout lastInvoicesChoiceLayout = new javax.swing.GroupLayout(lastInvoicesChoice);
         lastInvoicesChoice.setLayout(lastInvoicesChoiceLayout);
@@ -661,6 +653,18 @@ public class Main extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_invoiceChoiceComboFocusGained
 
+    private void buttonPanel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonPanel1ActionPerformed
+
+    private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
+        //buttonPanel1.clickedColor();
+    }//GEN-LAST:event_buttonPanel1MousePressed
+
+    private void buttonPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MouseReleased
+        //buttonPanel1.releasedColor();
+    }//GEN-LAST:event_buttonPanel1MouseReleased
+
     private void loadConfig(){
         this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
     }
@@ -733,8 +737,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton deleteParameterButton;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JButton generateInvoice;
-    private javax.swing.JPanel incomeChart;
-    private javax.swing.JPanel infoPanel;
     private javax.swing.JComboBox<String> invoiceChoiceCombo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -748,8 +750,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable paramValueTable;
     private javax.swing.JTextField parameterNameTf;
     private javax.swing.JPanel registryChoice;
+    private com.woytuloo.accountingapp.component.RoundedInfoPanel roundedInfoPanel1;
     private javax.swing.JButton saveForm;
     private com.woytuloo.accountingapp.component.TopMvPanelPlusButtons topMvPanelPlusButtons1;
-    private javax.swing.JPanel workDoneChart;
     // End of variables declaration//GEN-END:variables
 }
