@@ -25,7 +25,7 @@ public class mvPanel extends javax.swing.JPanel {
     public mvPanel() {
         initComponents();
         ImageIcon icon = new ImageIcon (getClass().getResource("/Images/mainIcon.png"));
-        Image img = icon.getImage().getScaledInstance(133, 100,  java.awt.Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(160, 120,  java.awt.Image.SCALE_SMOOTH);
         logoLabel1.setIcon(new ImageIcon(img));
         
     }
@@ -87,6 +87,7 @@ public class mvPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         logoLabel1 = new com.woytuloo.accountingapp.component.LogoLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(45, 45, 45));
         setPreferredSize(new java.awt.Dimension(185, 185));
@@ -94,24 +95,34 @@ public class mvPanel extends javax.swing.JPanel {
         logoLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/wiewior3.png"))); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("MV Boli", 0, 16)); // NOI18N
+        jLabel1.setText("InvoiceHollow");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 86, Short.MAX_VALUE))
+                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(66, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 83, Short.MAX_VALUE))
+                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private com.woytuloo.accountingapp.component.LogoLabel logoLabel1;
     // End of variables declaration//GEN-END:variables
 }

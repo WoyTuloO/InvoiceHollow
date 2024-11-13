@@ -5,7 +5,6 @@
 package com.woytuloo.accountingapp.charts;
 
 import java.awt.*;
-import java.util.HashMap;
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
@@ -16,7 +15,6 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -47,7 +45,7 @@ public class ChartsGenerator {
         
         JFreeChart chart = ChartFactory.createBarChart("","","Dochód",
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(15,15,20));
+        chart.setBackgroundPaint(new Color(20,20,20));
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
@@ -69,7 +67,7 @@ public class ChartsGenerator {
 
 
 
-        categoryPlot.setBackgroundPaint(new Color(15,15,20));
+        categoryPlot.setBackgroundPaint(new Color(20,20,20));
         
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
@@ -115,7 +113,7 @@ public class ChartsGenerator {
         
         JFreeChart chart = ChartFactory.createBarChart("","","Faktury",
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(15,15,20));
+        chart.setBackgroundPaint(new Color(20,20,20));
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
@@ -137,7 +135,7 @@ public class ChartsGenerator {
 
 
 
-        categoryPlot.setBackgroundPaint(new Color(15,15,20));
+        categoryPlot.setBackgroundPaint(new Color(20,20,20));
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
         Color clr3 = new Color(0,50,160);

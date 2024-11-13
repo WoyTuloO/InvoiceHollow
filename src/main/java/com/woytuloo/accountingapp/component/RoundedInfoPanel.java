@@ -79,7 +79,7 @@ public class RoundedInfoPanel extends javax.swing.JPanel {
     protected void paintComponent(Graphics g){
         //super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(15,15,20));
+        g2.setColor(new Color(20,20,20));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
 
         revalidate();

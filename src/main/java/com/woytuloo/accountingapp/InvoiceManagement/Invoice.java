@@ -25,11 +25,15 @@ public class Invoice {
     private String filePath;
     private Map<String, String> propertyCellMap;
     private String name;
+    private Map<String, String> paramAutoCellsMap;
+    private Map<String, String> cellAlignmentMap;
     
-    public Invoice(String nam, String fp, Map<String, String> properties){
-        name = nam;
+    public Invoice(String nam, String fp, Map<String, String> properties, Map<String, String> paramAutoMap, Map<String, String> cellAlignMap){
+        name = nam;         // name.type
         filePath = fp;
         propertyCellMap = properties;
+        paramAutoCellsMap = paramAutoMap;
+        cellAlignmentMap = cellAlignMap;
     }
 
  
@@ -43,14 +47,28 @@ public class Invoice {
             propertyCellMap.put(name, CellData);
     }
     
+    public Map<String, String> getCellAlignmentMap(){
+        return this.cellAlignmentMap;
+    }
+    
+    
+    
     public String formatToCsv(){
         StringBuilder sb = new StringBuilder();
-        propertyCellMap.forEach((k,v)-> {
+                
+        paramAutoCellsMap.forEach((k,v)-> {
             sb.append(",");
-            sb.append(k);
+            sb.append(k);                               // nazwa parametru
             sb.append(":");
-            sb.append(v);
-        });       
+            String cellName = propertyCellMap.get(k);
+            sb.append(cellName);                        // komorka
+            sb.append(":");
+            sb.append(v);                               // Automatyzacja
+            sb.append(":");
+            sb.append(cellAlignmentMap.get(cellName));  // Alignment
+        });   
+        
+        
         return name + "," + filePath + sb.toString();
         
     }   
@@ -59,6 +77,13 @@ public class Invoice {
         return this.propertyCellMap;
     }
     
+    public String getName(){
+        return this.name;
+    }
+    
+    public String getName(int num){
+        return num +"-"+ this.name;
+    }
     
     public void saveToCsv(){
         
@@ -100,6 +125,13 @@ public class Invoice {
 
         
         
+    }
+
+    /**
+     * @return the autoCellsMap
+     */
+    public Map<String, String> getAutoCellsMap() {
+        return paramAutoCellsMap;
     }
     
 }

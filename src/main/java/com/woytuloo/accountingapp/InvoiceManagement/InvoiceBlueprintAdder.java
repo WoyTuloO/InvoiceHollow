@@ -15,11 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -61,9 +57,17 @@ public class InvoiceBlueprintAdder {
     }
     
     
-    public void fillCollection(String name, Map<String, String> map){
+    public void fillCollection(String name, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAliMap){
+        if(getFile() == null){
+                    JOptionPane.showMessageDialog(null,
+                    "Brakuje pliku wejściowego!",
+                    "Błąd",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+            
+        
         String nameWType = name + "." + getType(srcFile);
-        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), map);
+        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), cellMap, autoMap, cellAliMap);
         inv.saveToCsv();
         
         this.collection.put(name,inv);
@@ -81,18 +85,20 @@ public class InvoiceBlueprintAdder {
         
         Path invooFolderPath = Paths.get(userDocuments, "InvoiceHollow");
         Path sourceFilePath = Paths.get(src.getAbsolutePath());
-        Path targetFilePath = Paths.get(userDocuments + File.separator + "InvoiceHollow" + File.separator + "Forms", name + "." + type);
+        Path targetFilePath = Paths.get(userDocuments, "InvoiceHollow" , "Forms", name + "." + type);
         
 
         try {
             if (Files.notExists(invooFolderPath)) {
                 Files.createDirectory(invooFolderPath);
                 System.out.println("Folder InvoiceHollow został utworzony.");
-                if(Files.notExists(Paths.get(invooFolderPath.toString(), "Forms"))){
-                    Files.createDirectory(Paths.get(userDocuments + File.separator + "InvoiceHollow", "Forms"));
-                    System.out.println("Folder Forms został utworzony.");
-                }
+                
             }
+            if(Files.notExists(Paths.get(invooFolderPath.toString(), "Forms"))){
+                Files.createDirectory(Paths.get(invooFolderPath.toString(), "Forms"));
+                System.out.println("Folder Forms został utworzony.");
+            }
+            
             if (Files.exists(targetFilePath)) {
                 System.out.println("Kopia już istnieje.");
             } else {
@@ -105,98 +111,55 @@ public class InvoiceBlueprintAdder {
             e.printStackTrace();
         }
         return targetFilePath.toString();
-    }  
+    }
 
-    
-    public void setData(File file, Map<String, String> cellDataMap){
-        
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Workbook workbook= null;
-        try {
-            workbook = new HSSFWorkbook(fileInputStream);
-        } catch (IOException ex) {
-            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        Sheet sheet = workbook.getSheetAt(0);
-
-        for (Map.Entry<String, String> entry : cellDataMap.entrySet()) {
-            String cellPosition = entry.getKey();
-            String value = entry.getValue();
-
-            int rowIndex = Integer.parseInt(cellPosition.replaceAll("[^0-9]", "")) - 1;
-            int columnIndex = cellPosition.replaceAll("[^A-Z]", "").charAt(0) - 'A';
-
-            Row row = sheet.getRow(rowIndex);
-            if (row == null) {
-                row = sheet.createRow(rowIndex);
-            }
-
-            Cell cell = row.getCell(columnIndex);
-            if (cell == null) {
-                cell = row.createCell(columnIndex);
-            }
-
-            cell.setCellValue(value);
-        }
-
-        try (FileOutputStream fileOutputStream = new FileOutputStream( new File("C:\\Users\\wojte\\Desktop\\Faktura 4.xls"))) {
-            workbook.write(fileOutputStream);
-        } catch (IOException ex) {
-            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-        
-        }
-
-    public void initialFill(String name, String path, Map<String, String> map){
-        Invoice inv = new Invoice(name, path, map);
+    public void addInvoiceFromFile(String name, String path, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAlignment){
+        Invoice inv = new Invoice(name, path, cellMap, autoMap, cellAlignment);
         this.collection.put(name.split("\\.")[0],inv);
     }
+    
+    //wczytuje zapisane invoice z pliku FormsData.csv
+    
+    public void readData(){
+        
+        BufferedReader reader = null;
+        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
+        Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
+        Path formsDataPath = Paths.get(configDirPath.toString(),"FormsData.csv");
 
-         public void readData(){
-             BufferedReader reader = null;
+        try {
+            if(Files.notExists(configDirPath))
+                return;
 
-             String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-             Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
-             Path formsDataPath = Paths.get(configDirPath.toString(),"FormsData.csv");
+            if(Files.notExists(formsDataPath))
+                return;
 
-             try {
-                if(Files.notExists(configDirPath))
+            reader = new BufferedReader(new FileReader(formsDataPath.toString()));
+            String line;
+            
+            while((line = reader.readLine()) != null){
+                if(line.equals(""))
                     return;
-
-                if(Files.notExists(formsDataPath))
-                    return;
-
-
-
-                reader = new BufferedReader(new FileReader(formsDataPath.toString()));
-                String line;
-                while((line = reader.readLine()) != null){
-                    String [] data = line.split(",");
-                    String name = data[0];
-                    String path = data[1];
-                    Map<String, String> map = new HashMap<>();
-                    for(int i = 2; i < data.length; i++){
-                        String [] cellData = data[i].split(":");
-                        map.put(cellData[0], cellData[1]);
-                    }
-                    initialFill(name, path, map);
+                String [] data = line.split(",");
+                String name = data[0];
+                String path = data[1];
+                Map<String, String> cellMap = new HashMap<>();
+                Map<String, String> paramAutoCellMap = new HashMap<>();
+                Map<String, String> cellAlignMap = new HashMap<>();
+                
+                for(int i = 2; i < data.length; i++){
+                    String [] cellData = data[i].split(":");
+                    
+                    cellMap.put(cellData[0], cellData[1]);
+                    paramAutoCellMap.put(cellData[0], cellData[2]);
+                    cellAlignMap.put(cellData[1], cellData[3]); 
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+                
+                addInvoiceFromFile(name, path, cellMap, paramAutoCellMap,cellAlignMap);
             }
-
-
-         }
+        } catch (IOException ex) {
+            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
-    
-
+         
+}
