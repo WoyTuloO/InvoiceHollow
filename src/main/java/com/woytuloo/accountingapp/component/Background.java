@@ -45,7 +45,7 @@ public class Background extends javax.swing.JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        GradientPaint grad = new GradientPaint(0,0,new Color(30,40,60),getWidth(),getHeight(), new Color(60,70,100));
+        GradientPaint grad = new GradientPaint(0,0,new Color(30,40,80),getWidth(),getHeight(), new Color(60,70,150));
         g2.setPaint(grad);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(),15,15);  
