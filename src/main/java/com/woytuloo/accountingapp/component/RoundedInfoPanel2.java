@@ -7,7 +7,6 @@ package com.woytuloo.accountingapp.component;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
 /**
  *
@@ -18,6 +17,13 @@ public class RoundedInfoPanel2 extends javax.swing.JPanel {
     /**
      * Creates new form RoundedInfoPanel
      */
+    public RoundedInfoPanel2() {
+    // Ustaw domyślny kolor, np. biały
+    this(Color.WHITE);
+}
+
+    
+    
     public RoundedInfoPanel2(Color color) {
         this.color = color;
         initComponents();
@@ -62,9 +68,6 @@ public class RoundedInfoPanel2 extends javax.swing.JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(color);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
-
-        revalidate();
-        repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
