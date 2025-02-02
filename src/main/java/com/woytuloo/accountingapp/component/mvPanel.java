@@ -62,7 +62,7 @@ public class mvPanel extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        Color c = new Color (30,40,60);
+        Color c = new Color (60,70,130);
         g2.setColor(c);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
           
