@@ -53,17 +53,17 @@ public class ChartsGenerator {
         //categoryPlot.setRangeGridlinePaint(Color.BLUE);
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(0,50,160));
-        domainAxis.setLabelPaint(new Color(0,50,160));
-        domainAxis.setLabelFont(new Font("Verdana", 1, 12));
-        domainAxis.setTickLabelFont(new Font("Verdana", 1, 12));
+        domainAxis.setTickLabelPaint(new Color(180,180,180));
+        domainAxis.setLabelPaint(new Color(180,180,180));
+        domainAxis.setLabelFont(new Font("Arial", 1, 14));
+        domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
         rangeAxis.setTickLabelPaint(new Color(0,255,0));
         rangeAxis.setLabelPaint(new Color(0,255,0));
-        rangeAxis.setLabelFont(new Font("Verdana", 1, 12));
-        rangeAxis.setTickLabelFont(new Font("Verdana", 1, 12));
+        rangeAxis.setLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
 
 
 
@@ -121,17 +121,17 @@ public class ChartsGenerator {
 
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(0,50,160));
-        domainAxis.setLabelPaint(new Color(0,50,160));
-        domainAxis.setLabelFont(new Font("Verdana", 1, 12));
-        domainAxis.setTickLabelFont(new Font("Verdana", 1, 12));
+        domainAxis.setTickLabelPaint(new Color(180,180,180));
+        domainAxis.setLabelPaint(new Color(180,180,180));
+        domainAxis.setLabelFont(new Font("Arial", 1, 14));
+        domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
         rangeAxis.setTickLabelPaint(new Color(0,255,0));
         rangeAxis.setLabelPaint(new Color(0,255,0));
-        rangeAxis.setLabelFont(new Font("Verdana", 1, 12));
-        rangeAxis.setTickLabelFont(new Font("Verdana", 1, 12));
+        rangeAxis.setLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
 
 
 

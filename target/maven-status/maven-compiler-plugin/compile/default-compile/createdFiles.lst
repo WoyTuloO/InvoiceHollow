@@ -1,4 +1,5 @@
 com\woytuloo\accountingapp\charts\ChartsGenerator.class
+com\woytuloo\accountingapp\main\Main$22.class
 com\woytuloo\accountingapp\main\Main$19.class
 com\woytuloo\accountingapp\main\Main$9.class
 com\woytuloo\accountingapp\main\Main$2.class
@@ -9,6 +10,7 @@ com\woytuloo\accountingapp\main\Main$15.class
 com\woytuloo\accountingapp\component\mvPanel$1.class
 com\woytuloo\accountingapp\menu\Menu.class
 com\woytuloo\accountingapp\component\ButtonPanel.class
+com\woytuloo\accountingapp\main\Main$23.class
 com\woytuloo\accountingapp\component\CustomTabbPane$1.class
 com\woytuloo\accountingapp\main\Main$11.class
 com\woytuloo\accountingapp\main\DashBoard.class
