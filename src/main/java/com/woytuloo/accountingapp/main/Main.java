@@ -74,34 +74,35 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         background1 = new com.woytuloo.accountingapp.component.Background();
-        newInvoice = new javax.swing.JPanel();
+        newInvoiceCard = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         paramValueTable = new javax.swing.JTable();
         generateInvoice = new javax.swing.JButton();
         invoiceChoiceCombo = new javax.swing.JComboBox<>();
-        dashBoardPanel = new javax.swing.JPanel();
+        dashBoardPanelCard = new javax.swing.JPanel();
         roundedInfoPanel1 = new com.woytuloo.accountingapp.component.RoundedInfoPanel();
         roundedInfoPanel21 = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new java.awt.Color(20, 20, 20));
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        roundedInfoPanel22 = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
-        roundedInfoPanel23 = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
-        roundedInfoPanel24 = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
-        addNewForm = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        chooseNewBlueprint = new javax.swing.JButton();
-        fileNameLabel = new javax.swing.JLabel();
-        blueprintNametf = new javax.swing.JTextField();
-        parameterNameTf = new javax.swing.JTextField();
-        cellNameTf = new javax.swing.JTextField();
-        addNewParameterButton = new javax.swing.JButton();
-        paramCellCombo = new javax.swing.JComboBox<>();
-        saveForm = new javax.swing.JButton();
-        deleteParameterButton = new javax.swing.JButton();
-        autoParamChoice = new javax.swing.JComboBox<>();
-        textAlignmentCombo = new javax.swing.JComboBox<>();
-        entrySubstringTf = new javax.swing.JTextField();
+        earnedThisMonthPanel = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
+        currentInvoiceNumPanel = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
+        invoicesThisMonthPanel = new com.woytuloo.accountingapp.component.RoundedInfoPanel2(new Color(51,71,176));
+        newFormCard = new javax.swing.JPanel();
+        fillFormCard = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        chooseNewBlueprint1 = new javax.swing.JButton();
+        fileNameLabel1 = new javax.swing.JLabel();
+        blueprintNametf1 = new javax.swing.JTextField();
+        parameterNameTf1 = new javax.swing.JTextField();
+        cellNameTf1 = new javax.swing.JTextField();
+        addNewParameterButton1 = new javax.swing.JButton();
+        paramCellCombo1 = new javax.swing.JComboBox<>();
+        saveForm1 = new javax.swing.JButton();
+        deleteParameterButton1 = new javax.swing.JButton();
+        autoParamChoice1 = new javax.swing.JComboBox<>();
+        textAlignmentCombo1 = new javax.swing.JComboBox<>();
+        entrySubstringTf1 = new javax.swing.JTextField();
         archiveMenuCard = new javax.swing.JPanel();
         lastInvoicesChoice = new javax.swing.JPanel();
         buttonPanel1 = new com.woytuloo.accountingapp.component.ButtonPanel();
@@ -171,7 +172,7 @@ public class Main extends javax.swing.JFrame {
         background1.setLayout(new java.awt.CardLayout());
         background1.setLayout(cardLayout);
 
-        newInvoice.setOpaque(false);
+        newInvoiceCard.setOpaque(false);
 
         paramValueTable.setBackground(new java.awt.Color(51, 51, 51));
         paramValueTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -213,21 +214,21 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout newInvoiceLayout = new javax.swing.GroupLayout(newInvoice);
-        newInvoice.setLayout(newInvoiceLayout);
-        newInvoiceLayout.setHorizontalGroup(
-            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newInvoiceLayout.createSequentialGroup()
+        javax.swing.GroupLayout newInvoiceCardLayout = new javax.swing.GroupLayout(newInvoiceCard);
+        newInvoiceCard.setLayout(newInvoiceCardLayout);
+        newInvoiceCardLayout.setHorizontalGroup(
+            newInvoiceCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceCardLayout.createSequentialGroup()
                 .addGap(166, 166, 166)
-                .addGroup(newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(newInvoiceCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(generateInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(198, Short.MAX_VALUE))
         );
-        newInvoiceLayout.setVerticalGroup(
-            newInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newInvoiceLayout.createSequentialGroup()
+        newInvoiceCardLayout.setVerticalGroup(
+            newInvoiceCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newInvoiceCardLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(invoiceChoiceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
@@ -237,10 +238,10 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        background1.add(newInvoice, "card5");
+        background1.add(newInvoiceCard, "card5");
 
-        dashBoardPanel.setForeground(new java.awt.Color(255, 255, 255));
-        dashBoardPanel.setOpaque(false);
+        dashBoardPanelCard.setForeground(new java.awt.Color(255, 255, 255));
+        dashBoardPanelCard.setOpaque(false);
 
         roundedInfoPanel1.setBackground(new java.awt.Color(255, 0, 102));
 
@@ -271,40 +272,40 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 1, Short.MAX_VALUE)
         );
 
-        roundedInfoPanel22.setBackground(new Color(51,102,255));
+        earnedThisMonthPanel.setBackground(new Color(51,102,255));
 
-        javax.swing.GroupLayout roundedInfoPanel22Layout = new javax.swing.GroupLayout(roundedInfoPanel22);
-        roundedInfoPanel22.setLayout(roundedInfoPanel22Layout);
-        roundedInfoPanel22Layout.setHorizontalGroup(
-            roundedInfoPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout earnedThisMonthPanelLayout = new javax.swing.GroupLayout(earnedThisMonthPanel);
+        earnedThisMonthPanel.setLayout(earnedThisMonthPanelLayout);
+        earnedThisMonthPanelLayout.setHorizontalGroup(
+            earnedThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 360, Short.MAX_VALUE)
         );
-        roundedInfoPanel22Layout.setVerticalGroup(
-            roundedInfoPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        earnedThisMonthPanelLayout.setVerticalGroup(
+            earnedThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        roundedInfoPanel23.setBackground(new java.awt.Color(51, 71, 176));
+        currentInvoiceNumPanel.setBackground(new java.awt.Color(51, 71, 176));
 
-        javax.swing.GroupLayout roundedInfoPanel23Layout = new javax.swing.GroupLayout(roundedInfoPanel23);
-        roundedInfoPanel23.setLayout(roundedInfoPanel23Layout);
-        roundedInfoPanel23Layout.setHorizontalGroup(
-            roundedInfoPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout currentInvoiceNumPanelLayout = new javax.swing.GroupLayout(currentInvoiceNumPanel);
+        currentInvoiceNumPanel.setLayout(currentInvoiceNumPanelLayout);
+        currentInvoiceNumPanelLayout.setHorizontalGroup(
+            currentInvoiceNumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 360, Short.MAX_VALUE)
         );
-        roundedInfoPanel23Layout.setVerticalGroup(
-            roundedInfoPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        currentInvoiceNumPanelLayout.setVerticalGroup(
+            currentInvoiceNumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout roundedInfoPanel24Layout = new javax.swing.GroupLayout(roundedInfoPanel24);
-        roundedInfoPanel24.setLayout(roundedInfoPanel24Layout);
-        roundedInfoPanel24Layout.setHorizontalGroup(
-            roundedInfoPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout invoicesThisMonthPanelLayout = new javax.swing.GroupLayout(invoicesThisMonthPanel);
+        invoicesThisMonthPanel.setLayout(invoicesThisMonthPanelLayout);
+        invoicesThisMonthPanelLayout.setHorizontalGroup(
+            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 360, Short.MAX_VALUE)
         );
-        roundedInfoPanel24Layout.setVerticalGroup(
-            roundedInfoPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        invoicesThisMonthPanelLayout.setVerticalGroup(
+            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 243, Short.MAX_VALUE)
         );
 
@@ -320,11 +321,11 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(roundedInfoPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(roundedInfoPanel21Layout.createSequentialGroup()
-                            .addComponent(roundedInfoPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(earnedThisMonthPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(roundedInfoPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentInvoiceNumPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(roundedInfoPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(invoicesThisMonthPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedInfoPanel21Layout.setVerticalGroup(
@@ -336,28 +337,28 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(roundedInfoPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(roundedInfoPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundedInfoPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundedInfoPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(invoicesThisMonthPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currentInvoiceNumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(earnedThisMonthPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
 
-        javax.swing.GroupLayout dashBoardPanelLayout = new javax.swing.GroupLayout(dashBoardPanel);
-        dashBoardPanel.setLayout(dashBoardPanelLayout);
-        dashBoardPanelLayout.setHorizontalGroup(
-            dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dashBoardPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout dashBoardPanelCardLayout = new javax.swing.GroupLayout(dashBoardPanelCard);
+        dashBoardPanelCard.setLayout(dashBoardPanelCardLayout);
+        dashBoardPanelCardLayout.setHorizontalGroup(
+            dashBoardPanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dashBoardPanelCardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(dashBoardPanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(roundedInfoPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundedInfoPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1193, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        dashBoardPanelLayout.setVerticalGroup(
-            dashBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dashBoardPanelLayout.createSequentialGroup()
+        dashBoardPanelCardLayout.setVerticalGroup(
+            dashBoardPanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashBoardPanelCardLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(roundedInfoPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -365,208 +366,231 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        background1.add(dashBoardPanel, "card2");
+        background1.add(dashBoardPanelCard, "card2");
 
-        addNewForm.setOpaque(false);
+        newFormCard.setOpaque(false);
 
-        jPanel5.setBackground(new java.awt.Color(20, 20, 20));
+        fillFormCard.setOpaque(false);
 
-        chooseNewBlueprint.setBackground(new java.awt.Color(51, 51, 51));
-        chooseNewBlueprint.setText("Wybierz plik");
-        chooseNewBlueprint.addActionListener(new java.awt.event.ActionListener() {
+        jPanel6.setBackground(new java.awt.Color(20, 20, 20));
+
+        chooseNewBlueprint1.setBackground(new java.awt.Color(51, 51, 51));
+        chooseNewBlueprint1.setText("Wybierz plik");
+        chooseNewBlueprint1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseNewBlueprintActionPerformed(evt);
+                chooseNewBlueprint1ActionPerformed(evt);
             }
         });
 
-        fileNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        fileNameLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        blueprintNametf.setBackground(new java.awt.Color(51, 51, 51));
-        blueprintNametf.setText("Nazwa Szablonu");
-        blueprintNametf.addFocusListener(new java.awt.event.FocusAdapter() {
+        blueprintNametf1.setBackground(new java.awt.Color(51, 51, 51));
+        blueprintNametf1.setText("Nazwa Szablonu");
+        blueprintNametf1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                blueprintNametfFocusGained(evt);
+                blueprintNametf1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                blueprintNametfFocusLost(evt);
+                blueprintNametf1FocusLost(evt);
             }
         });
-        blueprintNametf.addActionListener(new java.awt.event.ActionListener() {
+        blueprintNametf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blueprintNametfActionPerformed(evt);
+                blueprintNametf1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(blueprintNametf, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(blueprintNametf1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
-                .addComponent(fileNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fileNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(chooseNewBlueprint, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chooseNewBlueprint1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(blueprintNametf)
-                    .addComponent(chooseNewBlueprint, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(fileNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(blueprintNametf1)
+                    .addComponent(chooseNewBlueprint1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(fileNameLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        parameterNameTf.setBackground(new java.awt.Color(51, 51, 51));
-        parameterNameTf.setText("Nazwa parametru");
-        parameterNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
+        parameterNameTf1.setBackground(new java.awt.Color(51, 51, 51));
+        parameterNameTf1.setText("Nazwa parametru");
+        parameterNameTf1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                parameterNameTfFocusGained(evt);
+                parameterNameTf1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                parameterNameTfFocusLost(evt);
+                parameterNameTf1FocusLost(evt);
             }
         });
-        parameterNameTf.addActionListener(new java.awt.event.ActionListener() {
+        parameterNameTf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parameterNameTfActionPerformed(evt);
+                parameterNameTf1ActionPerformed(evt);
             }
         });
 
-        cellNameTf.setBackground(new java.awt.Color(51, 51, 51));
-        cellNameTf.setText("Komórka  (np. B3)");
-        cellNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
+        cellNameTf1.setBackground(new java.awt.Color(51, 51, 51));
+        cellNameTf1.setText("Komórka  (np. B3)");
+        cellNameTf1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                cellNameTfFocusGained(evt);
+                cellNameTf1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                cellNameTfFocusLost(evt);
+                cellNameTf1FocusLost(evt);
             }
         });
 
-        addNewParameterButton.setBackground(new java.awt.Color(51, 51, 51));
-        addNewParameterButton.setText("Dodaj");
-        addNewParameterButton.addActionListener(new java.awt.event.ActionListener() {
+        addNewParameterButton1.setBackground(new java.awt.Color(51, 51, 51));
+        addNewParameterButton1.setText("Dodaj");
+        addNewParameterButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewParameterButtonActionPerformed(evt);
+                addNewParameterButton1ActionPerformed(evt);
             }
         });
 
-        paramCellCombo.setBackground(new java.awt.Color(51, 51, 51));
-        paramCellCombo.addActionListener(new java.awt.event.ActionListener() {
+        paramCellCombo1.setBackground(new java.awt.Color(51, 51, 51));
+        paramCellCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                paramCellComboActionPerformed(evt);
+                paramCellCombo1ActionPerformed(evt);
             }
         });
 
-        saveForm.setBackground(new java.awt.Color(51, 51, 51));
-        saveForm.setText("Zapisz Szablon");
-        saveForm.addActionListener(new java.awt.event.ActionListener() {
+        saveForm1.setBackground(new java.awt.Color(51, 51, 51));
+        saveForm1.setText("Zapisz Szablon");
+        saveForm1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveFormActionPerformed(evt);
+                saveForm1ActionPerformed(evt);
             }
         });
 
-        deleteParameterButton.setBackground(new java.awt.Color(51, 51, 51));
-        deleteParameterButton.setText("Usuń");
-        deleteParameterButton.addActionListener(new java.awt.event.ActionListener() {
+        deleteParameterButton1.setBackground(new java.awt.Color(51, 51, 51));
+        deleteParameterButton1.setText("Usuń");
+        deleteParameterButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteParameterButtonActionPerformed(evt);
+                deleteParameterButton1ActionPerformed(evt);
             }
         });
 
-        autoParamChoice.setBackground(new java.awt.Color(51, 51, 51));
-        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
-        autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
+        autoParamChoice1.setBackground(new java.awt.Color(51, 51, 51));
+        autoParamChoice1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
+        autoParamChoice1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoParamChoiceActionPerformed(evt);
+                autoParamChoice1ActionPerformed(evt);
             }
         });
 
-        textAlignmentCombo.setBackground(new java.awt.Color(51, 51, 51));
-        textAlignmentCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Pozycja w komórce>", "Lewo", "Środek", "Prawo" }));
-        textAlignmentCombo.addActionListener(new java.awt.event.ActionListener() {
+        textAlignmentCombo1.setBackground(new java.awt.Color(51, 51, 51));
+        textAlignmentCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Pozycja w komórce>", "Lewo", "Środek", "Prawo" }));
+        textAlignmentCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textAlignmentComboActionPerformed(evt);
+                textAlignmentCombo1ActionPerformed(evt);
             }
         });
 
-        entrySubstringTf.setBackground(new java.awt.Color(51, 51, 51));
-        entrySubstringTf.setText("Wartość stała");
-        entrySubstringTf.addFocusListener(new java.awt.event.FocusAdapter() {
+        entrySubstringTf1.setBackground(new java.awt.Color(51, 51, 51));
+        entrySubstringTf1.setText("Wartość stała");
+        entrySubstringTf1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                entrySubstringTfFocusGained(evt);
+                entrySubstringTf1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                entrySubstringTfFocusLost(evt);
+                entrySubstringTf1FocusLost(evt);
             }
         });
-        entrySubstringTf.addActionListener(new java.awt.event.ActionListener() {
+        entrySubstringTf1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrySubstringTfActionPerformed(evt);
+                entrySubstringTf1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout addNewFormLayout = new javax.swing.GroupLayout(addNewForm);
-        addNewForm.setLayout(addNewFormLayout);
-        addNewFormLayout.setHorizontalGroup(
-            addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addNewFormLayout.createSequentialGroup()
+        javax.swing.GroupLayout fillFormCardLayout = new javax.swing.GroupLayout(fillFormCard);
+        fillFormCard.setLayout(fillFormCardLayout);
+        fillFormCardLayout.setHorizontalGroup(
+            fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fillFormCardLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(71, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addNewFormLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fillFormCardLayout.createSequentialGroup()
                 .addGap(98, 98, 98)
-                .addComponent(autoParamChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(autoParamChoice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(addNewFormLayout.createSequentialGroup()
-                        .addComponent(entrySubstringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(fillFormCardLayout.createSequentialGroup()
+                        .addComponent(entrySubstringTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addNewParameterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(addNewFormLayout.createSequentialGroup()
-                        .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(parameterNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(addNewFormLayout.createSequentialGroup()
-                                .addComponent(paramCellCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addNewParameterButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fillFormCardLayout.createSequentialGroup()
+                        .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(parameterNameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(fillFormCardLayout.createSequentialGroup()
+                                .addComponent(paramCellCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(42, 42, 42)
-                                .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(deleteParameterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cellNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(saveForm, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(deleteParameterButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cellNameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(saveForm1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textAlignmentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textAlignmentCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(140, 140, 140))
         );
-        addNewFormLayout.setVerticalGroup(
-            addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addNewFormLayout.createSequentialGroup()
+        fillFormCardLayout.setVerticalGroup(
+            fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fillFormCardLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(106, 106, 106)
-                .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(parameterNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cellNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(autoParamChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textAlignmentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(parameterNameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cellNameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autoParamChoice1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textAlignmentCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
-                .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(entrySubstringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addNewParameterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(entrySubstringTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addNewParameterButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(addNewFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(paramCellCombo, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(deleteParameterButton, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+                .addGroup(fillFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paramCellCombo1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(deleteParameterButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
                 .addGap(71, 71, 71)
-                .addComponent(saveForm, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saveForm1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(248, 248, 248))
         );
 
-        background1.add(addNewForm, "card4");
+        javax.swing.GroupLayout newFormCardLayout = new javax.swing.GroupLayout(newFormCard);
+        newFormCard.setLayout(newFormCardLayout);
+        newFormCardLayout.setHorizontalGroup(
+            newFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1203, Short.MAX_VALUE)
+            .addGroup(newFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(newFormCardLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(fillFormCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        newFormCardLayout.setVerticalGroup(
+            newFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 799, Short.MAX_VALUE)
+            .addGroup(newFormCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(newFormCardLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(fillFormCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        background1.add(newFormCard, "card4");
 
         archiveMenuCard.setOpaque(false);
 
@@ -733,121 +757,9 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonPanel2ActionPerformed
 
-    private void chooseNewBlueprintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseNewBlueprintActionPerformed
-        this.invoiceAdder = new InvoiceBlueprintAdder(fileNameLabel, invoiceCollection);
-        invoiceAdder.addNewBlueprint();
-        
-    }//GEN-LAST:event_chooseNewBlueprintActionPerformed
-
-    private void parameterNameTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parameterNameTfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_parameterNameTfActionPerformed
-
-    private void addNewParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewParameterButtonActionPerformed
-        if(!cellNameTf.getText().isEmpty() && !parameterNameTf.getText().isEmpty()){
-
-            String paramCell = parameterNameTf.getText() + ":" + cellNameTf.getText();
-
-            
-            
-            String[] automations = {"","N","D", "CC", "CI", "CJ", "CS"};      
-            paramCell += ":" + automations[autoParamChoice.getSelectedIndex()];
-
-            
-            String[] alignments = {"L", "L", "C", "R"};
-            paramCell += ":" + alignments[textAlignmentCombo.getSelectedIndex()];
-            String constVal = entrySubstringTf.getText();
-            paramCell += ":";
-            
-            if(constVal.equals("Wartość stała")){
-                paramCell += constVal;
-            }
-            
-            
-            boolean found = false;
-            for(int i=0; i < paramCellCombo.getItemCount(); i++){
-                if(paramCellCombo.getItemAt(i).equals(paramCell))
-                    found = true;
-            }
-            if(!found)
-                paramCellCombo.addItem(paramCell);
-                paramCellCombo.setSelectedIndex(paramCellCombo.getItemCount()-1);
-            
-            
-        }
-    }//GEN-LAST:event_addNewParameterButtonActionPerformed
-
-    private void saveFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFormActionPerformed
-        if(!blueprintNametf.getText().equals("Nazwa Szablonu"))
-            new JOptionPane().setVisible(true);
-        
-        Map<String, String> cellMap= new HashMap<>();
-        Map<String, String> paramAutoMap= new HashMap<>();   
-        Map<String, String> cellAlignMap = new HashMap<>();
-        
-        
-        for(int i=0;i<paramCellCombo.getItemCount(); i++){
-            String[] params = paramCellCombo.getItemAt(i).split(":");
-            cellMap.put(params[0], params[1]);                       // nazwa - komorka          
-            paramAutoMap.put(params[0], params[2]);                  // nazwa - ktora automatyzacja
-            cellAlignMap.put(params[1], params[3]);                  // komorka = alignment
-            
-        }
-        
-        
-        invoiceAdder.fillCollection(blueprintNametf.getText(), cellMap, paramAutoMap, cellAlignMap);
-        reloadChoiceCombo();
-
-
-    }//GEN-LAST:event_saveFormActionPerformed
-
-    private void paramCellComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paramCellComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_paramCellComboActionPerformed
-
-    private void blueprintNametfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueprintNametfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_blueprintNametfActionPerformed
-
-    private void deleteParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteParameterButtonActionPerformed
-        Object obj = paramCellCombo.getSelectedItem();
-        if(obj != null)
-            paramCellCombo.removeItem(obj); 
-    }//GEN-LAST:event_deleteParameterButtonActionPerformed
-
-    private void parameterNameTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_parameterNameTfFocusGained
-        if(this.parameterNameTf.getText().equals("Nazwa parametru"))
-            this.parameterNameTf.setText("");
-    }//GEN-LAST:event_parameterNameTfFocusGained
-
-    private void parameterNameTfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_parameterNameTfFocusLost
-        if(parameterNameTf.getText().equals(""))
-            this.parameterNameTf.setText("Nazwa parametru");
-    }//GEN-LAST:event_parameterNameTfFocusLost
-
-    private void cellNameTfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cellNameTfFocusLost
-        if(cellNameTf.getText().equals(""))
-            this.cellNameTf.setText("Komórka  (np. B3)");
-    }//GEN-LAST:event_cellNameTfFocusLost
-
-    private void cellNameTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cellNameTfFocusGained
-        if(this.cellNameTf.getText().equals("Komórka  (np. B3)"))
-            this.cellNameTf.setText("");
-    }//GEN-LAST:event_cellNameTfFocusGained
-
     private void buttonPanel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonPanel3ActionPerformed
-
-    private void blueprintNametfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blueprintNametfFocusGained
-        if(this.blueprintNametf.getText().equals("Nazwa Szablonu"))
-            this.blueprintNametf.setText("");
-    }//GEN-LAST:event_blueprintNametfFocusGained
-
-    private void blueprintNametfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blueprintNametfFocusLost
-        if(blueprintNametf.getText().equals(""))
-            this.blueprintNametf.setText("Nazwa Szablonu");
-    }//GEN-LAST:event_blueprintNametfFocusLost
 
     private void buttonPanel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel1ActionPerformed
         // TODO add your handling code here:
@@ -877,25 +789,77 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_generateInvoiceActionPerformed
 
-    private void autoParamChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoParamChoiceActionPerformed
+    private void chooseNewBlueprint1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseNewBlueprint1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_autoParamChoiceActionPerformed
+    }//GEN-LAST:event_chooseNewBlueprint1ActionPerformed
 
-    private void textAlignmentComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAlignmentComboActionPerformed
+    private void blueprintNametf1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blueprintNametf1FocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_textAlignmentComboActionPerformed
+    }//GEN-LAST:event_blueprintNametf1FocusGained
 
-    private void entrySubstringTfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySubstringTfFocusGained
+    private void blueprintNametf1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blueprintNametf1FocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySubstringTfFocusGained
+    }//GEN-LAST:event_blueprintNametf1FocusLost
 
-    private void entrySubstringTfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySubstringTfFocusLost
+    private void blueprintNametf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueprintNametf1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySubstringTfFocusLost
+    }//GEN-LAST:event_blueprintNametf1ActionPerformed
 
-    private void entrySubstringTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrySubstringTfActionPerformed
+    private void parameterNameTf1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_parameterNameTf1FocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_entrySubstringTfActionPerformed
+    }//GEN-LAST:event_parameterNameTf1FocusGained
+
+    private void parameterNameTf1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_parameterNameTf1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_parameterNameTf1FocusLost
+
+    private void parameterNameTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parameterNameTf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_parameterNameTf1ActionPerformed
+
+    private void cellNameTf1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cellNameTf1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cellNameTf1FocusGained
+
+    private void cellNameTf1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cellNameTf1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cellNameTf1FocusLost
+
+    private void addNewParameterButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewParameterButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addNewParameterButton1ActionPerformed
+
+    private void paramCellCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paramCellCombo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paramCellCombo1ActionPerformed
+
+    private void saveForm1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveForm1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveForm1ActionPerformed
+
+    private void deleteParameterButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteParameterButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteParameterButton1ActionPerformed
+
+    private void autoParamChoice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoParamChoice1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_autoParamChoice1ActionPerformed
+
+    private void textAlignmentCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAlignmentCombo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textAlignmentCombo1ActionPerformed
+
+    private void entrySubstringTf1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySubstringTf1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entrySubstringTf1FocusGained
+
+    private void entrySubstringTf1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entrySubstringTf1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entrySubstringTf1FocusLost
+
+    private void entrySubstringTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrySubstringTf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entrySubstringTf1ActionPerformed
 
     private void loadInvoices(){
         this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
@@ -909,15 +873,15 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void initCardLayout(){
-        background1.remove(dashBoardPanel);
+        background1.remove(dashBoardPanelCard);
         background1.remove(archiveMenuCard);
-        background1.remove(addNewForm);
-        background1.remove(newInvoice);
+        background1.remove(newFormCard);
+        background1.remove(newInvoiceCard);
 
-        background1.add(dashBoardPanel, "0 0");
+        background1.add(dashBoardPanelCard, "0 0");
         background1.add(archiveMenuCard, "2 0");
-        background1.add(addNewForm, "1 2");
-        background1.add(newInvoice, "1 1");
+        background1.add(newFormCard, "1 2");
+        background1.add(newInvoiceCard, "1 1");
     }
 
 
@@ -961,49 +925,50 @@ public class Main extends javax.swing.JFrame {
     private InvoiceBlueprintAdder invoiceAdder;
     private CardLayout cardLayout;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel addNewForm;
-    private javax.swing.JButton addNewParameterButton;
+    private javax.swing.JButton addNewParameterButton1;
     private javax.swing.JPanel archiveMenuCard;
-    private javax.swing.JComboBox<String> autoParamChoice;
+    private javax.swing.JComboBox<String> autoParamChoice1;
     private com.woytuloo.accountingapp.component.Background background1;
-    private javax.swing.JTextField blueprintNametf;
+    private javax.swing.JTextField blueprintNametf1;
     private javax.swing.JPanel blueprintsChoice;
     private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel1;
     private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel2;
     private com.woytuloo.accountingapp.component.ButtonPanel buttonPanel3;
-    private javax.swing.JTextField cellNameTf;
-    private javax.swing.JButton chooseNewBlueprint;
+    private javax.swing.JTextField cellNameTf1;
+    private javax.swing.JButton chooseNewBlueprint1;
     private com.woytuloo.accountingapp.component.ControllJButton controllJButton1;
+    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 currentInvoiceNumPanel;
     private com.woytuloo.accountingapp.component.CustomScrollpane customScrollpane2;
-    private javax.swing.JPanel dashBoardPanel;
-    private javax.swing.JButton deleteParameterButton;
-    private javax.swing.JTextField entrySubstringTf;
-    private javax.swing.JLabel fileNameLabel;
+    private javax.swing.JPanel dashBoardPanelCard;
+    private javax.swing.JButton deleteParameterButton1;
+    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 earnedThisMonthPanel;
+    private javax.swing.JTextField entrySubstringTf1;
+    private javax.swing.JLabel fileNameLabel1;
+    private javax.swing.JPanel fillFormCard;
     private javax.swing.JButton generateInvoice;
     private javax.swing.JComboBox<String> invoiceChoiceCombo;
+    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 invoicesThisMonthPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel lastInvoicesChoice;
     private com.woytuloo.accountingapp.menu.Menu menu1;
     private com.woytuloo.accountingapp.component.mvPanel mvPanel1;
-    private javax.swing.JPanel newInvoice;
-    private javax.swing.JComboBox<String> paramCellCombo;
+    private javax.swing.JPanel newFormCard;
+    private javax.swing.JPanel newInvoiceCard;
+    private javax.swing.JComboBox<String> paramCellCombo1;
     private javax.swing.JTable paramValueTable;
-    private javax.swing.JTextField parameterNameTf;
+    private javax.swing.JTextField parameterNameTf1;
     private javax.swing.JPanel registryChoice;
     private com.woytuloo.accountingapp.component.RoundedInfoPanel roundedInfoPanel1;
     private com.woytuloo.accountingapp.component.RoundedInfoPanel2 roundedInfoPanel21;
-    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 roundedInfoPanel22;
-    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 roundedInfoPanel23;
-    private com.woytuloo.accountingapp.component.RoundedInfoPanel2 roundedInfoPanel24;
-    private javax.swing.JButton saveForm;
-    private javax.swing.JComboBox<String> textAlignmentCombo;
+    private javax.swing.JButton saveForm1;
+    private javax.swing.JComboBox<String> textAlignmentCombo1;
     private com.woytuloo.accountingapp.component.TopMvPanelPlusButtons topMvPanelPlusButtons1;
     // End of variables declaration//GEN-END:variables
 }
