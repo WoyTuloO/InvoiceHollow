@@ -10,33 +10,16 @@ import java.awt.Graphics2D;
 
 /**
  *
- * @author WoyTuloo G6X
+ * @author wojte
  */
-public class RoundedInfoPanel2 extends javax.swing.JPanel {
-    private Color color;
+public class InvoiceTile extends javax.swing.JPanel {
+
     /**
-     * Creates new form RoundedInfoPanel
+     * Creates new form InvoiceTile
      */
-    public RoundedInfoPanel2() {
-    // Ustaw domyślny kolor, np. biały
-    this(Color.WHITE);
-}
-
-    
-    
-    public RoundedInfoPanel2(Color color) {
-        this.color = color;
+    public InvoiceTile() {
         initComponents();
-        this.setBackground(color);
     }
-
-//    public JPanel getIncomeChart(){
-//        return incomeChart;
-//    }
-//
-//    public JPanel getWorkDoneChart(){
-//        return workDoneChart;
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,27 +30,31 @@ public class RoundedInfoPanel2 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(51, 102, 255));
-        setOpaque(false);
+        setBackground(new java.awt.Color(15, 15, 15));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
+    
     @Override
     protected void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(new Color(15,15,15));
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25); 
+        
+        g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 15, 15);
+        
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -45,7 +45,7 @@ public class ChartsGenerator {
         
         JFreeChart chart = ChartFactory.createBarChart("","","Dochód",
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(20,20,20));
+        chart.setBackgroundPaint(new Color(15,15,15));
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
@@ -53,8 +53,8 @@ public class ChartsGenerator {
         //categoryPlot.setRangeGridlinePaint(Color.BLUE);
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(180,180,180));
-        domainAxis.setLabelPaint(new Color(180,180,180));
+        domainAxis.setTickLabelPaint(new Color(230,230,230));
+        domainAxis.setLabelPaint(new Color(230,230,230));
         domainAxis.setLabelFont(new Font("Arial", 1, 14));
         domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -67,7 +67,7 @@ public class ChartsGenerator {
 
 
 
-        categoryPlot.setBackgroundPaint(new Color(20,20,20));
+        categoryPlot.setBackgroundPaint(new Color(15,15,15));
         
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
@@ -113,7 +113,7 @@ public class ChartsGenerator {
         
         JFreeChart chart = ChartFactory.createBarChart("","","Faktury",
                 dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(20,20,20));
+        chart.setBackgroundPaint(new Color(15,15,15));
         
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
@@ -121,8 +121,8 @@ public class ChartsGenerator {
 
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(180,180,180));
-        domainAxis.setLabelPaint(new Color(180,180,180));
+        domainAxis.setTickLabelPaint(new Color(230,230,230));
+        domainAxis.setLabelPaint(new Color(230,230,230));
         domainAxis.setLabelFont(new Font("Arial", 1, 14));
         domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
@@ -135,7 +135,7 @@ public class ChartsGenerator {
 
 
 
-        categoryPlot.setBackgroundPaint(new Color(20,20,20));
+        categoryPlot.setBackgroundPaint(new Color(15,15,15));
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
         Color clr3 = new Color(0,50,160);

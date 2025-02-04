@@ -8,8 +8,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -22,19 +25,22 @@ public class mvPanel extends javax.swing.JPanel {
     /**
      * Creates new form mvPanel
      */
-    public mvPanel() {
-        initComponents();
-        ImageIcon icon = new ImageIcon (getClass().getResource("/Images/mainIcon.png"));
-        Image img = icon.getImage().getScaledInstance(160, 120,  java.awt.Image.SCALE_SMOOTH);
-        logoLabel1.setIcon(new ImageIcon(img));
-        
-    }
-    
     
     private int x,y;
     
     
+    public mvPanel() {
+        initComponents();
+        ImageIcon icon = new ImageIcon (getClass().getResource("/Images/invHollCroppBlue.png"));
+        Image img = icon.getImage().getScaledInstance(190, 135,  java.awt.Image.SCALE_SMOOTH);
+       
+        logoLabel1.setIcon(createRoundedIcon(new ImageIcon(img), 10));
+        
+    }
+    
+    
     public void initMv(JFrame f){
+        
         this.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent me){
                 x = me.getX();
@@ -43,7 +49,6 @@ public class mvPanel extends javax.swing.JPanel {
             }
         
         });
-        
         
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
@@ -55,14 +60,36 @@ public class mvPanel extends javax.swing.JPanel {
             }
         });
     }
+    
+    
+    public ImageIcon createRoundedIcon(ImageIcon icon, int cornerRadius) {
+        int width = icon.getIconWidth();
+        int height = icon.getIconHeight();
 
-    
-    
+        BufferedImage original = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = original.createGraphics();
+        icon.paintIcon(null, g2, 0, 0);
+        g2.dispose();
+
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g2 = output.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        RoundRectangle2D roundRect = new RoundRectangle2D.Float(0, 0, width, height, cornerRadius, cornerRadius);
+        g2.setClip(roundRect);
+
+        g2.drawImage(original, 0, 0, null);
+        g2.dispose();
+
+        return new ImageIcon(output);
+    }
+
     
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        Color c = new Color (60,70,130);
+        Color c = new Color (60,70,150);
         g2.setColor(c);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
           
@@ -87,7 +114,6 @@ public class mvPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         logoLabel1 = new com.woytuloo.accountingapp.component.LogoLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(45, 45, 45));
         setPreferredSize(new java.awt.Dimension(185, 185));
@@ -95,34 +121,20 @@ public class mvPanel extends javax.swing.JPanel {
         logoLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logoLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/wiewior3.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("MV Boli", 0, 16)); // NOI18N
-        jLabel1.setText("InvoiceHollow");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+            .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+            .addComponent(logoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private com.woytuloo.accountingapp.component.LogoLabel logoLabel1;
     // End of variables declaration//GEN-END:variables
 }

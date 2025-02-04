@@ -12,19 +12,19 @@ import java.awt.Graphics2D;
  *
  * @author WoyTuloo G6X
  */
-public class RoundedInfoPanel2 extends javax.swing.JPanel {
+public class RoundedInfoPanel3 extends javax.swing.JPanel {
     private Color color;
     /**
      * Creates new form RoundedInfoPanel
      */
-    public RoundedInfoPanel2() {
+    public RoundedInfoPanel3() {
     // Ustaw domyślny kolor, np. biały
     this(Color.WHITE);
 }
 
     
     
-    public RoundedInfoPanel2(Color color) {
+    public RoundedInfoPanel3(Color color) {
         this.color = color;
         initComponents();
         this.setBackground(color);
@@ -65,8 +65,8 @@ public class RoundedInfoPanel2 extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(15,15,15));
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25); 
+        g2.setColor(new Color (60,70,150));
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

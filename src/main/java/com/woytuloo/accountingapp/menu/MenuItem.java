@@ -113,12 +113,12 @@ public class MenuItem extends JButton {
 
         if(len !=0){
                 if(subMenuIndex == len - 1){
-                    g2.setColor(new Color(100,100,100));
+                    g2.setColor(new Color(200,200,200));
                     g2.drawLine(18, 0, 18, getHeight()/2);
                     g2.drawLine( 18, getHeight()/2 , 26, getHeight()/2);
 
                 }else{
-                    g2.setColor(new Color(100,100,100));
+                    g2.setColor(new Color(200,200,200));
                     g2.drawLine(18, 0, 18, getHeight());
                     g2.drawLine( 18, getHeight()/2 , 26, getHeight()/2);
 

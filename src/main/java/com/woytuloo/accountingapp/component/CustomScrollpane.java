@@ -20,7 +20,7 @@ public class CustomScrollpane extends JScrollPane {
     
     private void init(){
         this.getViewport().setOpaque(false);
-        this.setBackground(new Color(30,30,30));
+        this.setBackground(new Color(15,15,15));
         this.setBorder(BorderFactory.createEmptyBorder());
         this.getVerticalScrollBar().setPreferredSize(new Dimension(5, Integer.MAX_VALUE));
     }
