@@ -4,6 +4,8 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import com.woytuloo.accountingapp.menu.MenuEvent;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +18,8 @@ import javax.swing.JButton;
  * @author wojte
  */
 public class ButtonPanel extends JButton {
+
+    private MenuEvent event;
 
     public ButtonPanel(){
         setFocusPainted(false);
@@ -34,7 +38,13 @@ public class ButtonPanel extends JButton {
     }
     
 
-    
+    public MenuEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(MenuEvent event){
+        this.event = event;
+    }
     
     
     

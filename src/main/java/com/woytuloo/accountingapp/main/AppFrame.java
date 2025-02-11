@@ -20,8 +20,7 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -29,7 +28,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author wojte
  */
-public class Main extends javax.swing.JFrame {
+public class AppFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -49,7 +48,7 @@ public class Main extends javax.swing.JFrame {
         return path;
     }
     
-    public Main() {
+    public AppFrame() {
         FlatDarculaLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
            
@@ -62,6 +61,8 @@ public class Main extends javax.swing.JFrame {
                 System.out.println(index + " " + subIndex);
             }  
         });
+
+
         this.setShape(createCustomShape(getWidth(), getHeight()));
         this.setBackground(new Color(0,0,0,0));
         mvPanel1.initMv(this);
@@ -576,9 +577,6 @@ public class Main extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 buttonPanel1MousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                buttonPanel1MouseReleased(evt);
-            }
         });
         buttonPanel1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -612,6 +610,11 @@ public class Main extends javax.swing.JFrame {
                 buttonPanel2ActionPerformed(evt);
             }
         });
+        buttonPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                buttonPanel2MousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout registryChoiceLayout = new javax.swing.GroupLayout(registryChoice);
         registryChoice.setLayout(registryChoiceLayout);
@@ -637,6 +640,11 @@ public class Main extends javax.swing.JFrame {
         buttonPanel3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonPanel3ActionPerformed(evt);
+            }
+        });
+        buttonPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                buttonPanel3MousePressed(evt);
             }
         });
 
@@ -1198,19 +1206,27 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonPanel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel2ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_buttonPanel2ActionPerformed
 
     private void buttonPanel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel3ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_buttonPanel3ActionPerformed
 
     private void buttonPanel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanel1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_buttonPanel1ActionPerformed
 
     private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
-        //buttonPanel1.clickedColor();
+        cardLayout.show(background1, "2 1");
+    }//GEN-LAST:event_buttonPanel1MousePressed
+
+    private void buttonPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
+        cardLayout.show(background1, "2 2");
+    }//GEN-LAST:event_buttonPanel1MousePressed
+
+    private void buttonPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
+        cardLayout.show(background1, "2 3");
     }//GEN-LAST:event_buttonPanel1MousePressed
 
     private void buttonPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MouseReleased
@@ -1321,49 +1337,55 @@ public class Main extends javax.swing.JFrame {
     private void initCardLayout(){
         background1.remove(dashBoardPanelCard);
         background1.remove(archiveMenuCard);
+        background1.remove(remeberedPhrasesCard);
+        background1.remove(fillFormCard);
+        background1.remove(selectInvoiceFileCard);
+        background1.remove(fillInvoiceDataCard);
+        background1.remove(choseInvoiceCard);
+        background1.remove(savedInvoiceBlueprintCards);
+        background1.remove(lastInvoicesCard);
 
 
         background1.add(dashBoardPanelCard, "0 0");
+        background1.add(choseInvoiceCard, "1 1");
+
+
+        background1.add(selectInvoiceFileCard, "1 2");
+
+
         background1.add(archiveMenuCard, "2 0");
 
+        background1.add(lastInvoicesCard, "2 1");
+        background1.add(remeberedPhrasesCard, "2 2");
+        background1.add(savedInvoiceBlueprintCards, "2 3");
+
 
     }
 
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
-        });
+    public JPanel getDashBoardChartDisplayPanel() {
+        return dashboardChartDisplayPanel;
     }
+
+    public JProgressBar getYearlyIncomeProgressBar() {
+        return yearlyIncomeProgressBar;
+    }
+
+    public JLabel getIncomeThisMonthLabel() {
+        return incomeThisMonthLabel;
+    }
+
+    public JLabel getThisMonthsTargetLabel() {
+        return thisMonthsTargetLabel;
+    }
+
+    public JLabel getThisMonthInvoiceCountLabel() {
+        return thisMonthInvoiceCountLabel;
+    }
+
+
+
+
     private InvoiceGenerator invoiceGenerator;
     private ConfigStorage configStorage;
     private Map<String,Invoice> invoiceCollection;

@@ -86,7 +86,7 @@ public class MenuItem extends JButton {
             
             this.setForeground(new Color(230,230,230));
             this.setBackground(new Color(60,70,150));
-            this.setFont(new Font("Verdana", 1, 14));
+            this.setFont(new Font("Verdana", Font.BOLD, 14));
             this.setContentAreaFilled(true);
             this.setHorizontalAlignment(SwingConstants.LEFT);
             this.setBorder(new EmptyBorder(12,20,12,10));
