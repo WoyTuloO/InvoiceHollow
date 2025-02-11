@@ -4,10 +4,13 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
 import javax.swing.JFrame;
 
 /**
@@ -63,6 +66,7 @@ public class TopMvPanelPlusButtons extends javax.swing.JPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(30, 30, 30));
+        setOpaque(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,6 +80,28 @@ public class TopMvPanelPlusButtons extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setPaint(new Color(15,15,15));
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        int width = getWidth();
+        int height = getHeight();
+        int arcSize = 15; 
+        Path2D path = new Path2D.Double();
+
+        path.moveTo(0, arcSize);                      
+        path.quadTo(0, 0, arcSize, 0);                
+        path.lineTo(width - 2, 0);
+        path.quadTo(width, 0,                   
+                width, 5); 
+        path.lineTo(width, height);                   
+        path.lineTo(0, height);                      
+        path.closePath();                             
+
+        g2.fill(path);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

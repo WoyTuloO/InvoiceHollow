@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -68,9 +70,10 @@ public class MenuItem extends JButton {
             this.len = len;
         }
 
+        
+
         private final int index;
         private boolean hasSubMenu;
-        
         
         private int subMenuIndex;
         private int len;
@@ -79,15 +82,29 @@ public class MenuItem extends JButton {
             super(name);
             this.index = index;
             this.hasSubMenu = hsm;
-            
+            this.setOpaque(true);
             
             this.setForeground(new Color(230,230,230));
+            this.setBackground(new Color(60,70,150));
             this.setFont(new Font("Verdana", 1, 14));
-            this.setContentAreaFilled(false);
+            this.setContentAreaFilled(true);
             this.setHorizontalAlignment(SwingConstants.LEFT);
             this.setBorder(new EmptyBorder(12,20,12,10));
             this.setIconTextGap(10);
+            
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setForeground(new Color(255, 255, 255));
+                    setBackground(new Color(70, 80, 180));
+                }
 
+                @Override
+                public void mouseExited(MouseEvent e) {
+                        setForeground(new Color(230, 230, 230));
+                        setBackground(new Color(60,70,150));
+                }
+        });
         
         }    
         
@@ -102,6 +119,9 @@ public class MenuItem extends JButton {
 
 
         }
+
+        
+
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -54,7 +54,7 @@ public class mvPanel extends javax.swing.JPanel {
             @Override
             public void mouseDragged(MouseEvent me) {
                 int newX = me.getXOnScreen() - x - 6;        //  -14 - to cancel out the horizontal movement when frame is decorated
-                int newY = me.getYOnScreen() - y - 34;       //  -31 - to cancel out the vertical movement when frame is decorated
+                int newY = me.getYOnScreen() - y - 46;       //  -31 - to cancel out the vertical movement when frame is decorated
                 f.setLocation(newX, newY);
 
             }
@@ -90,8 +90,9 @@ public class mvPanel extends javax.swing.JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         Color c = new Color (60,70,150);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(c);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
           
         
     }

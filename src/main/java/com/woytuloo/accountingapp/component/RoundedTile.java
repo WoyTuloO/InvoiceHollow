@@ -12,12 +12,12 @@ import java.awt.Graphics2D;
  *
  * @author wojte
  */
-public class InvoiceTile extends javax.swing.JPanel {
+public class RoundedTile extends javax.swing.JPanel {
 
     /**
      * Creates new form InvoiceTile
      */
-    public InvoiceTile() {
+    public RoundedTile() {
         initComponents();
     }
 
@@ -51,7 +51,7 @@ public class InvoiceTile extends javax.swing.JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(new Color(15,15,15));
         
-        g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 15, 15);
+        g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 10, 10);
         
     }
     
