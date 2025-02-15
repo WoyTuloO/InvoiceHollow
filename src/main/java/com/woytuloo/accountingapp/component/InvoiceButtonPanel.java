@@ -4,6 +4,8 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.text.Style;
@@ -21,6 +24,8 @@ import javax.swing.text.Style;
  */
 public class InvoiceButtonPanel extends JButton {
     Dimension size = new Dimension(210,340);
+
+    Invoice invoice;
 
     public InvoiceButtonPanel(){
         setFocusPainted(false);
@@ -40,6 +45,26 @@ public class InvoiceButtonPanel extends JButton {
         setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         
     }
+
+    public InvoiceButtonPanel(Invoice invoice){
+        this.invoice = invoice;
+        setFocusPainted(false);
+        setContentAreaFilled(false);
+        setRolloverEnabled(true);
+        setSize(size);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        ImageIcon iconInvoice = new ImageIcon (Objects.requireNonNull(getClass().getResource("/Images/InvoiceIcon.png")));
+        Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92,  java.awt.Image.SCALE_SMOOTH);
+        this.setIcon(new ImageIcon(imgInvoice));
+        setText(this.invoice.getName());
+        setFont(new Font("Segoe UI", 2, 14));
+        setToolTipText("");
+        setHideActionText(true);
+        setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    }
+
     
     
     @Override

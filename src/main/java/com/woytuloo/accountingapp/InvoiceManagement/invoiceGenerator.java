@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -39,9 +39,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author WoyTuloo G6X
  */
 public class InvoiceGenerator {
+
+
+
     
     private Map<String, String> parameterCellMap = new HashMap<>();
-    private Invoice invoice;
+    private WorkingInvoice invoice;
     private JTable table;
     private int invoiceNum;                                                             // to jest seed ktory nadpisuje pozniej parametrami ustawionymi z trybem auto
     private Map<String, String> paramAutoMap;
@@ -50,7 +53,7 @@ public class InvoiceGenerator {
     private Map<String, Integer> autoRowMap;
     
     
-    public InvoiceGenerator(Invoice inv, JTable tab, ConfigStorage cs){
+    public InvoiceGenerator(WorkingInvoice inv, JTable tab, ConfigStorage cs){
         this.invoice = inv;
         if(invoice == null) return;
         this.table = tab;
@@ -61,7 +64,12 @@ public class InvoiceGenerator {
         this.invCalc = new InvoiceCalculator();
         
     }
-    
+
+    public InvoiceGenerator(JPanel invoiceDataRenderPanel) {
+
+    }
+
+
     public String constValSetter(String preVal, String auto){
         StringBuilder sb = new StringBuilder();
         return sb.append(preVal).append(auto).toString();
@@ -297,5 +305,6 @@ public class InvoiceGenerator {
         }  
         
     }
-    
+
+
 }

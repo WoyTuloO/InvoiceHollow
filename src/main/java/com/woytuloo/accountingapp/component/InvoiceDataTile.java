@@ -10,10 +10,13 @@ package com.woytuloo.accountingapp.component;
  */
 public class InvoiceDataTile extends javax.swing.JPanel {
 
+    private String parameterName;
+    int index;
     /**
      * Creates new form InvoiceDataTile
      */
     public InvoiceDataTile() {
+
         initComponents();
     }
 
@@ -42,7 +45,7 @@ public class InvoiceDataTile extends javax.swing.JPanel {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Nazwa Parametru");
+        jLabel1.setText(parameterName);
 
         javax.swing.GroupLayout invoiceTile2Layout = new javax.swing.GroupLayout(invoiceTile2);
         invoiceTile2.setLayout(invoiceTile2Layout);
@@ -83,6 +86,18 @@ public class InvoiceDataTile extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+
+    public InvoiceDataTile(String parameterName, int i) {
+        this.index = i;
+        this.parameterName = parameterName;
+        System.out.println(parameterName);
+        initComponents();
+
+    }
+
+    public String getTextFieldValue(){
+        return jTextField1.getText();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.woytuloo.accountingapp.component.RoundedTile invoiceTile2;

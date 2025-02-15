@@ -5,18 +5,19 @@
 package com.woytuloo.accountingapp.main;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
+import com.woytuloo.accountingapp.InvoiceManagement.WorkingInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.config.ConfigStorage;
+import com.woytuloo.accountingapp.menu.Menu;
 import com.woytuloo.accountingapp.menu.MenuEvent;
 import com.woytuloo.accountingapp.layout.WrapLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Shape;
+
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Path2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,15 +54,6 @@ public class AppFrame extends javax.swing.JFrame {
         SwingUtilities.updateComponentTreeUI(this);
            
         initComponents();
-        menu1.setEvent( new MenuEvent(){
-            @Override
-            public void selected(int index, int subIndex){
-                    String indexStr = index + " " + subIndex;
-                    cardLayout.show(background1,  indexStr);      
-                System.out.println(index + " " + subIndex);
-            }  
-        });
-
 
         this.setShape(createCustomShape(getWidth(), getHeight()));
         this.setBackground(new Color(0,0,0,0));
@@ -197,7 +189,7 @@ public class AppFrame extends javax.swing.JFrame {
         topMvPanelPlusButtons1.setBackground(new java.awt.Color(15, 15, 15));
 
         jLabel1.setBackground(new java.awt.Color(230, 230, 230));
-        jLabel1.setFont(new java.awt.Font("MV Boli", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("MV Boli", Font.BOLD, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(230, 230, 230));
         jLabel1.setText("InvoiceHollow");
 
@@ -341,7 +333,7 @@ public class AppFrame extends javax.swing.JFrame {
         yearlyIncomeProgressBar.setForeground(new java.awt.Color(51, 196, 32));
         yearlyIncomeProgressBar.setMaximum(200000);
         yearlyIncomeProgressBar.setValue(40000);
-        yearlyIncomeProgressBar.setString("nigga");
+        yearlyIncomeProgressBar.setString("nigger");
         yearlyIncomeProgressBar.setStringPainted(true);
 
         jLabel2.setBackground(new java.awt.Color(230, 230, 230));
@@ -896,6 +888,13 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(choseInvoiceCard, "card5");
 
         selectInvoiceFileCard.setOpaque(false);
+        selectInvoiceFileCard.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if(selectInvoiceNameTextField.getText().isEmpty())
+                    selectInvoiceNameTextField.setText("Nazwa Szablonu");
+            }
+        });
+
 
         selectInvoiceNameTextField.setBackground(new java.awt.Color(30, 30, 30));
         selectInvoiceNameTextField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -917,7 +916,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         selectInvoiceFileButton.setBackground(new java.awt.Color(30, 30, 30));
-        selectInvoiceFileButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        selectInvoiceFileButton.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         selectInvoiceFileButton.setText("Wybierz plik");
         selectInvoiceFileButton.setBorderPainted(false);
         selectInvoiceFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -927,14 +926,10 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         proceedToTemplateConfigurationButton.setBackground(new java.awt.Color(30, 30, 30));
-        proceedToTemplateConfigurationButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        proceedToTemplateConfigurationButton.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         proceedToTemplateConfigurationButton.setText("Przejdź do konfiguracji");
         proceedToTemplateConfigurationButton.setBorderPainted(false);
-        proceedToTemplateConfigurationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proceedToTemplateConfigurationButtonActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout roundedTile1Layout = new javax.swing.GroupLayout(roundedTile1);
         roundedTile1.setLayout(roundedTile1Layout);
@@ -949,8 +944,8 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100)
+                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedTile1Layout.setVerticalGroup(
@@ -985,6 +980,7 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(selectInvoiceFileCard, "card2");
 
         fillFormCard.setOpaque(false);
+
 
         parameterNameTf.setBackground(new java.awt.Color(30, 30, 30));
         parameterNameTf.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1201,6 +1197,54 @@ public class AppFrame extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+
+        parameterNameTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(parameterNameTf.getText().equals("Nazwa parametru")) {
+                    parameterNameTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(parameterNameTf.getText().isEmpty()) {
+                    parameterNameTf.setText("Nazwa parametru");
+                }
+            }
+        });
+
+        entrySubstringTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(entrySubstringTf.getText().equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")) {
+                    entrySubstringTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(entrySubstringTf.getText().isEmpty()) {
+                    entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+                }
+            }
+        });
+
+        cellNameTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(cellNameTf.getText().equals("Komórka  (np. B3)")) {
+                    cellNameTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(cellNameTf.getText().isEmpty()) {
+                    cellNameTf.setText("Komórka  (np. B3)");
+                }
+            }
+        });
+
+
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -1229,20 +1273,20 @@ public class AppFrame extends javax.swing.JFrame {
         cardLayout.show(background1, "2 3");
     }//GEN-LAST:event_buttonPanel1MousePressed
 
-    private void buttonPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MouseReleased
-        //buttonPanel1.releasedColor();
-    }//GEN-LAST:event_buttonPanel1MouseReleased
-
     private void selectInvoiceFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInvoiceFileButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_selectInvoiceFileButtonActionPerformed
 
     private void selectInvoiceNameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_selectInvoiceNameTextFieldFocusGained
-        // TODO add your handling code here:
+        if(selectInvoiceNameTextField.getText().equals("Nazwa Szablonu")) {
+            selectInvoiceNameTextField.setText("");
+        }
     }//GEN-LAST:event_selectInvoiceNameTextFieldFocusGained
 
     private void selectInvoiceNameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_selectInvoiceNameTextFieldFocusLost
-        // TODO add your handling code here:
+        if(selectInvoiceNameTextField.getText().isEmpty()) {
+            selectInvoiceNameTextField.setText("Nazwa Szablonu");
+        }
     }//GEN-LAST:event_selectInvoiceNameTextFieldFocusLost
 
     private void selectInvoiceNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInvoiceNameTextFieldActionPerformed
@@ -1270,8 +1314,58 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cellNameTfFocusLost
 
     private void addNewParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewParameterButtonActionPerformed
-        // TODO add your handling code here:
+
+        String paramName = parameterNameTf.getText();
+        if(paramName.isEmpty() || paramName.equals("Nazwa parametru")){
+            JOptionPane.showMessageDialog(this, "Podaj nazwę parametru");
+            return;
+        }
+
+        String cellName = cellNameTf.getText();
+        if(cellName.isEmpty() || cellName.equals("Komórka  (np. B3)")){
+            JOptionPane.showMessageDialog(this, "Podaj nazwę komórki");
+            return;
+        }
+
+        String entrySubstring = entrySubstringTf.getText();
+        if(entrySubstring.isEmpty() || entrySubstring.equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")){
+            entrySubstring = "";
+        }
+
+        String textAlignment = textAlignmentCombo.getSelectedItem().toString();
+        textAlignment = switch (textAlignment) {
+            case "Środek" -> "C";
+            case "Prawo" -> "R";
+            default -> "L";
+        };
+
+        String autoParam = autoParamChoice.getSelectedItem().toString();
+        autoParam = switch (autoParam) {
+            case "Numer" -> "N";
+            case "Data" -> "D";
+            case "Cena - Całkowita" -> "T";
+            case "Cena - Ile sztuk" -> "Q";
+            case "Cena - Jednostkowa" -> "U";
+            case "Cena - Słownie" -> "S";
+            default -> "";
+        };
+
+
+        String data = paramName + ":" + cellName + ":" + entrySubstring + ":" + textAlignment + ":" + autoParam;
+        paramCellCombo.addItem(data);
+        paramCellCombo.setSelectedIndex(paramCellCombo.getItemCount()-1);
+
+        resetInvoiceConfigForm();
+
     }//GEN-LAST:event_addNewParameterButtonActionPerformed
+
+    private void resetInvoiceConfigForm(){
+        parameterNameTf.setText("Nazwa parametru");
+        cellNameTf.setText("Komórka  (np. B3)");
+        entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+        textAlignmentCombo.setSelectedIndex(0);
+        autoParamChoice.setSelectedIndex(0);
+    }
 
     private void paramCellComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paramCellComboActionPerformed
         // TODO add your handling code here:
@@ -1282,7 +1376,11 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_saveFormActionPerformed
 
     private void deleteParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteParameterButtonActionPerformed
-        // TODO add your handling code here:
+        int index = paramCellCombo.getSelectedIndex();
+        if(index != -1){
+            paramCellCombo.removeItemAt(index);
+        }
+
     }//GEN-LAST:event_deleteParameterButtonActionPerformed
 
     private void autoParamChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoParamChoiceActionPerformed
@@ -1306,7 +1404,12 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_entrySubstringTfActionPerformed
 
     private void proceedToTemplateConfigurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedToTemplateConfigurationButtonActionPerformed
-        // TODO add your handling code here:
+        parameterNameTf.setText("Nazwa parametru");
+        cellNameTf.setText("Komórka  (np. B3)");
+        entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+        textAlignmentCombo.setSelectedIndex(0);
+        autoParamChoice.setSelectedIndex(0);
+        paramCellCombo.removeAllItems();
     }//GEN-LAST:event_proceedToTemplateConfigurationButtonActionPerformed
 
     private void fillInvoiceGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillInvoiceGenerateButtonActionPerformed
@@ -1326,7 +1429,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_suggestionsComboBoxActionPerformed
 
     private void loadInvoices(){
-        this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
+        //this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
         reloadChoiceCombo();
     }
     
@@ -1348,10 +1451,10 @@ public class AppFrame extends javax.swing.JFrame {
 
         background1.add(dashBoardPanelCard, "0 0");
         background1.add(choseInvoiceCard, "1 1");
-
+        background1.add(fillInvoiceDataCard, "fillInvoiceDataCard");
 
         background1.add(selectInvoiceFileCard, "1 2");
-
+        background1.add(fillFormCard, "fillFormCard");
 
         background1.add(archiveMenuCard, "2 0");
 
@@ -1363,24 +1466,55 @@ public class AppFrame extends javax.swing.JFrame {
     }
 
 
+
     public JPanel getDashBoardChartDisplayPanel() {
         return dashboardChartDisplayPanel;
     }
-
     public JProgressBar getYearlyIncomeProgressBar() {
         return yearlyIncomeProgressBar;
     }
-
     public JLabel getIncomeThisMonthLabel() {
         return incomeThisMonthLabel;
     }
-
     public JLabel getThisMonthsTargetLabel() {
         return thisMonthsTargetLabel;
     }
-
     public JLabel getThisMonthInvoiceCountLabel() {
         return thisMonthInvoiceCountLabel;
+    }
+    public JPanel getDashBoardPanelCard() {return dashBoardPanelCard;}
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+    public JTextField getInvoiceNameField() {
+        return selectInvoiceNameTextField;
+    }
+    public JButton getChoseFileButton() {
+        return selectInvoiceFileButton;
+    }
+    public JButton getProceedButton() {
+        return proceedToTemplateConfigurationButton;
+    }
+    public JComboBox<String> getParamCellCombo() {
+        return paramCellCombo;
+    }
+    public JButton getSaveFormButton() {
+        return saveForm;
+    }
+    public JPanel getBackgroundPanel() {
+        return background1;
+    }
+    public JPanel getChoseInvoiceCard() {
+        return choseInvoiceCard;
+    }
+    public JPanel getChoseInvoiceDisplayPanel() {
+        return choseInvoiceDisplayPanel;
+    }
+    public Menu getMenu() {
+        return menu1;
+    }
+    public JPanel getInvoiceDataRenderPanel() {
+        return fillInvoiceDataRenderPanel;
     }
 
 
@@ -1388,7 +1522,7 @@ public class AppFrame extends javax.swing.JFrame {
 
     private InvoiceGenerator invoiceGenerator;
     private ConfigStorage configStorage;
-    private Map<String,Invoice> invoiceCollection;
+    private Map<String, WorkingInvoice> invoiceCollection;
     private InvoiceBlueprintAdder invoiceAdder;
     private CardLayout cardLayout;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1468,5 +1602,9 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JLabel thisMonthsTargetLabel;
     private com.woytuloo.accountingapp.component.TopMvPanelPlusButtons topMvPanelPlusButtons1;
     private javax.swing.JProgressBar yearlyIncomeProgressBar;
+
+
+
+
     // End of variables declaration//GEN-END:variables
 }

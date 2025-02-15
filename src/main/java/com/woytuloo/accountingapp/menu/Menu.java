@@ -26,11 +26,11 @@ public class Menu extends JComponent {
     private boolean subMenuVisible;
     private MenuEvent event;
     private MigLayout layout;
+
     private String[][] menuItems = new String [][]{
-        {"Panel główny"},
-        {"Faktury","Nowa Faktura", "Nowy szablon"},
-        {"Archiwum"}
- 
+            {"Panel główny"},
+            {"Faktury","Nowa Faktura", "Nowy szablon"},
+            {"Archiwum"}
         };
     
     public Menu(){
@@ -81,7 +81,6 @@ public class Menu extends JComponent {
                     System.out.println(c.getName());
                     return;
                 }
-            
             addSubMenu(item, index, menuItems[index].length, getComponentZOrder(item));
         } else {
             item.setSelected(false);
@@ -135,7 +134,7 @@ public class Menu extends JComponent {
                             unclickButtons();
                             sub.setSelected(true);
                         }
-                    
+
                     if(getEvent()!=null){
                         getEvent().selected(index, sub.getIndex());
                     }

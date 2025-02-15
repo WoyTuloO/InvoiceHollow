@@ -1,137 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.woytuloo.accountingapp.InvoiceManagement;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JOptionPane;
 
-/**
- *
- * @author wojte
- */
 public class Invoice {
-    
-    private String filePath;
-    private Map<String, String> propertyCellMap;
+
+    private File file;
     private String name;
-    private Map<String, String> paramAutoCellsMap;
-    private Map<String, String> cellAlignmentMap;
-    
-    public Invoice(String nam, String fp, Map<String, String> properties, Map<String, String> paramAutoMap, Map<String, String> cellAlignMap){
-        name = nam;         // name.type
-        filePath = fp;
-        propertyCellMap = properties;
-        paramAutoCellsMap = paramAutoMap;
-        cellAlignmentMap = cellAlignMap;
+    private String configurationDataString;
+
+    public String getName() {
+        return name;
     }
 
- 
-    public void addProperty(String name, String CellData){
-        propertyCellMap.put(name, CellData);
-    }
-    
-    public void editProperty(String name, String CellData){
-        propertyCellMap.remove(name);
-        if(!CellData.equals(""))
-            propertyCellMap.put(name, CellData);
-    }
-    
-    public Map<String, String> getCellAlignmentMap(){
-        return this.cellAlignmentMap;
-    }
-    
-    
-    
-    public String formatToCsv(){
-        StringBuilder sb = new StringBuilder();
-                
-        paramAutoCellsMap.forEach((k,v)-> {
-            sb.append(",");
-            sb.append(k);                               // nazwa parametru
-            sb.append(":");
-            String cellName = propertyCellMap.get(k);
-            sb.append(cellName);                        // komorka
-            sb.append(":");
-            sb.append(v);                               // Automatyzacja
-            sb.append(":");
-            sb.append(cellAlignmentMap.get(cellName));  // Alignment
-        });   
-        
-        
-        return name + "," + filePath + sb.toString();
-        
-    }   
-       
-    public Map<String, String> getParamCellMap(){
-        return this.propertyCellMap;
-    }
-    
-    public String getName(){
-        return this.name;
-    }
-    
-    public String getName(int num){
-        return num +"-"+ this.name;
-    }
-    
-    public void saveToCsv(){
-        
-        
-        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-        Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
-        Path formsDataPath = Paths.get(configDirPath.toString(),"FormsData.csv");
-        try {
-            if (Files.notExists(configDirPath)) {
-                Files.createDirectory(configDirPath);
-                System.out.println("Folder Config został utworzony.");
-            }
-            if(Files.notExists(formsDataPath)){
-                Files.createFile(formsDataPath);
-                System.out.println("Folder FormsData został utworzony.");
-            }
-
-
-
-            String in = this.formatToCsv() + "\n";
-            
-            BufferedReader reader = new BufferedReader( new FileReader(formsDataPath.toString()));
-            String line;
-            while((line = reader.readLine()) != null ) {
-                if (line.equals(in)) {
-                    return;
-                }
-            }
-
-            FileWriter pw = new FileWriter(formsDataPath.toString(), true);
-            pw.append(in);
-            pw.flush();
-            pw.close();
-
-        } catch (IOException e) {
-            System.err.println("Wystąpił błąd: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        
-        
+    public String getFilePath(){
+        return file.getAbsolutePath();
     }
 
-    /**
-     * @return the autoCellsMap
-     */
-    public Map<String, String> getAutoCellsMap() {
-        return paramAutoCellsMap;
+    public File getFile(){
+        return file;
     }
-    
+
+    public String getConfigurationDataString(){
+        return configurationDataString;
+    }
+
+    public Invoice(String name, File file) {
+        this.name = name;
+        this.file = file;
+    }
+
+    public void setConfigurationDataString(String data){
+        this.configurationDataString = data;
+    }
+
+    public Invoice(WorkingInvoice workingInvoice){
+        this.name = workingInvoice.getName();
+        this.file = new File(workingInvoice.getFilePath());
+        this.configurationDataString = workingInvoice.formatToCsv();
+    }
+
+    public Invoice(Invoice invoice){
+        this.name = invoice.getName();
+        this.file = invoice.getFile();
+        this.configurationDataString = invoice.getConfigurationDataString();
+    }
+
+    @Override
+    public String toString(){
+        return name + "," + file.getAbsolutePath() + configurationDataString;
+    }
 }

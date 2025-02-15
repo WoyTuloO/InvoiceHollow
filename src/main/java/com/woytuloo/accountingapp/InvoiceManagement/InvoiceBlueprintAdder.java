@@ -4,18 +4,20 @@
  */
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -25,17 +27,83 @@ public class InvoiceBlueprintAdder {
     
     JLabel label;
     File srcFile;
-    Map<String, Invoice> collection;
-    
-    public InvoiceBlueprintAdder(JLabel lab, Map<String, Invoice> coll){
-        this.label = lab;
-        this.collection = coll;     
+    HashMap<String, Invoice> collection;
+
+    private JTextField invoiceNameField;
+    private JButton choseFileButton;
+    private JButton proceedButton;
+    private JComboBox paramCellCombo;
+    private JButton saveFormButton;
+
+    private Invoice currentInvoice;
+
+
+
+    public InvoiceBlueprintAdder(JTextField invoiceNameField, JButton choseFileButton, JButton proceedButton, JComboBox paramCellCombo, JButton saveFormButton, CardLayout cardLayout , JPanel backgroundPanel, HashMap<String, Invoice> collection){
+        this.invoiceNameField = invoiceNameField;
+        this.choseFileButton = choseFileButton;
+
+        this.choseFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                srcFile = setFile();
+            }
+        });
+
+        this.proceedButton = proceedButton;
+        this.proceedButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(!invoiceNameField.getText().isEmpty() && getFile() != null){
+                    setupInvoice(invoiceNameField.getText(), getFile());
+                    cardLayout.show(backgroundPanel, "fillFormCard");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,
+                    "Brakuje nazwy lub pliku wejściowego!",
+                    "Błąd",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        this.paramCellCombo = paramCellCombo;
+
+
+        this.saveFormButton = saveFormButton;
+
+        saveFormButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setInvoiceConfigurationString();
+                collection.put(currentInvoice.getName(), new Invoice(currentInvoice));
+                System.out.println(collection.get(currentInvoice.getName()).toString());
+                clearFileds();
+
+
+            }
+        });
+
+        this.collection = collection;
+
     }
 
-    public InvoiceBlueprintAdder(Map<String, Invoice> coll){
-        this.collection = coll;
-        readData();
+    public void setupInvoice(String name, File src){
+        this.currentInvoice = new Invoice(name, getFile());
     }
+
+    public void setInvoiceConfigurationString(){
+        int comboSize = paramCellCombo.getItemCount();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < comboSize; i++)
+            sb.append(",").append(paramCellCombo.getItemAt(i));
+
+        this.currentInvoice.setConfigurationDataString(sb.toString());
+    }
+
     
     public void addNewBlueprint(){
         if((srcFile = setFile()) == null)
@@ -55,23 +123,35 @@ public class InvoiceBlueprintAdder {
     public File getFile(){
         return this.srcFile;
     }
-    
-    
-    public void fillCollection(String name, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAliMap){
-        if(getFile() == null){
-                    JOptionPane.showMessageDialog(null,
-                    "Brakuje pliku wejściowego!",
-                    "Błąd",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-            
-        
-        String nameWType = name + "." + getType(srcFile);
-        Invoice inv = new Invoice(nameWType, copyBlueprintFile(srcFile,name), cellMap, autoMap, cellAliMap);
-        inv.saveToCsv();
-        
-        this.collection.put(name,inv);
+
+    public boolean addToCollection(){
+        return true;
     }
+
+
+    public void clearFileds(){
+        this.invoiceNameField.setText("Nazwa Szablonu");
+        this.srcFile = null;
+        this.paramCellCombo.removeAllItems();
+    }
+
+    
+    
+//    public void fillCollection(String name, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAliMap){
+//        if(getFile() == null){
+//                    JOptionPane.showMessageDialog(null,
+//                    "Brakuje pliku wejściowego!",
+//                    "Błąd",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//
+//
+//        String nameWType = name + "." + getType(srcFile);
+//        WorkingInvoice inv = new WorkingInvoice(nameWType, copyBlueprintFile(srcFile,name), cellMap, autoMap, cellAliMap);
+//        inv.saveToCsv();
+//
+//        this.collection.put(name,inv);
+//    }
     
     public String getType(File src){
         return src.getName().split("\\.")[1];
@@ -113,15 +193,13 @@ public class InvoiceBlueprintAdder {
         return targetFilePath.toString();
     }
 
-    public void addInvoiceFromFile(String name, String path, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAlignment){
-        Invoice inv = new Invoice(name, path, cellMap, autoMap, cellAlignment);
-        this.collection.put(name.split("\\.")[0],inv);
-    }
-    
-    //wczytuje zapisane invoice z pliku FormsData.csv
-    
-    public void readData(){
-        
+//    public void addInvoiceFromFile(String name, String path, Map<String, String> cellMap, Map<String, String> autoMap, Map<String, String> cellAlignment){
+//        WorkingInvoice inv = new WorkingInvoice(name, path, cellMap, autoMap, cellAlignment);
+//        this.collection.put(name.split("\\.")[0],inv);
+//    }
+
+    public void loadInvoiceFromFile(){
+
         BufferedReader reader = null;
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
@@ -136,30 +214,75 @@ public class InvoiceBlueprintAdder {
 
             reader = new BufferedReader(new FileReader(formsDataPath.toString()));
             String line;
-            
+
             while((line = reader.readLine()) != null){
-                if(line.equals(""))
+                if(line.isEmpty())
                     return;
                 String [] data = line.split(",");
                 String name = data[0];
                 String path = data[1];
-                Map<String, String> cellMap = new HashMap<>();
-                Map<String, String> paramAutoCellMap = new HashMap<>();
-                Map<String, String> cellAlignMap = new HashMap<>();
-                
+                Invoice inv = new Invoice(name, new File(path));
+
+                StringBuilder sb = new StringBuilder();
                 for(int i = 2; i < data.length; i++){
-                    String [] cellData = data[i].split(":");
-                    
-                    cellMap.put(cellData[0], cellData[1]);
-                    paramAutoCellMap.put(cellData[0], cellData[2]);
-                    cellAlignMap.put(cellData[1], cellData[3]); 
+                    sb.append(",").append(data[i]);
                 }
-                
-                addInvoiceFromFile(name, path, cellMap, paramAutoCellMap,cellAlignMap);
+
+                inv.setConfigurationDataString(sb.toString());
+
+                if(!collection.containsKey(name))
+                    collection.put(name, inv);
+
             }
         } catch (IOException ex) {
             Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
+    
+    //wczytuje zapisane invoice z pliku FormsData.csv
+    
+//    public void readData(){
+//
+//        BufferedReader reader = null;
+//        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
+//        Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow" , "Config" );
+//        Path formsDataPath = Paths.get(configDirPath.toString(),"FormsData.csv");
+//
+//        try {
+//            if(Files.notExists(configDirPath))
+//                return;
+//
+//            if(Files.notExists(formsDataPath))
+//                return;
+//
+//            reader = new BufferedReader(new FileReader(formsDataPath.toString()));
+//            String line;
+//
+//            while((line = reader.readLine()) != null){
+//                if(line.equals(""))
+//                    return;
+//                String [] data = line.split(",");
+//                String name = data[0];
+//                String path = data[1];
+//                Map<String, String> cellMap = new HashMap<>();
+//                Map<String, String> paramAutoCellMap = new HashMap<>();
+//                Map<String, String> cellAlignMap = new HashMap<>();
+//
+//                for(int i = 2; i < data.length; i++){
+//                    String [] cellData = data[i].split(":");
+//
+//                    cellMap.put(cellData[0], cellData[1]);
+//                    paramAutoCellMap.put(cellData[0], cellData[2]);
+//                    cellAlignMap.put(cellData[1], cellData[3]);
+//                }
+//
+//                addInvoiceFromFile(name, path, cellMap, paramAutoCellMap,cellAlignMap);
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
          
 }
