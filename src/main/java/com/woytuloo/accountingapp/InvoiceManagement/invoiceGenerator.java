@@ -41,7 +41,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class InvoiceGenerator {
     
     private Map<String, String> parameterCellMap = new HashMap<>();
-    private Invoice invoice;
+    private WorkingInvoice invoice;
     private JTable table;
     private int invoiceNum;                                                             // to jest seed ktory nadpisuje pozniej parametrami ustawionymi z trybem auto
     private Map<String, String> paramAutoMap;
@@ -50,7 +50,7 @@ public class InvoiceGenerator {
     private Map<String, Integer> autoRowMap;
     
     
-    public InvoiceGenerator(Invoice inv, JTable tab, ConfigStorage cs){
+    public InvoiceGenerator(WorkingInvoice inv, JTable tab, ConfigStorage cs){
         this.invoice = inv;
         if(invoice == null) return;
         this.table = tab;
