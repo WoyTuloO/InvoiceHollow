@@ -7,7 +7,7 @@ package com.woytuloo.accountingapp.main;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.woytuloo.accountingapp.InvoiceManagement.WorkingInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
-import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
+//import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.config.ConfigStorage;
 import com.woytuloo.accountingapp.menu.Menu;
@@ -1413,7 +1413,7 @@ public class AppFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_proceedToTemplateConfigurationButtonActionPerformed
 
     private void fillInvoiceGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillInvoiceGenerateButtonActionPerformed
-        invoiceGenerator.generateInvoice();
+
     }//GEN-LAST:event_fillInvoiceGenerateButtonActionPerformed
 
     private void cellNameTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cellNameTfActionPerformed
@@ -1520,7 +1520,7 @@ public class AppFrame extends javax.swing.JFrame {
 
 
 
-    private InvoiceGenerator invoiceGenerator;
+//    private InvoiceGenerator invoiceGenerator;
     private ConfigStorage configStorage;
     private Map<String, WorkingInvoice> invoiceCollection;
     private InvoiceBlueprintAdder invoiceAdder;

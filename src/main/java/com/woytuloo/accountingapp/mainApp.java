@@ -2,7 +2,6 @@ package com.woytuloo.accountingapp;
 
 import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
-import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator2;
 import com.woytuloo.accountingapp.handlers.InvoiceDisplayHandler;
 import com.woytuloo.accountingapp.config.ConfigStorage;

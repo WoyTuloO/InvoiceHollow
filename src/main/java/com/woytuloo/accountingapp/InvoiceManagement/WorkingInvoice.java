@@ -48,11 +48,14 @@ public class WorkingInvoice {
             String[] dataSplit = dataString.split(":");
             String paramName = dataSplit[0];
             String cell = dataSplit[1];
-            String alignment = dataSplit[2];
-            String auto = dataSplit[3];
+            String placeholder = dataSplit[2];
+            String alignment = dataSplit[3];
+            String auto = dataSplit[4];
 
             propertyCellMap.put(paramName, cell);
-            paramAutoCellsMap.put(paramName, auto);
+
+            if(!auto.isEmpty())
+                paramAutoCellsMap.put(paramName, auto);
             cellAlignmentMap.put(paramName, alignment);
         }
 

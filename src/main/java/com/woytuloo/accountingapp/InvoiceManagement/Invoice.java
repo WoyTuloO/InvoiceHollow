@@ -23,7 +23,8 @@ public class Invoice {
     }
 
     public String getConfigurationDataString(){
-        return configurationDataString;
+
+        return configurationDataString.substring(1);
     }
 
     public Invoice(String name, File file) {

@@ -4,6 +4,8 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import javax.swing.*;
+
 /**
  *
  * @author wojte
@@ -11,6 +13,7 @@ package com.woytuloo.accountingapp.component;
 public class InvoiceDataTile extends javax.swing.JPanel {
 
     private String parameterName;
+    private String value;
     int index;
     /**
      * Creates new form InvoiceDataTile
@@ -92,16 +95,30 @@ public class InvoiceDataTile extends javax.swing.JPanel {
         this.parameterName = parameterName;
         System.out.println(parameterName);
         initComponents();
+    }
 
+    public InvoiceDataTile(String parameterName,String value,  int i) {
+        this.index = i;
+        this.parameterName = parameterName;
+        System.out.println(parameterName);
+        initComponents();
+        jTextField1.setText(value);
     }
 
     public String getTextFieldValue(){
         return jTextField1.getText();
+    }
+    public String getParameterName(){
+        return parameterName;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.woytuloo.accountingapp.component.RoundedTile invoiceTile2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
+
+    public JTextField getTextField() {
+        return jTextField1;
+    }
     // End of variables declaration//GEN-END:variables
 }
