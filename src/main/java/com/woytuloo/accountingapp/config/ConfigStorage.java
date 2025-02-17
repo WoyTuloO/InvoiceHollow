@@ -76,8 +76,7 @@ public class ConfigStorage {
             }
             System.out.println("Folder InvoiceHollow został utworzony.");            
         }
-        
-        
+
         String[] months = {
             "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
             "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
@@ -122,7 +121,6 @@ public class ConfigStorage {
     
     
     public ConfigStorage(){
-        this.date = setDate();
         this.invoiceCountandMoney = new HashMap<>();
         this.monthIncomeMap = new HashMap<>();
         this.monthAmmountMap = new HashMap<>();
@@ -133,12 +131,6 @@ public class ConfigStorage {
     public void setDefault(){
         currentInvoiceNum = 0;
         invoiceTreePath = System.getProperty("user.home") + File.separator + "Documents";
-    }
-    
-    public String setDate(){
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return now.format(formatter);
     }
     
     public void loadConfigFile(){                 
@@ -284,5 +276,13 @@ public class ConfigStorage {
         
         
     }
+
+    public void incrementInvoiceNum() {
+        this.currentInvoiceNum++;
+    }
+    public void setInvoiceNum(int num){
+        this.currentInvoiceNum = num;
+    }
+
 
 }

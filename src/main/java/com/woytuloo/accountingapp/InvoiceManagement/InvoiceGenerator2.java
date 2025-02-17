@@ -1,20 +1,31 @@
 package com.woytuloo.accountingapp.InvoiceManagement;
 
 import com.woytuloo.accountingapp.component.InvoiceDataTile;
+import com.woytuloo.accountingapp.config.ConfigStorage;
 import com.woytuloo.accountingapp.handlers.NumberToWordsConverter;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.*;
 import java.nio.channels.WritePendingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class InvoiceGenerator2 {
 
@@ -23,9 +34,12 @@ public class InvoiceGenerator2 {
     private GridBagConstraints gridBagConstraints;
     private Invoice invoice;
     private Map<String, Integer> automationTextfieldMap;
+    private ConfigStorage configStorage;
 
-    public InvoiceGenerator2(JPanel invoiceDataRenderPanel) {
+    public InvoiceGenerator2(JPanel invoiceDataRenderPanel, ConfigStorage configStorage) {
         this.invoiceDataRenderPanel = invoiceDataRenderPanel;
+        this.configStorage = configStorage;
+
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -196,18 +210,136 @@ public class InvoiceGenerator2 {
 
     }
 
-    public void scrapData(){
+    public ReadyInvoice scrapData(){
+
+        ReadyInvoice readyInvoice = new ReadyInvoice(invoice);
+
         for(InvoiceDataTile tile : tiles){
             String paramName = tile.getParameterName();
             String val = tile.getTextFieldValue();
+            readyInvoice.addProperty(paramName, val);
+        }
+
+        return readyInvoice;
+
+    }
 
 
 
+    public void generateInvoice(){
 
+        ReadyInvoice readyInvoice = scrapData();
+
+        String[] months = {
+                "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
+                "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
+        };
+
+        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + configStorage.getCurrentInvoiceNum() + "." + invoice.getExtension());
+
+        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
+        String fileName = invoice.getFile().getName();
+        Path srcFilePath = Paths.get(userDocuments, "InvoiceHollow", "Forms", fileName);
+
+        try {
+            Files.copy(srcFilePath, filePath);
+        } catch (IOException ex) {
+            Logger.getLogger(InvoiceGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+
+        File outputFile = new File(filePath.toString());
+
+        FileInputStream fileInputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(outputFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Workbook workbook = null;
+
+        if (invoice.getExtension().equals("xls")) {
+            try {
+                workbook = new HSSFWorkbook(fileInputStream);
+            } catch (IOException ex) {
+                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (invoice.getExtension().equals("xlsx")) {
+            try {
+                workbook = new XSSFWorkbook(fileInputStream);
+            } catch (IOException ex) {
+                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        assert workbook != null;
+
+        Sheet sheet = workbook.getSheetAt(0);
+
+
+        String confStr[] = invoice.getConfigurationDataString().split(",");
+        for(String data : confStr){
+            String[] dataSplit = data.split(":");
+
+            String paramName = dataSplit[0];
+            String cellPosition = dataSplit[1];
+            String placeholder = dataSplit[2];
+            String alignment = dataSplit[3];
+
+            int rowIndex = Integer.parseInt(cellPosition.replaceAll("[^0-9]", "")) - 1;
+            int columnIndex = cellPosition.replaceAll("[^A-Z]", "").charAt(0) - 'A';
+
+            Row row = sheet.getRow(rowIndex);
+            if (row == null)
+                row = sheet.createRow(rowIndex);
+
+
+            Cell cell = row.getCell(columnIndex);
+
+            if (cell == null)
+                cell = row.createCell(columnIndex);
+
+            CellStyle cellStyle = workbook.createCellStyle();
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            switch (alignment) {
+                case "L" -> cellStyle.setAlignment(HorizontalAlignment.LEFT);
+                case "C" -> cellStyle.setAlignment(HorizontalAlignment.CENTER);
+                case "R" -> cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+                default -> {}
+            }
+
+            cell.setCellStyle(cellStyle);
+
+            String val = readyInvoice.getPropertyDataMap().get(paramName);
+
+            if(!placeholder.isBlank())
+                val = placeholder.replace("@", readyInvoice.getPropertyDataMap().get(paramName));
+
+            cell.setCellValue(val);
         }
 
 
+        try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
+            workbook.write(fileOutputStream);
+        } catch (IOException ex) {
+            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+        configStorage.incrementInvoiceNum();
+
+
     }
+
+
+
+
 
 }
 

@@ -24,7 +24,7 @@ public class mainApp {
         InvoiceBlueprintAdder invoiceBlueprintAdder = new InvoiceBlueprintAdder(frame.getInvoiceNameField(), frame.getChoseFileButton(), frame.getProceedButton(), frame.getParamCellCombo(), frame.getSaveFormButton(), frame.getCardLayout(), frame.getBackgroundPanel(), collection);
         invoiceBlueprintAdder.loadInvoiceFromFile();
         DashBoardHandler dashBoardHandler = new DashBoardHandler(frame.getDashBoardChartDisplayPanel(), frame.getYearlyIncomeProgressBar(), frame.getIncomeThisMonthLabel(), frame.getThisMonthsTargetLabel(), frame.getThisMonthInvoiceCountLabel(), frame.getDashBoardPanelCard());
-        InvoiceGenerator2 invoiceGenerator = new InvoiceGenerator2(frame.getInvoiceDataRenderPanel());
+        InvoiceGenerator2 invoiceGenerator = new InvoiceGenerator2(frame.getInvoiceDataRenderPanel(), configStorage);
         InvoiceDisplayHandler invoiceDisplayHandler = new InvoiceDisplayHandler(frame.getBackgroundPanel(), frame.getChoseInvoiceDisplayPanel(), collection, invoiceGenerator, frame.getCardLayout());
 
 

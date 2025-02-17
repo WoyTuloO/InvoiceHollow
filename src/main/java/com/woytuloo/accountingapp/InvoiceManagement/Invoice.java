@@ -18,6 +18,10 @@ public class Invoice {
         return file.getAbsolutePath();
     }
 
+    public String getExtension(){
+        return file.getName().split("\\.")[1];
+    }
+
     public File getFile(){
         return file;
     }
