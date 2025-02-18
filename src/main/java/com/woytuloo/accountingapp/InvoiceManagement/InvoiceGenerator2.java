@@ -229,6 +229,7 @@ public class InvoiceGenerator2 {
     public void generateInvoice(){
 
         ReadyInvoice readyInvoice = scrapData();
+        readyInvoice.setNumber(configStorage.getCurrentInvoiceNum());
 
         String[] months = {
                 "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
@@ -281,7 +282,7 @@ public class InvoiceGenerator2 {
         Sheet sheet = workbook.getSheetAt(0);
 
 
-        String confStr[] = invoice.getConfigurationDataString().split(",");
+        String[] confStr = invoice.getConfigurationDataString().split(",");
         for(String data : confStr){
             String[] dataSplit = data.split(":");
 

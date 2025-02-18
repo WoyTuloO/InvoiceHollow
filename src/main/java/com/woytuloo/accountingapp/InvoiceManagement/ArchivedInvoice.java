@@ -3,15 +3,26 @@ package com.woytuloo.accountingapp.InvoiceManagement;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class ReadyInvoice {
+public class ArchivedInvoice {
     private int number;
+    private String invoiceName;
     private Map<String, String> propertyDataMap;
-    private Invoice invoice;
 
-    public ReadyInvoice(Invoice invoice){
-        this.invoice = invoice;
+//
+// jak polaczyc archovedInvoice z Invoice??
+// czytac z formsData.csv wszystkie szablony i wrzucac do mapy
+// pozniej laczyc po nazwie z Invoice przy edycji
+//
+
+
+
+    public ArchivedInvoice(String initStr){
         propertyDataMap = new HashMap<>();
+
+        String[] split = initStr.split(",");
+
+
+
     }
 
     public void addProperty(String property, String data){
@@ -26,6 +37,9 @@ public class ReadyInvoice {
         this.number = number;
     }
 
+
+
+
     public String toString(){
 
         StringBuilder sb = new StringBuilder();
@@ -33,6 +47,6 @@ public class ReadyInvoice {
             sb.append(k).append(":").append(v).append(",");
         });
 
-        return number + "," + invoice.getName() + "," + sb;
+        return number + "," + invoiceName + "," + sb;
     }
 }
