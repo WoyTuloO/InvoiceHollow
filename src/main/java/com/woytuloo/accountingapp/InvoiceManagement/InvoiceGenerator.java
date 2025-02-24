@@ -4,7 +4,7 @@
  */
 package com.woytuloo.accountingapp.InvoiceManagement;
 
-import com.woytuloo.accountingapp.config.ConfigStorage;
+import com.woytuloo.accountingapp.handlers.ConfigStorage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -176,7 +176,7 @@ public class InvoiceGenerator {
 
         return switch (type) {
             case "N" -> "" + invoiceNum;
-            case "D" -> "" + configStorage.getDate();
+            case "D" -> "" + configStorage;
             default -> "";
         };
     }

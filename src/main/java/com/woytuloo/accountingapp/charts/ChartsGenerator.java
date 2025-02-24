@@ -5,6 +5,7 @@
 package com.woytuloo.accountingapp.charts;
 
 import java.awt.*;
+import java.util.Map;
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
@@ -19,135 +20,113 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ChartsGenerator {
-    
-    
-    public static void showIncomeChart(JPanel p//,
-            //HashMap<String, Double> monthMoneyMap
-    ){
+
+    private static int incomeBound;
+    private static int invoiceBound;
+
+    public static void setMaxIncomeBound(int maxBound) {
+        ChartsGenerator.incomeBound = maxBound;
+    }
+    public static void setMaxInvoiceBound(int maxBound) {
+        ChartsGenerator.invoiceBound = maxBound;
+    }
+
+    public static void showIncomeChart(JPanel p,Map<String, Integer> monthMoneyMap) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
-        dataset.setValue(200, "Amount", "july");
-        dataset.setValue(150, "Amount", "august");
-        dataset.setValue(18, "Amount", "september");
-        dataset.setValue(100, "Amount", "october");
-        dataset.setValue(80, "Amount", "november");
-        dataset.setValue(250, "Amount", "december");
-        
-//        monthMoneyMap.forEach((month,money)->{
-//            dataset.setValue(money, "", month);
-//        });
-        
-        
-        JFreeChart chart = ChartFactory.createBarChart("","","Dochód",
-                dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(15,15,15));
-        
+
+        monthMoneyMap.forEach((month,money)->{
+            dataset.setValue(money, "", month);
+        });
+
+
+        JFreeChart chart = ChartFactory.createBarChart("", "", "Dochód",
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+        chart.setBackgroundPaint(new Color(15, 15, 15));
+
         CategoryPlot categoryPlot = chart.getCategoryPlot();
-        categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
-        categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255,0,0));
+        categoryPlot.getDomainAxis().setLabelPaint(new Color(255, 0, 0));
+        categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255, 0, 0));
         //categoryPlot.setRangeGridlinePaint(Color.BLUE);
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(230,230,230));
-        domainAxis.setLabelPaint(new Color(230,230,230));
+        domainAxis.setTickLabelPaint(new Color(230, 230, 230));
+        domainAxis.setLabelPaint(new Color(230, 230, 230));
         domainAxis.setLabelFont(new Font("Arial", 1, 14));
         domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
-        rangeAxis.setTickLabelPaint(new Color(0,255,0));
-        rangeAxis.setLabelPaint(new Color(0,255,0));
+        rangeAxis.setTickLabelPaint(new Color(0, 255, 0));
+        rangeAxis.setLabelPaint(new Color(0, 255, 0));
         rangeAxis.setLabelFont(new Font("Arial", 1, 14));
         rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setLowerBound(0);
+        rangeAxis.setUpperBound(incomeBound);
 
+        categoryPlot.setBackgroundPaint(new Color(15, 15, 15));
 
-
-        categoryPlot.setBackgroundPaint(new Color(15,15,15));
-        
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
-        Color clr3 = new Color(0,50,160);
+        Color clr3 = new Color(0, 50, 160);
         renderer.setSeriesPaint(0, clr3);
-        renderer.setDefaultLegendTextPaint(new Color(255,0,0));
-        
-        
+        renderer.setDefaultLegendTextPaint(new Color(255, 0, 0));
+
+
         ChartPanel barpChartPanel = new ChartPanel(chart);
         p.removeAll();
         p.add(barpChartPanel, BorderLayout.CENTER);
         p.validate();
-        
-               
-        
-    
+        p.repaint();
+
+
     }
-    
-    
-    
-    public static void showWorkDoneChart(JPanel p
-//              ,HashMap<String, Double> monthWorkMap
-            ){
-      
-                DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(50, "", "january");
-        dataset.setValue(30, "", "february");
-        dataset.setValue(35, "", "march");
-        dataset.setValue(38, "", "april");
-        dataset.setValue(41, "", "may");
-        dataset.setValue(38, "", "june");
-        dataset.setValue(26, "", "july");
-        dataset.setValue(33, "", "august");
-        dataset.setValue(29, "", "september");
-        dataset.setValue(32, "", "october");
-        dataset.setValue(46, "", "november");
-        dataset.setValue(44, "", "december");
-        
-//        monthWorkMap.forEach((month,work)->{
-//            dataset.setValue(work, "", month);
-//        });
-        
-        
-        JFreeChart chart = ChartFactory.createBarChart("","","Faktury",
-                dataset, PlotOrientation.VERTICAL, false,true,false);
-        chart.setBackgroundPaint(new Color(15,15,15));
-        
+
+
+    public static void showWorkDoneChart(JPanel p, Map<String, Integer> monthWorkMap) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        monthWorkMap.forEach((month,work)->{
+            dataset.setValue(work, "", month);
+        });
+
+
+        JFreeChart chart = ChartFactory.createBarChart("", "", "Faktury",
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+        chart.setBackgroundPaint(new Color(15, 15, 15));
+
         CategoryPlot categoryPlot = chart.getCategoryPlot();
-        categoryPlot.getDomainAxis().setLabelPaint(new Color(255,0,0) );
-        categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255,0,0));
+        categoryPlot.getDomainAxis().setLabelPaint(new Color(255, 0, 0));
+        categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255, 0, 0));
 
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(230,230,230));
-        domainAxis.setLabelPaint(new Color(230,230,230));
+        domainAxis.setTickLabelPaint(new Color(230, 230, 230));
+        domainAxis.setLabelPaint(new Color(230, 230, 230));
         domainAxis.setLabelFont(new Font("Arial", 1, 14));
         domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
-        rangeAxis.setTickLabelPaint(new Color(0,255,0));
-        rangeAxis.setLabelPaint(new Color(0,255,0));
+        rangeAxis.setTickLabelPaint(new Color(0, 255, 0));
+        rangeAxis.setLabelPaint(new Color(0, 255, 0));
         rangeAxis.setLabelFont(new Font("Arial", 1, 14));
         rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setLowerBound(0);
+        rangeAxis.setUpperBound(invoiceBound);
 
-
-
-        categoryPlot.setBackgroundPaint(new Color(15,15,15));
+        categoryPlot.setBackgroundPaint(new Color(15, 15, 15));
         BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
 
-        Color clr3 = new Color(0,50,160);
+        Color clr3 = new Color(0, 50, 160);
         renderer.setSeriesPaint(0, clr3);
-        renderer.setDefaultLegendTextPaint(new Color(255,0,0));
+        renderer.setDefaultLegendTextPaint(new Color(255, 0, 0));
         ChartPanel barpChartPanel = new ChartPanel(chart);
         p.removeAll();
         p.add(barpChartPanel, BorderLayout.CENTER);
         p.validate();
-      
-        
-        
+        p.repaint();
+
+
     }
-    
+
 }

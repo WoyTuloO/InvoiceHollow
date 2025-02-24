@@ -32,76 +32,38 @@ import javax.swing.JButton;
  */
 public class ControllJButton extends JButton {
     private ImageIcon icon;
-    
-    public ControllJButton(){
+
+    public ControllJButton() {
         init();
     }
-    
-    private void init(){
+
+    private void init() {
         setText("");
-        icon = new ImageIcon (getClass().getResource("/Images/closeIcon.png"));
-        Image img = icon.getImage().getScaledInstance(24, 24,  java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(getClass().getResource("/Images/closeIcon.png"));
+        Image img = icon.getImage().getScaledInstance(24, 24, java.awt.Image.SCALE_SMOOTH);
         this.setFocusable(false);
         this.setBackground(Color.red);
-        this.setIcon( new ImageIcon(img));
-        this.addActionListener( new ActionListener(){
+        this.setIcon(new ImageIcon(img));
+        this.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                if(e != null){
+            public void actionPerformed(ActionEvent e) {
+                if (e != null) {
                     closeApp();
                 }
             }
         });
     }
-    
-    
-    private void closeApp(){
-        
-        //TODO: dodac zachowanie przy zamknieciu
-        
-        System.exit(0);  
+
+
+    private void closeApp() {
+
+
+
+        System.exit(0);
     }
-    
-    
-    private void saveData(){
-        
-        
-        BufferedWriter writer = null;
-                
-        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-        Path invooFolderPath = Paths.get(userDocuments, "InvoiceHollow");
-        
-        
-        Path configDirPath = Paths.get(invooFolderPath.toString(), "Config" );
-        Path configDataPath = Paths.get(configDirPath.toString(),"appConfig.csv");
-        
-        try {
-            if (Files.notExists(invooFolderPath)) {
-                Files.createDirectory(invooFolderPath);
-                System.out.println("Folder InvoiceHollow został utworzony.");
-            }
-            if(Files.notExists(Paths.get(invooFolderPath.toString(), "Config"))){
-                    Files.createDirectory(configDirPath);
-                    System.out.println("Folder Config został utworzony.");
-                }
-            if (!Files.exists(configDataPath)) {
-                Files.createFile(configDataPath);
-            } 
-            
-            writer = new BufferedWriter(new FileWriter(configDataPath.toString()));
-            StringBuilder sb = new StringBuilder();
-            
-            sb.append("");      // CurrentInvoiceNumber
-            sb.append(",");
-            
-        } catch (IOException e) {
-            System.err.println("Wystąpił błąd: " + e.getMessage());
-            e.printStackTrace();
-        }
-        }
-        
-        
-    }
+
+
+}
     
     
 

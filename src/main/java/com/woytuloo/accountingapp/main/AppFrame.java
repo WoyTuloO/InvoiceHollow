@@ -5,25 +5,20 @@
 package com.woytuloo.accountingapp.main;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.woytuloo.accountingapp.InvoiceManagement.ReadyInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.WorkingInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 //import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
-import com.woytuloo.accountingapp.config.ConfigStorage;
+import com.woytuloo.accountingapp.component.ControllJButton;
+import com.woytuloo.accountingapp.component.RoundedInfoPanel;
+import com.woytuloo.accountingapp.handlers.ConfigStorage;
 import com.woytuloo.accountingapp.menu.Menu;
-import com.woytuloo.accountingapp.menu.MenuEvent;
 import com.woytuloo.accountingapp.layout.WrapLayout;
 
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.geom.Path2D;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
@@ -64,12 +59,7 @@ public class AppFrame extends javax.swing.JFrame {
         this.setBackground(new Color(0,0,0,0));
         mvPanel1.initMv(this);
         topMvPanelPlusButtons1.initMv(this);
-        invoiceCollection = new HashMap<>();
-        configStorage = new ConfigStorage();
-        configStorage.loadConfigFile();
-        loadInvoices();
-        ChartsGenerator.showIncomeChart(dashboardChartDisplayPanel.getIncomeChart());
-        ChartsGenerator.showWorkDoneChart(dashboardChartDisplayPanel.getWorkDoneChart());
+
         initCardLayout();
     }
     
@@ -334,7 +324,7 @@ public class AppFrame extends javax.swing.JFrame {
         dashboardInfoDataPanel.setOpaque(true);
 
         yearlyIncomeProgressBar.setBackground(new java.awt.Color(102, 102, 102));
-        yearlyIncomeProgressBar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        yearlyIncomeProgressBar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         yearlyIncomeProgressBar.setForeground(new java.awt.Color(51, 196, 32));
         yearlyIncomeProgressBar.setMaximum(200000);
         yearlyIncomeProgressBar.setValue(40000);
@@ -405,7 +395,7 @@ public class AppFrame extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(230, 230, 230));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Aktualny miesięczny cel:");
+        jLabel7.setText("Optymalny miesięczny cel:");
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -1433,14 +1423,7 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_suggestionsComboBoxActionPerformed
 
-    private void loadInvoices(){
-        //this.invoiceAdder = new InvoiceBlueprintAdder(invoiceCollection);
-        reloadChoiceCombo();
-    }
-    
-    private void reloadChoiceCombo(){
 
-    }
 
     private void initCardLayout(){
         background1.remove(dashBoardPanelCard);
@@ -1472,7 +1455,7 @@ public class AppFrame extends javax.swing.JFrame {
 
 
 
-    public JPanel getDashBoardChartDisplayPanel() {
+    public RoundedInfoPanel getDashBoardChartDisplayPanel() {
         return dashboardChartDisplayPanel;
     }
     public JProgressBar getYearlyIncomeProgressBar() {
@@ -1608,7 +1591,9 @@ public class AppFrame extends javax.swing.JFrame {
     private com.woytuloo.accountingapp.component.TopMvPanelPlusButtons topMvPanelPlusButtons1;
     private javax.swing.JProgressBar yearlyIncomeProgressBar;
 
-
+    public ControllJButton getExitButton() {
+        return controllJButton1;
+    }
 
 
     // End of variables declaration//GEN-END:variables

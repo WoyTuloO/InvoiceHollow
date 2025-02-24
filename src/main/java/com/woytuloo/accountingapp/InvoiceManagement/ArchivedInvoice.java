@@ -30,21 +30,6 @@ public class ArchivedInvoice {
         }
     }
 
-    public void addProperty(String property, String data){
-        propertyDataMap.put(property, data);
-    }
-
-    public Map<String, String> getPropertyDataMap(){
-        return propertyDataMap;
-    }
-
-    public void setNumber(int number){
-        this.number = number;
-    }
-
-
-
-
     public String toString(){
 
         StringBuilder sb = new StringBuilder();

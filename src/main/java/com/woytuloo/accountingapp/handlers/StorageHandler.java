@@ -1,7 +1,6 @@
 package com.woytuloo.accountingapp.handlers;
 
 import com.woytuloo.accountingapp.InvoiceManagement.ArchivedInvoice;
-import com.woytuloo.accountingapp.config.ConfigStorage;
 
 import java.io.*;
 import java.nio.file.Files;
