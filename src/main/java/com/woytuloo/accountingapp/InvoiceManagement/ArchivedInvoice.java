@@ -21,8 +21,13 @@ public class ArchivedInvoice {
 
         String[] split = initStr.split(",");
 
+        number = Integer.parseInt(split[0]);
+        invoiceName = split[1];
 
-
+        for(int i = 2; i < split.length; i++){
+            String[] split2 = split[i].split(":");
+            propertyDataMap.put(split2[0], split2[1]);
+        }
     }
 
     public void addProperty(String property, String data){
