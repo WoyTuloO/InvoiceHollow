@@ -1,6 +1,6 @@
 package com.woytuloo.accountingapp.handlers;
 
-public class NumberToWordsConverter {
+public class NumberToWordsConvertionHandler {
     private static final String[] JEDNOSCI = {
             "", "jeden", "dwa", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć"
     };

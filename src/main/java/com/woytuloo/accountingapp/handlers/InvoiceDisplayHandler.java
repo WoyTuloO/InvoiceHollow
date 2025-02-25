@@ -1,9 +1,8 @@
 package com.woytuloo.accountingapp.handlers;
 
 import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
-import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 
-import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator2;
+import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.component.InvoiceButtonPanel;
 
 import javax.swing.*;
@@ -14,10 +13,10 @@ public class InvoiceDisplayHandler {
     private JPanel background;
     private Map<String, Invoice> collection;
     private JPanel displayPanel;
-    private InvoiceGenerator2 invoicegenerator;
+    private InvoiceGenerator invoicegenerator;
     private CardLayout cardLayout;
 
-    public InvoiceDisplayHandler(JPanel background, JPanel displayPanel, Map<String,Invoice> collection, InvoiceGenerator2 invoiceGenerator, CardLayout cardLayout){
+    public InvoiceDisplayHandler(JPanel background, JPanel displayPanel, Map<String,Invoice> collection, InvoiceGenerator invoiceGenerator, CardLayout cardLayout){
         this.background = background;
         this.collection = collection;
         this.displayPanel = displayPanel;

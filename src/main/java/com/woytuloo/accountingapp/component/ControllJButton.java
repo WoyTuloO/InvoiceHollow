@@ -5,6 +5,8 @@
 package com.woytuloo.accountingapp.component;
 
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
+import com.woytuloo.accountingapp.handlers.StorageHandler;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -56,9 +58,7 @@ public class ControllJButton extends JButton {
 
 
     private void closeApp() {
-
-
-
+        StorageHandler.saveInvoices();
         System.exit(0);
     }
 

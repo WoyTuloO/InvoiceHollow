@@ -318,7 +318,7 @@ public class ConfigStorage {
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");
-        Path configFilePath = Paths.get(configDirPath.toString(), "configFile.csv");
+        Path configFilePath = Paths.get(configDirPath.toString(), "appConfig.csv");
 
         try {
             FileWriter pw = new FileWriter(new File(configFilePath.toString()));
@@ -331,30 +331,20 @@ public class ConfigStorage {
 
             final StringBuilder sb1 = new StringBuilder();
             monthAmmountMap.forEach((k, v) -> {
-                sb1.append(k).append(":").append(v).append(",\n");
+                sb1.append(k).append(":").append(v).append(",");
             });
 
-            pw.append(sb1.toString());
+            pw.append(sb1.append("\n").toString());
             pw.flush();
 
 
             final StringBuilder sb2 = new StringBuilder();
             monthIncomeMap.forEach((k, v) -> {
-                sb2.append(k).append(":").append(v).append(",\n");
+                sb2.append(k).append(":").append(v).append(",");
             });
 
-            pw.append(sb2.toString());
+            pw.append(sb2.append("\n").toString());
             pw.flush();
-
-            getInvoiceCountandMoney().forEach((k, v) -> {
-                try {
-                    pw.append(k + "," + v[0] + "," + v[1] + "\n");
-                    pw.flush();
-                } catch (IOException ex) {
-                    Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-
             pw.close();
 
         } catch (IOException ex) {
@@ -367,10 +357,5 @@ public class ConfigStorage {
     public void incrementInvoiceNum() {
         this.currentInvoiceNum++;
     }
-
-    public void setInvoiceNum(int num) {
-        this.currentInvoiceNum = num;
-    }
-
 
 }

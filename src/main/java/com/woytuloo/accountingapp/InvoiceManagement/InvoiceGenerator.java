@@ -1,221 +1,288 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
+import com.woytuloo.accountingapp.component.InvoiceDataTile;
+import com.woytuloo.accountingapp.handlers.AutoCompleteHandler;
 import com.woytuloo.accountingapp.handlers.ConfigStorage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.woytuloo.accountingapp.handlers.NumberToWordsConvertionHandler;
+import com.woytuloo.accountingapp.handlers.StorageHandler;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author WoyTuloo G6X
- */
 public class InvoiceGenerator {
 
-
-    private Map<String, String> parameterCellMap = new HashMap<>();
-    private WorkingInvoice invoice;
-    private JTable table;
-    private int invoiceNum;                                                             // to jest seed ktory nadpisuje pozniej parametrami ustawionymi z trybem auto
-    private Map<String, String> paramAutoMap;
+    private final JPanel invoiceDataRenderPanel;
+    private ArrayList<InvoiceComboDataTile> tiles;
+    private GridBagConstraints gridBagConstraints;
+    private Invoice invoice;
+    private Map<String, Integer> automationTextfieldMap;
     private ConfigStorage configStorage;
-    private InvoiceCalculator invCalc;
-    private Map<String, Integer> autoRowMap;
+    private StorageHandler storageHandler;
+    private AutoCompleteHandler autoCompleteHandler;
 
 
-    public InvoiceGenerator(WorkingInvoice inv, JTable tab, ConfigStorage cs) {
-        this.invoice = inv;
-        if (invoice == null) return;
-        this.table = tab;
-        invoice.getParamCellMap().forEach((k, v) -> {
-            this.parameterCellMap.put(k, "");
-        });
-        paramAutoMap = invoice.getAutoCellsMap();
-        this.configStorage = cs;
-        this.invoiceNum = this.configStorage.getCurrentInvoiceNum();
-        this.invCalc = new InvoiceCalculator();
+    public InvoiceGenerator(JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler) {
+        this.invoiceDataRenderPanel = invoiceDataRenderPanel;
+        this.configStorage = configStorage;
+        this.autoCompleteHandler = new AutoCompleteHandler();
+
+
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new Insets(6, 0, 0, 89);
+    }
+
+    public void setupFields(Invoice invoice){
+        invoiceDataRenderPanel.removeAll();
+        this.invoice = invoice;
+
+        String[] configStr = invoice.getConfigurationDataString().split(",");
+
+        automationTextfieldMap = new HashMap<>();
+        loadPriceAutomation(configStr);
+
+        tiles = new ArrayList<>();
+        for(int i = 0; i < configStr.length; i++){
+
+            InvoiceComboDataTile tile;
+            if(configStr[i].split(":")[4].isBlank())
+                tile = new InvoiceComboDataTile(configStr[i].split(":")[0], i);
+            else
+                tile = new InvoiceComboDataTile(configStr[i].split(":")[0], getAutomationValue(configStr[i].split(":")[4]), i);
+
+
+            tiles.add(tile);
+            invoiceDataRenderPanel.add(tile, gridBagConstraints);
+            gridBagConstraints.gridy++;
+        }
+
+        loadAutomation();
+
+        GridBagConstraints tempConstr = new GridBagConstraints();
+        tempConstr.gridx = 0;
+        tempConstr.gridy = gridBagConstraints.gridy;
+        tempConstr.weighty = 1;
+        tempConstr.anchor = GridBagConstraints.NORTH;
+        invoiceDataRenderPanel.add(new JLabel(), tempConstr);
 
     }
 
+    public void loadAutomation(){
+        automationTextfieldMap.forEach((key, value) -> {
+            switch (key){
+                case "F" -> {tiles.get(automationTextfieldMap.get("F")).getComboBox().getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        super.focusGained(e);
+                        JComboBox comboBox = (JComboBox) e.getSource();
+                        String text = (String) comboBox.getSelectedItem();
+                        if(text.equals("Autouzupełnianie")){
+                            comboBox.removeAllItems();
+                            comboBox.setSelectedItem("");
+                        }
+                    }
 
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        JComboBox comboBox = (JComboBox) e.getSource();
+                        String text = (String) comboBox.getSelectedItem();
+                        if(text.isEmpty()){
+                            comboBox.setSelectedItem("Autouzupełnianie");
+                        }
+                    }
 
-    public String constValSetter(String preVal, String auto) {
-        StringBuilder sb = new StringBuilder();
-        return sb.append(preVal).append(auto).toString();
-    }
+                });
+                    tiles.get(automationTextfieldMap.get("F")).getComboBox().getEditor().getEditorComponent().addKeyListener(new java.awt.event.KeyAdapter() {
+                        public void keyPressed(java.awt.event.KeyEvent evt) {
+                            JComboBox comboBox = (JComboBox) evt.getSource();
+                            String text = (String) comboBox.getSelectedItem();
+                            autoCompleteHandler.getSuggestions(tiles.get(automationTextfieldMap.get("F")).getParameterName(), text);
+                        }
+                    });
+                }
 
-
-    public void fillTable() {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Nazwa parametru");
-        model.addColumn("Wartość");
-
-        autoRowMap = new HashMap<>();
-
-        this.parameterCellMap.forEach((paramName, cell) -> {
-
-            String automat = paramAutoMap.get(paramName);
-
-            model.addRow(new Object[]{paramName, decideCellContent(automat)});
-
-            if (automat != null)
-                autoRowMap.put(automat, model.getRowCount() - 1);
-        });
-
-        model.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                int row = e.getFirstRow();
-                String paramName = (String) model.getValueAt(row, 0);
-                String automation = paramAutoMap.get(paramName);
-
-                if ((automation) != null) {
-                    TableModelListener listener = this;
-                    model.removeTableModelListener(listener);
-
-                    try {
-                        switch (automation) {
-                            case "CJ" -> {
-                                Double priceD;
-                                try {
-                                    priceD = Double.parseDouble((String) model.getValueAt(row, 1));
-                                } catch (Exception ex) {
-                                    return;
-                                }
-
-                                invCalc.setPrice(priceD);
-                                model.setValueAt(invCalc.getTotalS(), autoRowMap.get("CC"), 1);
-                                return;
-                            }
-                            case "CI" -> {
-                                int ammountI;
-                                try {
-                                    ammountI = Integer.parseInt((String) model.getValueAt(row, 1));
-                                } catch (Exception ex) {
-                                    return;
-                                }
-
-                                invCalc.setAmount(ammountI);
-                                model.setValueAt(invCalc.getTotalS(), autoRowMap.get("CC"), 1);
-                                return;
-                            }
-                            case "CC" -> {
-                                Double totalD;
-                                try {
-                                    totalD = Double.parseDouble((String) model.getValueAt(row, 1));
-                                } catch (Exception ex) {
-                                    return;
-                                }
-
-                                invCalc.setTotal(totalD);
-                                return;
-                            }
-                            default -> {
-                                return;
+                case "T" -> {tiles.get(automationTextfieldMap.get("T")).getComboBox().getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        super.focusLost(e);
+                        JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
+                        JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+                        String text = textField.getText();
+                        if (text.isEmpty()) {
+                            try {
+                                int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
+                                int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
+                                textField.setText(String.valueOf(qValue * uValue));
+                            } catch (NumberFormatException ex) {
+                                textField.setText("0");
+                                JOptionPane.showMessageDialog(null,
+                                        "Błędne formatowanie wartości!",
+                                        "Błąd",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                    } finally {
-                        // Po zakończeniu modyfikacji ponownie dodajemy listenera
-                        model.addTableModelListener(listener);
                     }
+                    });
+
+                }
+                case "Q" -> {tiles.get(automationTextfieldMap.get("Q")).getTextField().addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        if (tiles.get(automationTextfieldMap.get("Q")).getTextFieldValue().equals("Podaj Ilość produktów"))
+                            tiles.get(automationTextfieldMap.get("Q")).getTextField().setText("");
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        JTextField textField = (JTextField) e.getSource();
+                        String text = textField.getText();
+                        if (text.isEmpty()) textField.setText("Podaj Ilość produktów");
+
+                    }
+                });
+
+                }
+                case "U" -> {tiles.get(automationTextfieldMap.get("U")).getTextField().addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        if (tiles.get(automationTextfieldMap.get("U")).getTextFieldValue().equals("Podaj cenę produktu"))
+                            tiles.get(automationTextfieldMap.get("U")).getTextField().setText("");
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        JTextField textField = (JTextField) e.getSource();
+                        String text = textField.getText();
+                        if (text.isEmpty()) textField.setText("Podaj cenę produktu");
+                    }
+                                                                                                        }
+                );
+
+                }
+                case "S" -> {tiles.get(automationTextfieldMap.get("S")).getTextField().addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        if (tiles.get(automationTextfieldMap.get("S")).getTextFieldValue().equals("Nacisnij by uzyskać kwotę słownie")) {
+                            String priceToWord;
+                            try{
+                                priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(tiles.get(automationTextfieldMap.get("T")).getTextFieldValue()));
+                            }catch (NumberFormatException ex){
+                                priceToWord = NumberToWordsConvertionHandler.numberToWords(0);
+
+                                JOptionPane.showMessageDialog(null,
+                                        "Błędne formatowanie wartości!",
+                                        "Błąd",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                            tiles.get(automationTextfieldMap.get("S")).getTextField().setText(priceToWord);
+                        }
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        JTextField textField = (JTextField) e.getSource();
+                        String text = textField.getText();
+                        if(text.isEmpty()){
+                            String priceToWord;
+                            try{
+                                priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(tiles.get(automationTextfieldMap.get("T")).getTextFieldValue()));
+                            }catch (NumberFormatException ex){
+                                priceToWord = NumberToWordsConvertionHandler.numberToWords(0);
+
+
+                                JOptionPane.showMessageDialog(null,
+                                        "Błędne formatowanie wartości!",
+                                        "Błąd",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                            tiles.get(automationTextfieldMap.get("S")).getTextField().setText(priceToWord);
+                        }
+                    }                 }
+                );
+
                 }
 
             }
-
-
         });
-
-        if (autoRowMap.get("CI") != null)
-            model.setValueAt("0", autoRowMap.get("CI"), 1);
-        if (autoRowMap.get("CJ") != null)
-            model.setValueAt("0.0", autoRowMap.get("CJ"), 1);
-        if (autoRowMap.get("CC") != null)
-            model.setValueAt("0.0", autoRowMap.get("CC"), 1);
-        this.table.setModel(model);
     }
 
-
-    public void generateInvoice() {
-        setData(invoice.getName(invoiceNum), mapCellToData(invoice.getParamCellMap(), scrapTable()));
-
-
-        configStorage.setCurrentInvoiceNum(configStorage.getCurrentInvoiceNum() + 1);
-    }
-
-
-    public String decideCellContent(String type) {
-        if (type == null) return "";
-
-        return switch (type) {
-            case "N" -> "" + invoiceNum;
-            case "D" -> "" + configStorage;
-            default -> "";
+    public String getAutomationValue(String auto){
+        return switch (auto){
+            case "D" -> LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            case "N" -> configStorage.getCurrentInvoiceNum() + "";
+            case "T" -> "Naciśnij by uzyskać kwotę";
+            case "Q" -> "Podaj Ilość produktów";
+            case "U" -> "Podaj cenę produktu";
+            case "S" -> "Nacisnij by uzyskać kwotę słownie";
+            case "F" -> "Autouzupełnianie";
+            default -> "Nieznana wartość automatyzacji";
         };
+
+    }
+
+    public void loadPriceAutomation(String[] configStr){
+        for(int i = 0; i < configStr.length; i++){
+            String[] dataSplit = configStr[i].split(":");
+            String auto = dataSplit[4];
+
+            if(!auto.isEmpty())
+                automationTextfieldMap.put(auto, i);
+        }
+
+    }
+
+    public ReadyInvoice scrapData(){
+
+        ReadyInvoice readyInvoice = new ReadyInvoice(invoice);
+
+        for(InvoiceDataTile tile : tiles){
+            String paramName = tile.getParameterName();
+            String val = tile.getTextFieldValue();
+            readyInvoice.addProperty(paramName, val);
+        }
+
+        return readyInvoice;
+
     }
 
 
-    public HashMap<String, String> scrapTable() {
-        TableModel model = table.getModel();
-        int rowC = model.getRowCount();
-        HashMap<String, String> paramDataMap = new HashMap<>();
 
-        for (int i = 0; i < rowC; i++)
-            paramDataMap.put((String) model.getValueAt(i, 0), (String) model.getValueAt(i, 1));
+    public void generateInvoice(){
 
-        return paramDataMap;
-    }
-
-
-    public Map<String, String> mapCellToData(Map<String, String> paramCell, Map<String, String> paramData) {
-        Map<String, String> cellDataMap = new HashMap<>();
-
-        paramCell.forEach((parName, cell) -> {
-            cellDataMap.put(cell, paramData.get(parName));
-        });
-
-        return cellDataMap;
-    }
-
-
-    public void setData(String newFileName, Map<String, String> cellDataMap) {
-        String type = newFileName.split("\\.")[1];
+        ReadyInvoice readyInvoice = scrapData();
+        readyInvoice.setNumber(configStorage.getCurrentInvoiceNum());
 
         String[] months = {
                 "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
                 "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
         };
-        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), newFileName);
+
+        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + configStorage.getCurrentInvoiceNum() + "." + invoice.getExtension());
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-        Path srcFilePath = Paths.get(userDocuments, "InvoiceHollow", "Forms", invoice.getName());
+        String fileName = invoice.getFile().getName();
+        Path srcFilePath = Paths.get(userDocuments, "InvoiceHollow", "Forms", fileName);
 
         try {
             Files.copy(srcFilePath, filePath);
@@ -225,8 +292,8 @@ public class InvoiceGenerator {
         }
 
         File outputFile = new File(filePath.toString());
-
         FileInputStream fileInputStream = null;
+
         try {
             fileInputStream = new FileInputStream(outputFile);
         } catch (FileNotFoundException ex) {
@@ -234,16 +301,14 @@ public class InvoiceGenerator {
         }
 
         Workbook workbook = null;
-
-        if (type.equals("xls")) {
+        if (invoice.getExtension().equals("xls")) {
             try {
                 workbook = new HSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
                 Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        if (type.equals("xlsx")) {
+        if (invoice.getExtension().equals("xlsx")) {
             try {
                 workbook = new XSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
@@ -251,13 +316,18 @@ public class InvoiceGenerator {
             }
         }
 
+        assert workbook != null;
 
         Sheet sheet = workbook.getSheetAt(0);
 
-        for (Map.Entry<String, String> entry : cellDataMap.entrySet()) {
-            String cellPosition = entry.getKey();
-            String value = entry.getValue();
+        String[] confStr = invoice.getConfigurationDataString().split(",");
+        for(String data : confStr){
+            String[] dataSplit = data.split(":");
 
+            String paramName = dataSplit[0];
+            String cellPosition = dataSplit[1];
+            String placeholder = dataSplit[2];
+            String alignment = dataSplit[3];
             int rowIndex = Integer.parseInt(cellPosition.replaceAll("[^0-9]", "")) - 1;
             int columnIndex = cellPosition.replaceAll("[^A-Z]", "").charAt(0) - 'A';
 
@@ -274,17 +344,23 @@ public class InvoiceGenerator {
             CellStyle cellStyle = workbook.createCellStyle();
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
-            switch (invoice.getCellAlignmentMap().get(cellPosition)) {
+            switch (alignment) {
                 case "L" -> cellStyle.setAlignment(HorizontalAlignment.LEFT);
                 case "C" -> cellStyle.setAlignment(HorizontalAlignment.CENTER);
                 case "R" -> cellStyle.setAlignment(HorizontalAlignment.RIGHT);
-                default -> {
-                }
+                default -> {}
             }
 
             cell.setCellStyle(cellStyle);
-            cell.setCellValue(value);
+
+            String val = readyInvoice.getPropertyDataMap().get(paramName);
+
+            if(!placeholder.isBlank())
+                val = placeholder.replace("@", readyInvoice.getPropertyDataMap().get(paramName));
+
+            cell.setCellValue(val);
         }
+
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
             workbook.write(fileOutputStream);
@@ -292,7 +368,17 @@ public class InvoiceGenerator {
             Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        storageHandler.archiveInvoice(new ArchivedInvoice(readyInvoice));
+        configStorage.incrementInvoiceNum();
+
+
     }
 
 
+
+
+
 }
+
+
+

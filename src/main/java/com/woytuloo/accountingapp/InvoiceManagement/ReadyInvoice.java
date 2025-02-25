@@ -9,6 +9,14 @@ public class ReadyInvoice {
     private Map<String, String> propertyDataMap;
     private Invoice invoice;
 
+    public int getNumber(){
+        return number;
+    }
+
+    public String getName(){
+        return invoice.getName();
+    }
+
     public ReadyInvoice(Invoice invoice){
         this.invoice = invoice;
         propertyDataMap = new HashMap<>();

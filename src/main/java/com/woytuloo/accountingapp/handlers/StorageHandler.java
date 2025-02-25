@@ -15,16 +15,22 @@ import java.util.concurrent.ConcurrentMap;
 public class StorageHandler {
 
     ConfigStorage configStorage;
-    private ConcurrentMap<Integer, ArchivedInvoice> invoices;
+    private static ConcurrentMap<Integer, ArchivedInvoice> invoices;
 
 
     public StorageHandler(ConfigStorage configStorage) {
         invoices = new ConcurrentHashMap<>();
         this.configStorage = configStorage;
+
+        importInvoices();
+    }
+
+    public void archiveInvoice(ArchivedInvoice invoice){
+        invoices.put(configStorage.getCurrentInvoiceNum(), invoice);
     }
 
 
-    public void saveInvoices(){
+    public static void saveInvoices(){
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");
@@ -57,7 +63,6 @@ public class StorageHandler {
             e.printStackTrace();
         }
     }
-
 
 
     public void importInvoices(){

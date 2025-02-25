@@ -14,7 +14,9 @@ public class ArchivedInvoice {
 // pozniej laczyc po nazwie z Invoice przy edycji
 //
 
-
+    public String getName(){
+        return invoiceName;
+    }
 
     public ArchivedInvoice(String initStr){
         propertyDataMap = new HashMap<>();
@@ -28,6 +30,13 @@ public class ArchivedInvoice {
             String[] split2 = split[i].split(":");
             propertyDataMap.put(split2[0], split2[1]);
         }
+    }
+
+    public ArchivedInvoice(ReadyInvoice ri){
+        this.number = ri.getNumber();
+        this.invoiceName = ri.getName();
+        this.propertyDataMap = ri.getPropertyDataMap();
+
     }
 
     public String toString(){

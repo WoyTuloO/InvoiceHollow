@@ -1,0 +1,6 @@
+projectKey=InvoiceHollow
+serverUrl=http://localhost:9000
+serverVersion=25.2.0.102705
+dashboardUrl=http://localhost:9000/dashboard?id=InvoiceHollow
+ceTaskId=006bb1d8-0ae1-45dd-b728-eefd69860f2d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=006bb1d8-0ae1-45dd-b728-eefd69860f2d
