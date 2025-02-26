@@ -24,8 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -70,7 +69,8 @@ public class ConfigStorage {
             try {
                 Files.createDirectory(mainInvoiceFolder);
             } catch (IOException ex1) {
-                Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                System.out.println("Bład tworzenia folderu.");
+
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
         }
@@ -86,7 +86,7 @@ public class ConfigStorage {
             try {
                 Files.createDirectory(monthInvoicePath);
             } catch (IOException ex1) {
-                Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                System.out.println("Bład tworzenia folderu.");
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
         }
@@ -97,7 +97,7 @@ public class ConfigStorage {
             try {
                 Files.createDirectory(dayInvoicePath);
             } catch (IOException ex1) {
-                Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                System.out.println("Bład tworzenia folderu.");
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
         }
@@ -274,7 +274,7 @@ public class ConfigStorage {
                 try {
                     Files.createDirectory(invooFolderPath);
                 } catch (IOException ex1) {
-                    Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                    System.out.println("Bład tworzenia folderu.");
                 }
                 System.out.println("Folder InvoiceHollow został utworzony.");
             }
@@ -283,7 +283,7 @@ public class ConfigStorage {
                 try {
                     Files.createDirectory(Paths.get(invooFolderPath.toString(), "Config"));
                 } catch (IOException ex1) {
-                    Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                    System.out.println("Bład tworzenia folderu.");
                 }
                 System.out.println("Folder Config został utworzony.");
             }
@@ -303,12 +303,12 @@ public class ConfigStorage {
 
                     fw.close();
                 } catch (IOException ex1) {
-                    Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex1);
+                    System.out.println("Bład :" + ex1.getMessage());
                 }
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Bład :" + ex.getMessage());
         }
 
     }
@@ -348,7 +348,7 @@ public class ConfigStorage {
             pw.close();
 
         } catch (IOException ex) {
-            Logger.getLogger(ConfigStorage.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Bład :" + ex.getMessage());
         }
 
 

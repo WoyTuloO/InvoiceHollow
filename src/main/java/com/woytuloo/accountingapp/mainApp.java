@@ -18,9 +18,7 @@ public class mainApp {
         AppFrame frame = new AppFrame();
 
         ConfigStorage configStorage = new ConfigStorage(frame.getExitButton());
-
         StorageHandler storageHandler = new StorageHandler(configStorage);
-
         HashMap<String, Invoice> collection = new HashMap<>();
 
 
@@ -28,9 +26,8 @@ public class mainApp {
         InvoiceBlueprintAdder invoiceBlueprintAdder = new InvoiceBlueprintAdder(frame.getInvoiceNameField(), frame.getChoseFileButton(), frame.getProceedButton(), frame.getParamCellCombo(), frame.getSaveFormButton(), frame.getCardLayout(), frame.getBackgroundPanel(), collection);
         invoiceBlueprintAdder.loadInvoiceFromFile();
         DashBoardHandler dashBoardHandler = new DashBoardHandler(frame.getDashBoardChartDisplayPanel(), frame.getYearlyIncomeProgressBar(), frame.getIncomeThisMonthLabel(), frame.getThisMonthsTargetLabel(), frame.getThisMonthInvoiceCountLabel(), frame.getDashBoardPanelCard(), configStorage);
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(frame.getInvoiceDataRenderPanel(), configStorage, storageHandler);
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(frame.getGenerateInvoiceButton(), frame.getInvoiceDataRenderPanel(), configStorage, storageHandler);
         InvoiceDisplayHandler invoiceDisplayHandler = new InvoiceDisplayHandler(frame.getBackgroundPanel(), frame.getChoseInvoiceDisplayPanel(), collection, invoiceGenerator, frame.getCardLayout());
-
 
         MenuHandler menuHandler = new MenuHandler(frame.getMenu(), frame.getBackgroundPanel(), frame.getCardLayout(), invoiceDisplayHandler);
 

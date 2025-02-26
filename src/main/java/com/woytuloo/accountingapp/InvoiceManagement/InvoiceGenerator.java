@@ -11,10 +11,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,11 +22,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 
 public class InvoiceGenerator {
 
@@ -40,17 +36,26 @@ public class InvoiceGenerator {
     private AutoCompleteHandler autoCompleteHandler;
 
 
-    public InvoiceGenerator(JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler) {
+    public InvoiceGenerator(JButton generateButton ,JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler) {
         this.invoiceDataRenderPanel = invoiceDataRenderPanel;
         this.configStorage = configStorage;
         this.autoCompleteHandler = new AutoCompleteHandler();
-
+        this.storageHandler = storageHandler;
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new Insets(6, 0, 0, 89);
+
+
+        generateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generateInvoice();
+            }
+        });
+
     }
 
     public void setupFields(Invoice invoice){
@@ -91,136 +96,216 @@ public class InvoiceGenerator {
     public void loadAutomation(){
         automationTextfieldMap.forEach((key, value) -> {
             switch (key){
-                case "F" -> {tiles.get(automationTextfieldMap.get("F")).getComboBox().getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        super.focusGained(e);
-                        JComboBox comboBox = (JComboBox) e.getSource();
-                        String text = (String) comboBox.getSelectedItem();
-                        if(text.equals("Autouzupełnianie")){
-                            comboBox.removeAllItems();
-                            comboBox.setSelectedItem("");
-                        }
-                    }
+                case "F" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("F")).getComboBox();
+                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        JComboBox comboBox = (JComboBox) e.getSource();
-                        String text = (String) comboBox.getSelectedItem();
-                        if(text.isEmpty()){
-                            comboBox.setSelectedItem("Autouzupełnianie");
+                    textField.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            super.focusGained(e);
+                            String text = textField.getText();
+                            if ("Autouzupełnianie".equals(text)) {
+                                comboBox.removeAllItems();
+                                textField.setText("");
+                            }
                         }
-                    }
 
-                });
-                    tiles.get(automationTextfieldMap.get("F")).getComboBox().getEditor().getEditorComponent().addKeyListener(new java.awt.event.KeyAdapter() {
-                        public void keyPressed(java.awt.event.KeyEvent evt) {
-                            JComboBox comboBox = (JComboBox) evt.getSource();
-                            String text = (String) comboBox.getSelectedItem();
-                            autoCompleteHandler.getSuggestions(tiles.get(automationTextfieldMap.get("F")).getParameterName(), text);
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            String text = textField.getText();
+                            if (text.isEmpty()) {
+                                comboBox.addItem("Autouzupełnianie");
+                                textField.setText("Autouzupełnianie");
+                            }
                         }
+                    });
+
+                    textField.addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyPressed(KeyEvent evt) {
+                            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                                String text = textField.getText();
+                                HashSet<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(automationTextfieldMap.get("F")).getParameterName(), text);
+                                comboBox.removeAllItems();
+                                comboBox.addItem(text);
+                                for (String suggestion : suggestions) {
+                                    comboBox.addItem(suggestion);
+                                }
+                            }
+                        }
+                    });
+
+
+                }
+
+                case "U" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("U")).getComboBox();
+                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+
+                    textField.addFocusListener(new FocusListener() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            String text = textField.getText();
+                            if ("Podaj cenę produktu".equals(text)) {
+                                comboBox.removeAllItems();
+                                textField.setText("");
+                            }
+                        }
+
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            String text = textField.getText();
+                            if (text.isEmpty()) {
+                                comboBox.removeAllItems();
+                                comboBox.addItem("Podaj cenę produktu");
+                                textField.setText("Podaj cenę produktu");
+                            }
+                        }
+                    });
+
+                    comboBox.addPopupMenuListener(new PopupMenuListener() {
+                        @Override
+                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                            ((JComboBox<?>) e.getSource()).hidePopup();
+                        }
+
+                        @Override
+                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+
+                        @Override
+                        public void popupMenuCanceled(PopupMenuEvent e) {}
                     });
                 }
 
-                case "T" -> {tiles.get(automationTextfieldMap.get("T")).getComboBox().getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        super.focusLost(e);
-                        JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
-                        JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
-                        String text = textField.getText();
-                        if (text.isEmpty()) {
-                            try {
-                                int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
-                                int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
-                                textField.setText(String.valueOf(qValue * uValue));
-                            } catch (NumberFormatException ex) {
-                                textField.setText("0");
-                                JOptionPane.showMessageDialog(null,
-                                        "Błędne formatowanie wartości!",
-                                        "Błąd",
-                                        JOptionPane.ERROR_MESSAGE);
+                case "Q" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("Q")).getComboBox();
+                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+
+                    textField.addFocusListener(new FocusListener() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            String text = textField.getText();
+                            if ("Podaj Ilość produktów".equals(text)) {
+                                comboBox.removeAllItems();
+                                textField.setText("");
                             }
                         }
-                    }
+
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            String text = textField.getText();
+                            if (text.isEmpty()) {
+                                comboBox.removeAllItems();
+                                comboBox.addItem("Podaj Ilość produktów");
+                                textField.setText("Podaj Ilość produktów");
+                            }
+                        }
                     });
-
-                }
-                case "Q" -> {tiles.get(automationTextfieldMap.get("Q")).getTextField().addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        if (tiles.get(automationTextfieldMap.get("Q")).getTextFieldValue().equals("Podaj Ilość produktów"))
-                            tiles.get(automationTextfieldMap.get("Q")).getTextField().setText("");
-                    }
-
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        JTextField textField = (JTextField) e.getSource();
-                        String text = textField.getText();
-                        if (text.isEmpty()) textField.setText("Podaj Ilość produktów");
-
-                    }
-                });
-
-                }
-                case "U" -> {tiles.get(automationTextfieldMap.get("U")).getTextField().addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        if (tiles.get(automationTextfieldMap.get("U")).getTextFieldValue().equals("Podaj cenę produktu"))
-                            tiles.get(automationTextfieldMap.get("U")).getTextField().setText("");
-                    }
-
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        JTextField textField = (JTextField) e.getSource();
-                        String text = textField.getText();
-                        if (text.isEmpty()) textField.setText("Podaj cenę produktu");
-                    }
-                                                                                                        }
-                );
-
-                }
-                case "S" -> {tiles.get(automationTextfieldMap.get("S")).getTextField().addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        if (tiles.get(automationTextfieldMap.get("S")).getTextFieldValue().equals("Nacisnij by uzyskać kwotę słownie")) {
-                            String priceToWord;
-                            try{
-                                priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(tiles.get(automationTextfieldMap.get("T")).getTextFieldValue()));
-                            }catch (NumberFormatException ex){
-                                priceToWord = NumberToWordsConvertionHandler.numberToWords(0);
-
-                                JOptionPane.showMessageDialog(null,
-                                        "Błędne formatowanie wartości!",
-                                        "Błąd",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                            tiles.get(automationTextfieldMap.get("S")).getTextField().setText(priceToWord);
+                    comboBox.addPopupMenuListener(new PopupMenuListener() {
+                        @Override
+                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                            ((JComboBox<?>) e.getSource()).hidePopup();
                         }
-                    }
 
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        JTextField textField = (JTextField) e.getSource();
-                        String text = textField.getText();
-                        if(text.isEmpty()){
-                            String priceToWord;
-                            try{
-                                priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(tiles.get(automationTextfieldMap.get("T")).getTextFieldValue()));
-                            }catch (NumberFormatException ex){
-                                priceToWord = NumberToWordsConvertionHandler.numberToWords(0);
+                        @Override
+                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
 
+                        @Override
+                        public void popupMenuCanceled(PopupMenuEvent e) {}
+                    });
+                }
 
-                                JOptionPane.showMessageDialog(null,
-                                        "Błędne formatowanie wartości!",
-                                        "Błąd",
-                                        JOptionPane.ERROR_MESSAGE);
+                case "T" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
+                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+
+                    textField.addFocusListener(new FocusListener() {
+
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            String text = textField.getText();
+                            if ("Naciśnij by uzyskać kwotę".equals(text)) {
+                                comboBox.removeAllItems();
+                                textField.setText("");
                             }
-                            tiles.get(automationTextfieldMap.get("S")).getTextField().setText(priceToWord);
                         }
-                    }                 }
-                );
 
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            String text = textField.getText();
+                            if (text.isEmpty()) {
+                                try {
+                                    int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
+                                    int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
+                                    textField.setText(String.valueOf(qValue * uValue));
+                                } catch (NumberFormatException ex) {
+                                    textField.setText("0");
+                                    JOptionPane.showMessageDialog(null,
+                                            "Błędne formatowanie wartości!",
+                                            "Błąd",
+                                            JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                    });
+                    comboBox.addPopupMenuListener(new PopupMenuListener() {
+                        @Override
+                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                            ((JComboBox<?>) e.getSource()).hidePopup();
+                        }
+
+                        @Override
+                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+
+                        @Override
+                        public void popupMenuCanceled(PopupMenuEvent e) {}
+                    });
+                }
+
+                case "S" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("S")).getComboBox();
+                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+
+                    textField.addFocusListener(new FocusListener() {
+
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            String text = textField.getText();
+                            if ("Nacisnij by uzyskać kwotę słownie".equals(text) || "Błędny format liczby, popraw kwotę całkowitą i spróbuj ponownie".equals(text)) {
+                                comboBox.removeAllItems();
+                                textField.setText("");
+                            }
+                        }
+
+                        @Override
+                        public void focusLost(FocusEvent e) {
+
+                            String text = textField.getText();
+                            if (text.isEmpty()) {
+                                String priceToWord;
+                                try {
+                                    String comboVal = ((JTextField) tiles.get(automationTextfieldMap.get("T")).getComboBox().getEditor().getEditorComponent()).getText();
+                                    priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(comboVal));
+                                } catch (NumberFormatException ex) {
+                                    priceToWord = "Błędny format liczby, popraw kwotę całkowitą i spróbuj ponownie";
+                                }
+                                textField.setText(priceToWord);
+                            }
+                        }
+                    });
+                    comboBox.addPopupMenuListener(new PopupMenuListener() {
+                        @Override
+                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                            ((JComboBox<?>) e.getSource()).hidePopup();
+                        }
+
+                        @Override
+                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+
+                        @Override
+                        public void popupMenuCanceled(PopupMenuEvent e) {}
+                    });
                 }
 
             }
@@ -256,14 +341,27 @@ public class InvoiceGenerator {
 
         ReadyInvoice readyInvoice = new ReadyInvoice(invoice);
 
-        for(InvoiceDataTile tile : tiles){
+        for(InvoiceComboDataTile tile : tiles){
             String paramName = tile.getParameterName();
-            String val = tile.getTextFieldValue();
+            String val = ((JTextField) tile.getComboBox().getEditor().getEditorComponent()).getText();
+            System.out.println(paramName + " : " + val);
             readyInvoice.addProperty(paramName, val);
         }
 
         return readyInvoice;
+    }
 
+
+    public void setNumberForInvoice(ReadyInvoice readyInvoice){
+        int nr = configStorage.getCurrentInvoiceNum();
+
+        try {
+            nr = Integer.parseInt(((JTextField) tiles.get(automationTextfieldMap.get("N")).getComboBox().getEditor().getEditorComponent()).getText());
+        } catch (NumberFormatException ex) {
+            System.out.println("Nie udało się pobrać numeru faktury - ustawianie domyślnego numeru");
+        }
+
+        readyInvoice.setNumber(nr);
     }
 
 
@@ -271,14 +369,14 @@ public class InvoiceGenerator {
     public void generateInvoice(){
 
         ReadyInvoice readyInvoice = scrapData();
-        readyInvoice.setNumber(configStorage.getCurrentInvoiceNum());
+        setNumberForInvoice(readyInvoice);
 
         String[] months = {
                 "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
                 "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
         };
 
-        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + configStorage.getCurrentInvoiceNum() + "." + invoice.getExtension());
+        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + readyInvoice.getNumber() + "." + invoice.getExtension());
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         String fileName = invoice.getFile().getName();
@@ -287,8 +385,8 @@ public class InvoiceGenerator {
         try {
             Files.copy(srcFilePath, filePath);
         } catch (IOException ex) {
-            Logger.getLogger(InvoiceGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            return;
+            JOptionPane.showConfirmDialog(null,"Czy na pewno chcesz nadpisać plik?", "Plik już istnieje", JOptionPane.YES_NO_OPTION);
+
         }
 
         File outputFile = new File(filePath.toString());
@@ -297,7 +395,7 @@ public class InvoiceGenerator {
         try {
             fileInputStream = new FileInputStream(outputFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Błąd odczytu pliku");
         }
 
         Workbook workbook = null;
@@ -305,14 +403,14 @@ public class InvoiceGenerator {
             try {
                 workbook = new HSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
-                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Błąd wyboru pliku");
             }
         }
         if (invoice.getExtension().equals("xlsx")) {
             try {
                 workbook = new XSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
-                Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Błąd wyboru pliku");
             }
         }
 
@@ -329,7 +427,7 @@ public class InvoiceGenerator {
             String placeholder = dataSplit[2];
             String alignment = dataSplit[3];
             int rowIndex = Integer.parseInt(cellPosition.replaceAll("[^0-9]", "")) - 1;
-            int columnIndex = cellPosition.replaceAll("[^A-Z]", "").charAt(0) - 'A';
+            int columnIndex = cellPosition.toUpperCase().replaceAll("[^A-Z]", "").charAt(0) - 'A';
 
             Row row = sheet.getRow(rowIndex);
             if (row == null)
@@ -365,7 +463,7 @@ public class InvoiceGenerator {
         try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
             workbook.write(fileOutputStream);
         } catch (IOException ex) {
-            Logger.getLogger(InvoiceBlueprintAdder.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Błąd zapisu pliku");
         }
 
         storageHandler.archiveInvoice(new ArchivedInvoice(readyInvoice));

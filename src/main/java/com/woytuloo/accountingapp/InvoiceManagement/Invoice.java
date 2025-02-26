@@ -54,6 +54,6 @@ public class Invoice {
 
     @Override
     public String toString(){
-        return name + "," + file.getAbsolutePath() + configurationDataString;
+        return name + "," + file.getAbsolutePath() + "," + configurationDataString;
     }
 }

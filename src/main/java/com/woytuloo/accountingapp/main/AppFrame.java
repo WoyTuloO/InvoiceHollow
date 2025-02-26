@@ -1044,7 +1044,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         autoParamChoice.setBackground(new java.awt.Color(30, 30, 30));
         autoParamChoice.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
+        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie", "Dopełnianie" }));
         autoParamChoice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1342,6 +1342,7 @@ public class AppFrame extends javax.swing.JFrame {
             case "Cena - Ile sztuk" -> "Q";
             case "Cena - Jednostkowa" -> "U";
             case "Cena - Słownie" -> "S";
+            case "Dopełnianie" -> "F";
             default -> "";
         };
 
@@ -1593,6 +1594,10 @@ public class AppFrame extends javax.swing.JFrame {
 
     public ControllJButton getExitButton() {
         return controllJButton1;
+    }
+
+    public JButton getGenerateInvoiceButton() {
+        return fillInvoiceGenerateButton;
     }
 
 
