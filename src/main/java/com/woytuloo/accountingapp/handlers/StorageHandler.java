@@ -17,7 +17,6 @@ public class StorageHandler {
     ConfigStorage configStorage;
     private static ConcurrentMap<Integer, ArchivedInvoice> invoices;
 
-
     public StorageHandler(ConfigStorage configStorage) {
         invoices = new ConcurrentHashMap<>();
         this.configStorage = configStorage;
@@ -120,8 +119,6 @@ public class StorageHandler {
                 }
                 Files.write(formsDataPath, newArchived, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             }
-
-
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());

@@ -1,5 +1,6 @@
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,13 @@ public class Invoice {
 
     public String getConfigurationDataString(){
 
-        return configurationDataString.substring(1);
+        try {
+            return configurationDataString.substring(1);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Faktura nie może być pusta.");
+
+        }
+        return "";
     }
 
     public Invoice(String name, File file) {

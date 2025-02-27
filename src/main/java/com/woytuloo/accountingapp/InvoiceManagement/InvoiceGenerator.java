@@ -34,6 +34,7 @@ public class InvoiceGenerator {
     private ConfigStorage configStorage;
     private StorageHandler storageHandler;
     private AutoCompleteHandler autoCompleteHandler;
+    private HashMap<String, Integer> autofillTileMap;
 
 
     public InvoiceGenerator(JButton generateButton ,JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler) {
@@ -41,6 +42,8 @@ public class InvoiceGenerator {
         this.configStorage = configStorage;
         this.autoCompleteHandler = new AutoCompleteHandler();
         this.storageHandler = storageHandler;
+        this.autofillTileMap = new HashMap<>();
+        automationTextfieldMap = new HashMap<>();
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -62,9 +65,9 @@ public class InvoiceGenerator {
         invoiceDataRenderPanel.removeAll();
         this.invoice = invoice;
 
+
         String[] configStr = invoice.getConfigurationDataString().split(",");
 
-        automationTextfieldMap = new HashMap<>();
         loadPriceAutomation(configStr);
 
         tiles = new ArrayList<>();
@@ -75,7 +78,6 @@ public class InvoiceGenerator {
                 tile = new InvoiceComboDataTile(configStr[i].split(":")[0], i);
             else
                 tile = new InvoiceComboDataTile(configStr[i].split(":")[0], getAutomationValue(configStr[i].split(":")[4]), i);
-
 
             tiles.add(tile);
             invoiceDataRenderPanel.add(tile, gridBagConstraints);
@@ -94,51 +96,55 @@ public class InvoiceGenerator {
     }
 
     public void loadAutomation(){
-        automationTextfieldMap.forEach((key, value) -> {
-            switch (key){
-                case "F" -> {
-                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("F")).getComboBox();
-                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
-                    textField.addFocusListener(new FocusAdapter() {
-                        @Override
-                        public void focusGained(FocusEvent e) {
-                            super.focusGained(e);
-                            String text = textField.getText();
-                            if ("Autouzupełnianie".equals(text)) {
-                                comboBox.removeAllItems();
-                                textField.setText("");
-                            }
-                        }
+        autofillTileMap.forEach((k,v)->{
 
-                        @Override
-                        public void focusLost(FocusEvent e) {
-                            String text = textField.getText();
-                            if (text.isEmpty()) {
-                                comboBox.addItem("Autouzupełnianie");
-                                textField.setText("Autouzupełnianie");
-                            }
-                        }
-                    });
+            JComboBox<String> comboBox = tiles.get(autofillTileMap.get(k)).getComboBox();
+            JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
-                    textField.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyPressed(KeyEvent evt) {
-                            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                                String text = textField.getText();
-                                HashSet<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(automationTextfieldMap.get("F")).getParameterName(), text);
-                                comboBox.removeAllItems();
-                                comboBox.addItem(text);
-                                for (String suggestion : suggestions) {
-                                    comboBox.addItem(suggestion);
-                                }
-                            }
-                        }
-                    });
-
-
+            textField.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    super.focusGained(e);
+                    String text = textField.getText();
+                    if ("Autouzupełnianie".equals(text)) {
+                        comboBox.removeAllItems();
+                        textField.setText("");
+                    }
                 }
 
+                @Override
+                public void focusLost(FocusEvent e) {
+                    String text = textField.getText();
+                    if (text.isEmpty()) {
+                        comboBox.addItem("Autouzupełnianie");
+                        textField.setText("Autouzupełnianie");
+                    }
+                }
+            });
+
+            textField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent evt) {
+                    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                        String text = textField.getText();
+                        HashSet<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(autofillTileMap.get(k)).getParameterName(), text);
+                        comboBox.removeAllItems();
+                        comboBox.addItem(text);
+                        for (String suggestion : suggestions) {
+                            comboBox.addItem(suggestion);
+                        }
+                    }
+                }
+            });
+
+        });
+
+
+
+
+        automationTextfieldMap.forEach((key, value) -> {
+            switch (key){
                 case "U" -> {
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("U")).getComboBox();
                     JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
@@ -225,7 +231,7 @@ public class InvoiceGenerator {
                         @Override
                         public void focusGained(FocusEvent e) {
                             String text = textField.getText();
-                            if ("Naciśnij by uzyskać kwotę".equals(text)) {
+                            if ("Naciśnij by uzyskać kwotę".equals(text) || "Błędne formatowanie wartości".equals(text)) {
                                 comboBox.removeAllItems();
                                 textField.setText("");
                             }
@@ -240,11 +246,7 @@ public class InvoiceGenerator {
                                     int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
                                     textField.setText(String.valueOf(qValue * uValue));
                                 } catch (NumberFormatException ex) {
-                                    textField.setText("0");
-                                    JOptionPane.showMessageDialog(null,
-                                            "Błędne formatowanie wartości!",
-                                            "Błąd",
-                                            JOptionPane.ERROR_MESSAGE);
+                                    textField.setText("Błędne formatowanie wartości");
                                 }
                             }
                         }
@@ -331,6 +333,10 @@ public class InvoiceGenerator {
             String[] dataSplit = configStr[i].split(":");
             String auto = dataSplit[4];
 
+            if("F".equals(auto)){
+                autofillTileMap.put(dataSplit[0], i);
+            }else
+
             if(!auto.isEmpty())
                 automationTextfieldMap.put(auto, i);
         }
@@ -364,12 +370,24 @@ public class InvoiceGenerator {
         readyInvoice.setNumber(nr);
     }
 
+    private void getAutoFillData() {
+
+        autofillTileMap.forEach((k,v)->{
+            JComboBox<String> comboBox = tiles.get(autofillTileMap.get(k)).getComboBox();
+            JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+            autoCompleteHandler.fillSuggestions(tiles.get(autofillTileMap.get(k)).getParameterName(), textField.getText());
+        });
+
+
+
+    }
 
 
     public void generateInvoice(){
 
         ReadyInvoice readyInvoice = scrapData();
         setNumberForInvoice(readyInvoice);
+        getAutoFillData();
 
         String[] months = {
                 "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
@@ -471,7 +489,6 @@ public class InvoiceGenerator {
 
 
     }
-
 
 
 

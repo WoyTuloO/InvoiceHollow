@@ -38,14 +38,7 @@ public class DashBoardHandler {
                 reloadDashBoard();
             }
         });
-
-
     }
-
-
-
-
-
 
     public void reloadDashBoard(){
         System.out.println("Reloading DashBoard");
