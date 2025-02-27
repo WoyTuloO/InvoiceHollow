@@ -16,6 +16,8 @@ import com.woytuloo.accountingapp.menu.Menu;
 import com.woytuloo.accountingapp.layout.WrapLayout;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.Path2D;
@@ -183,8 +185,14 @@ public class AppFrame extends javax.swing.JFrame {
 
         topMvPanelPlusButtons1.setBackground(new java.awt.Color(15, 15, 15));
 
+        controllJButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controllJButton1ActionPerformed(evt);
+            }
+        });
+
         jLabel1.setBackground(new java.awt.Color(230, 230, 230));
-        jLabel1.setFont(new java.awt.Font("MV Boli", Font.BOLD, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("MV Boli", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(230, 230, 230));
         jLabel1.setText("InvoiceHollow");
 
@@ -324,11 +332,11 @@ public class AppFrame extends javax.swing.JFrame {
         dashboardInfoDataPanel.setOpaque(true);
 
         yearlyIncomeProgressBar.setBackground(new java.awt.Color(102, 102, 102));
-        yearlyIncomeProgressBar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        yearlyIncomeProgressBar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         yearlyIncomeProgressBar.setForeground(new java.awt.Color(51, 196, 32));
         yearlyIncomeProgressBar.setMaximum(200000);
         yearlyIncomeProgressBar.setValue(40000);
-        yearlyIncomeProgressBar.setString("nigger");
+        yearlyIncomeProgressBar.setString("nigga");
         yearlyIncomeProgressBar.setStringPainted(true);
 
         jLabel2.setBackground(new java.awt.Color(230, 230, 230));
@@ -395,7 +403,7 @@ public class AppFrame extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(230, 230, 230));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Optymalny miesięczny cel:");
+        jLabel7.setText("Aktualny miesięczny cel:");
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -560,16 +568,7 @@ public class AppFrame extends javax.swing.JFrame {
         buttonPanel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         buttonPanel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonPanel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        buttonPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                buttonPanel1MousePressed(evt);
-            }
-        });
-        buttonPanel1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonPanel1ActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout lastInvoicesChoiceLayout = new javax.swing.GroupLayout(lastInvoicesChoice);
         lastInvoicesChoice.setLayout(lastInvoicesChoiceLayout);
@@ -597,11 +596,6 @@ public class AppFrame extends javax.swing.JFrame {
                 buttonPanel2ActionPerformed(evt);
             }
         });
-        buttonPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                buttonPanel2MousePressed(evt);
-            }
-        });
 
         javax.swing.GroupLayout registryChoiceLayout = new javax.swing.GroupLayout(registryChoice);
         registryChoice.setLayout(registryChoiceLayout);
@@ -627,11 +621,6 @@ public class AppFrame extends javax.swing.JFrame {
         buttonPanel3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonPanel3ActionPerformed(evt);
-            }
-        });
-        buttonPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                buttonPanel3MousePressed(evt);
             }
         });
 
@@ -691,6 +680,11 @@ public class AppFrame extends javax.swing.JFrame {
         suggestionsDisplayTextArea.setColumns(20);
         suggestionsDisplayTextArea.setRows(5);
         suggestionsDisplayTextArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+
+
+
+
         jScrollPane1.setViewportView(suggestionsDisplayTextArea);
 
         deleteSavedAutoFillCellButton.setBackground(new java.awt.Color(30, 30, 30));
@@ -883,13 +877,6 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(choseInvoiceCard, "card5");
 
         selectInvoiceFileCard.setOpaque(false);
-        selectInvoiceFileCard.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if(selectInvoiceNameTextField.getText().isEmpty())
-                    selectInvoiceNameTextField.setText("Nazwa Szablonu");
-            }
-        });
-
 
         selectInvoiceNameTextField.setBackground(new java.awt.Color(30, 30, 30));
         selectInvoiceNameTextField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -911,7 +898,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         selectInvoiceFileButton.setBackground(new java.awt.Color(30, 30, 30));
-        selectInvoiceFileButton.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
+        selectInvoiceFileButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         selectInvoiceFileButton.setText("Wybierz plik");
         selectInvoiceFileButton.setBorderPainted(false);
         selectInvoiceFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -921,10 +908,14 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         proceedToTemplateConfigurationButton.setBackground(new java.awt.Color(30, 30, 30));
-        proceedToTemplateConfigurationButton.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
+        proceedToTemplateConfigurationButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         proceedToTemplateConfigurationButton.setText("Przejdź do konfiguracji");
         proceedToTemplateConfigurationButton.setBorderPainted(false);
-
+        proceedToTemplateConfigurationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proceedToTemplateConfigurationButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundedTile1Layout = new javax.swing.GroupLayout(roundedTile1);
         roundedTile1.setLayout(roundedTile1Layout);
@@ -939,8 +930,8 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113)
+                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedTile1Layout.setVerticalGroup(
@@ -975,7 +966,6 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(selectInvoiceFileCard, "card2");
 
         fillFormCard.setOpaque(false);
-
 
         parameterNameTf.setBackground(new java.awt.Color(30, 30, 30));
         parameterNameTf.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1044,7 +1034,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         autoParamChoice.setBackground(new java.awt.Color(30, 30, 30));
         autoParamChoice.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie", "Dopełnianie" }));
+        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
         autoParamChoice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1193,50 +1183,6 @@ public class AppFrame extends javax.swing.JFrame {
         );
 
 
-        parameterNameTf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if(parameterNameTf.getText().equals("Nazwa parametru")) {
-                    parameterNameTf.setText("");
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if(parameterNameTf.getText().isEmpty()) {
-                    parameterNameTf.setText("Nazwa parametru");
-                }
-            }
-        });
-
-        entrySubstringTf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if(entrySubstringTf.getText().equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")) {
-                    entrySubstringTf.setText("");
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if(entrySubstringTf.getText().isEmpty()) {
-                    entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
-                }
-            }
-        });
-
-        cellNameTf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if(cellNameTf.getText().equals("Komórka  (np. B3)")) {
-                    cellNameTf.setText("");
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if(cellNameTf.getText().isEmpty()) {
-                    cellNameTf.setText("Komórka  (np. B3)");
-                }
-            }
-        });
 
 
 
@@ -1256,13 +1202,13 @@ public class AppFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonPanel1ActionPerformed
 
-    private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
+    private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {                                          
         cardLayout.show(background1, "2 1");
-    }//GEN-LAST:event_buttonPanel1MousePressed
+    }                                         
 
-    private void buttonPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
+    private void buttonPanel2MousePressed(java.awt.event.MouseEvent evt) {                                          
         cardLayout.show(background1, "2 2");
-    }//GEN-LAST:event_buttonPanel1MousePressed
+    }                                         
 
     private void buttonPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
         cardLayout.show(background1, "2 3");
@@ -1353,6 +1299,9 @@ public class AppFrame extends javax.swing.JFrame {
 
         resetInvoiceConfigForm();
 
+
+
+
     }//GEN-LAST:event_addNewParameterButtonActionPerformed
 
     private void resetInvoiceConfigForm(){
@@ -1424,6 +1373,10 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_suggestionsComboBoxActionPerformed
 
+    private void controllJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controllJButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_controllJButton1ActionPerformed
+
 
 
     private void initCardLayout(){
@@ -1452,7 +1405,30 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(savedInvoiceBlueprintCards, "2 3");
 
 
+
+
+        buttonPanel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardLayout.show(background1, "2 1");
+            }
+        });
+
+        buttonPanel2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardLayout.show(background1, "2 2");
+            }
+        });
+
+        buttonPanel3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardLayout.show(background1, "2 3");
+            }
+        });
+
     }
+
+
+
 
 
 

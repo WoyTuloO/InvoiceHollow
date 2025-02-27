@@ -18,6 +18,49 @@ public class AutoCompleteHandler {
     public AutoCompleteHandler(JPanel rememberedJPanel,JComboBox parametersCombo, JTextArea suggestionsTextArea, JButton save, JButton delete) {
         paramSuggestionsMap = new HashMap<>();
 
+        rememberedJPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                parametersCombo.removeAllItems();
+                for(String paramName : paramSuggestionsMap.keySet()){
+                    parametersCombo.addItem(paramName);
+                }
+            }
+        });
+
+        parametersCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String selectedParam = (String) parametersCombo.getSelectedItem();
+                if(selectedParam != null){
+                    suggestionsTextArea.setText("");
+                    for(String suggestion : paramSuggestionsMap.get(selectedParam)){
+                        suggestionsTextArea.append(suggestion + "\n");
+                    }
+                }
+            }
+        });
+
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String selectedParam = (String) parametersCombo.getSelectedItem();
+                if(selectedParam != null){
+                    String[] suggestions = suggestionsTextArea.getText().split("\n");
+                    paramSuggestionsMap.put(selectedParam, new HashSet<>(Arrays.asList(suggestions)));
+                }
+            }
+        });
+
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String selectedParam = (String) parametersCombo.getSelectedItem();
+                if(selectedParam != null){
+                    paramSuggestionsMap.remove(selectedParam);
+                    parametersCombo.removeItem(selectedParam);
+                }
+            }
+        });
+
+
+
         loadSuggestionsFromFile();
     }
 
