@@ -178,15 +178,6 @@ public class ConfigStorage {
         if (invoiceTreePath != null)
             setupTree();
 
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveConfigToFile();
-                System.exit(0);
-            }
-        });
-
-
     }
 
     private void reloadForNewYear() {

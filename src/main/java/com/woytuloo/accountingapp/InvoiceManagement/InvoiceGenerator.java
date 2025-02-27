@@ -37,10 +37,10 @@ public class InvoiceGenerator {
     private HashMap<String, Integer> autofillTileMap;
 
 
-    public InvoiceGenerator(JButton generateButton ,JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler) {
+    public InvoiceGenerator(JButton generateButton ,JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler, AutoCompleteHandler autoCompleteHandler) {
         this.invoiceDataRenderPanel = invoiceDataRenderPanel;
         this.configStorage = configStorage;
-        this.autoCompleteHandler = new AutoCompleteHandler();
+        this.autoCompleteHandler = autoCompleteHandler;
         this.storageHandler = storageHandler;
         this.autofillTileMap = new HashMap<>();
         automationTextfieldMap = new HashMap<>();

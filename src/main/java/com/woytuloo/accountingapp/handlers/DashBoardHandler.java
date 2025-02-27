@@ -49,9 +49,6 @@ public class DashBoardHandler {
         this.progressBar.setValue(config.getCurrentlyEarned());
         this.progressBar.setString(config.getCurrentlyEarned() + " PLN" );
 
-        System.out.println("Currently earned: " + config.getCurrentlyEarned());
-        System.out.println("Yearly target: " + config.getYearlyTarget());
-
         if(config.getCurrentlyEarned() > (config.getYearlyTarget() * 3 / 4))
             this.progressBar.setForeground(new java.awt.Color(250, 205, 0));
 
@@ -70,8 +67,6 @@ public class DashBoardHandler {
         Map<String, Integer> incomeMap = new LinkedHashMap<>();
         Map<String, Integer> workDoneMap = new LinkedHashMap<>();
 
-
-
         for (Map.Entry<String, Integer[]> entry : countAndMoneyMap.entrySet()) {
             String month = entry.getKey();
             Integer[] countAndMoney = entry.getValue();
@@ -83,9 +78,6 @@ public class DashBoardHandler {
 
             int workDone = countAndMoney[0];
             int money = countAndMoney[1];
-
-            System.out.println(month + " ilość: " + workDone + " zarobek: " + money);
-
 
             workDoneMap.put(month, workDone);
             incomeMap.put(month, money);

@@ -1600,6 +1600,24 @@ public class AppFrame extends javax.swing.JFrame {
         return fillInvoiceGenerateButton;
     }
 
+    public JPanel getRememberedJPanel() {
+        return remeberedPhrasesCard;
+    }
 
+    public JComboBox getParametersCombo() {
+        return suggestionsComboBox;
+    }
+
+    public JTextArea getSuggestionsTextArea() {
+        return suggestionsDisplayTextArea;
+    }
+
+    public JButton getSaveButton() {
+        return editSavedAutoFillCellButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteSavedAutoFillCellButton;
+    }
     // End of variables declaration//GEN-END:variables
 }
