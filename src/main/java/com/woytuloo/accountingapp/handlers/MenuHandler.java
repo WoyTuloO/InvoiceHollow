@@ -29,10 +29,6 @@ public class MenuHandler {
             }
         });
 
-
-
-
-
     }
 
     public void setupFocus(String constr){

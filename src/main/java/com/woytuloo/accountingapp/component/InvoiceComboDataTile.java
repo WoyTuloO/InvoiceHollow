@@ -117,6 +117,7 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
 
     }
 
+
     public InvoiceComboDataTile(String parameterName, String value, int i) {
         this.index = i;
         this.parameterName = parameterName;

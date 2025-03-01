@@ -28,9 +28,8 @@ public class Invoice {
     }
 
     public String getConfigurationDataString(){
-
         try {
-            return configurationDataString.substring(1);
+            return configurationDataString;
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Faktura nie może być pusta.");
 
@@ -59,7 +58,6 @@ public class Invoice {
         this.configurationDataString = invoice.getConfigurationDataString();
     }
 
-    @Override
     public String toString(){
         return name + "," + file.getAbsolutePath() + "," + configurationDataString;
     }

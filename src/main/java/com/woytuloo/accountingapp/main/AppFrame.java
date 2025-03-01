@@ -9,6 +9,7 @@ import com.woytuloo.accountingapp.InvoiceManagement.WorkingInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 //import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
+import com.woytuloo.accountingapp.component.ButtonPanel;
 import com.woytuloo.accountingapp.component.ControllJButton;
 import com.woytuloo.accountingapp.component.RoundedInfoPanel;
 import com.woytuloo.accountingapp.handlers.ConfigStorage;
@@ -681,10 +682,6 @@ public class AppFrame extends javax.swing.JFrame {
         suggestionsDisplayTextArea.setRows(5);
         suggestionsDisplayTextArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-
-
-
-
         jScrollPane1.setViewportView(suggestionsDisplayTextArea);
 
         deleteSavedAutoFillCellButton.setBackground(new java.awt.Color(30, 30, 30));
@@ -1184,6 +1181,51 @@ public class AppFrame extends javax.swing.JFrame {
 
 
 
+        parameterNameTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(parameterNameTf.getText().equals("Nazwa parametru")) {
+                    parameterNameTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(parameterNameTf.getText().isEmpty()) {
+                    parameterNameTf.setText("Nazwa parametru");
+                }
+            }
+        });
+
+        entrySubstringTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(entrySubstringTf.getText().equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")) {
+                    entrySubstringTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(entrySubstringTf.getText().isEmpty()) {
+                    entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+                }
+            }
+        });
+
+        cellNameTf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(cellNameTf.getText().equals("Komórka  (np. B3)")) {
+                    cellNameTf.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(cellNameTf.getText().isEmpty()) {
+                    cellNameTf.setText("Komórka  (np. B3)");
+                }
+            }
+        });
+
 
 
         pack();
@@ -1289,7 +1331,7 @@ public class AppFrame extends javax.swing.JFrame {
             case "Cena - Jednostkowa" -> "U";
             case "Cena - Słownie" -> "S";
             case "Dopełnianie" -> "F";
-            default -> "";
+            default -> ".";
         };
 
 
@@ -1376,6 +1418,8 @@ public class AppFrame extends javax.swing.JFrame {
     private void controllJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controllJButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_controllJButton1ActionPerformed
+
+
 
 
 
@@ -1594,6 +1638,14 @@ public class AppFrame extends javax.swing.JFrame {
 
     public JButton getDeleteButton() {
         return deleteSavedAutoFillCellButton;
+    }
+
+    public JPanel getLastInvoiceRenderPanel() {
+        return lastInvoicesRenderPanel;
+    }
+
+    public ButtonPanel showLastInvoicesButtonPanel() {
+        return buttonPanel1;
     }
     // End of variables declaration//GEN-END:variables
 }

@@ -39,6 +39,9 @@ public class ArchivedInvoice {
 
     }
 
+
+
+
     public String toString(){
 
         StringBuilder sb = new StringBuilder();
@@ -47,5 +50,9 @@ public class ArchivedInvoice {
         });
 
         return number + "," + invoiceName + "," + sb;
+    }
+
+    public Map<String, String> getPropertyDataMap() {
+        return propertyDataMap;
     }
 }

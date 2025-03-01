@@ -36,7 +36,7 @@ public class ConfigStorage {
     /**
      * @return the currentInvoiceNum
      */
-    public int getCurrentInvoiceNum() {
+    public static int getCurrentInvoiceNum() {
         return currentInvoiceNum;
     }
 
@@ -50,7 +50,7 @@ public class ConfigStorage {
     /**
      * @return the invoiceTreePath
      */
-    public String getInvoiceTreePath() {
+    public static String getInvoiceTreePath() {
         return invoiceTreePath;
     }
 
@@ -110,13 +110,13 @@ public class ConfigStorage {
         return invoiceCountandMoney;
     }
 
-    private int currentInvoiceNum;
-    private String invoiceTreePath;
+    private static int currentInvoiceNum;
+    private static String invoiceTreePath;
     private Map<String, Integer[]> invoiceCountandMoney = new LinkedHashMap<>();   // <nazwa , {ilość wydanych, dochód całkowity} >
-    private Map<String, Double> monthIncomeMap = new LinkedHashMap<>();
-    private Map<String, Integer> monthAmmountMap = new LinkedHashMap<>();
+    private static Map<String, Double> monthIncomeMap = new LinkedHashMap<>();
+    private static Map<String, Integer> monthAmmountMap = new LinkedHashMap<>();
     private Map<String, String> monthMap = new HashMap<>();
-    private int yearlyTarget;
+    private static int yearlyTarget;
     private int currentlyEarned;
     private int thisMonthsEarnings;
 
@@ -149,6 +149,7 @@ public class ConfigStorage {
 
 
     public ConfigStorage(ControllJButton exitButton) {
+
 
         monthMap.put("JANUARY", "styczeń");
         monthMap.put("FEBRUARY", "luty");
@@ -304,7 +305,7 @@ public class ConfigStorage {
 
     }
 
-    public void saveConfigToFile() {
+    public static void saveConfigToFile() {
 
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
@@ -315,7 +316,7 @@ public class ConfigStorage {
             FileWriter pw = new FileWriter(new File(configFilePath.toString()));
 
 
-            String in = getCurrentInvoiceNum() + "," + getInvoiceTreePath().toString() + "," + yearlyTarget+ "\n";
+            String in = getCurrentInvoiceNum() + "," + getInvoiceTreePath() + "," + yearlyTarget+ "\n";
             pw.append(in);
             pw.flush();
 
