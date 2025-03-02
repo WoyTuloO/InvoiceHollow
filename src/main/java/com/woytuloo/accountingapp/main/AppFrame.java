@@ -669,7 +669,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         suggestionsComboBox.setBackground(new java.awt.Color(30, 30, 30));
         suggestionsComboBox.setMaximumRowCount(8);
-        suggestionsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "  ", "Item 2", "Item 3", "Item 4" }));
+        suggestionsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
         suggestionsComboBox.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         suggestionsComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -680,9 +680,11 @@ public class AppFrame extends javax.swing.JFrame {
         suggestionsDisplayTextArea.setBackground(new java.awt.Color(30, 30, 30));
         suggestionsDisplayTextArea.setColumns(20);
         suggestionsDisplayTextArea.setRows(5);
-        suggestionsDisplayTextArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        suggestionsDisplayTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         jScrollPane1.setViewportView(suggestionsDisplayTextArea);
+        jScrollPane1.setBackground(new java.awt.Color(30, 30, 30));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         deleteSavedAutoFillCellButton.setBackground(new java.awt.Color(30, 30, 30));
         deleteSavedAutoFillCellButton.setText("Usuń");
@@ -1419,10 +1421,6 @@ public class AppFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_controllJButton1ActionPerformed
 
-
-
-
-
     private void initCardLayout(){
         background1.remove(dashBoardPanelCard);
         background1.remove(archiveMenuCard);
@@ -1447,9 +1445,6 @@ public class AppFrame extends javax.swing.JFrame {
         background1.add(lastInvoicesCard, "2 1");
         background1.add(remeberedPhrasesCard, "2 2");
         background1.add(savedInvoiceBlueprintCards, "2 3");
-
-
-
 
         buttonPanel1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1647,5 +1642,14 @@ public class AppFrame extends javax.swing.JFrame {
     public ButtonPanel showLastInvoicesButtonPanel() {
         return buttonPanel1;
     }
+
+    public JButton getSearchButton() {
+        return lastInvoicesSearchButton;
+    }
+
+    public JTextField getSearchTextField() {
+        return lastInvoicesSearchBar;
+    }
+
     // End of variables declaration//GEN-END:variables
 }

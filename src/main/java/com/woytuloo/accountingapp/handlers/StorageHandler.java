@@ -11,6 +11,8 @@ import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
 import javax.smartcardio.Card;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,18 +30,45 @@ public class StorageHandler {
     JPanel background;
     CardLayout cardLayout;
     private static ConcurrentMap<Integer, ArchivedInvoice> invoices;
+    private int workingInvoiceNum = 0;
+    private JTextField searchField;
 
-    public StorageHandler(ConfigStorage configStorage, JPanel lastInvoiceRenderPanel, CardLayout cardLayout, JPanel background, ButtonPanel showLastInvoicesButtonPanel) {
+    public StorageHandler(ConfigStorage configStorage, JPanel lastInvoiceRenderPanel, CardLayout cardLayout, JPanel background, ButtonPanel showLastInvoicesButtonPanel, JButton searchButton, JTextField searchField){
         invoices = new ConcurrentHashMap<>();
         this.configStorage = configStorage;
         this.lastInvoiceRenderPanel = lastInvoiceRenderPanel;
         this.cardLayout = cardLayout;
         this.background = background;
+        this.searchField = searchField;
         importInvoices();
 
         showLastInvoicesButtonPanel.addActionListener(e -> {
             displayInvoices();
             cardLayout.show(this.background, "2 1");
+        });
+
+        searchButton.addActionListener(e -> {
+            filterInvoices(searchField.getText());
+        });
+
+        searchField.addActionListener(e -> {
+            filterInvoices(searchField.getText());
+        });
+
+        searchField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if("Wyszukaj fakturę  (numer, data, adres)".equals(searchField.getText())){
+                    searchField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(searchField.getText().isBlank()){
+                    searchField.setText("Wyszukaj fakturę  (numer, data, adres)");
+                }
+            }
         });
 
     }
@@ -53,18 +82,19 @@ public class StorageHandler {
     }
 
     public void updateArchive(ReadyInvoice rdyInvoice) {
-        invoices.put(rdyInvoice.getNumber(), new ArchivedInvoice(rdyInvoice));
+        invoices.put(workingInvoiceNum, new ArchivedInvoice(rdyInvoice));
     }
 
 
     public void displayInvoices(){
         lastInvoiceRenderPanel.removeAll();
-        invoices.forEach((k, v) -> {
 
-            InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(v.getName());
+        invoices.forEach((k, v) -> {
+            InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(String.valueOf(k));
 
             invoiceButtonPanel.addActionListener(e -> {
                 this.invoiceGenerator.setupArchivedFields(v);
+                this.workingInvoiceNum = k;
                 cardLayout.show(this.background, "fillInvoiceDataCard");
             });
 
@@ -74,6 +104,38 @@ public class StorageHandler {
         lastInvoiceRenderPanel.revalidate();
         lastInvoiceRenderPanel.repaint();
     }
+
+    public void filterInvoices(String filter){
+        lastInvoiceRenderPanel.removeAll();
+
+        if(!filter.isBlank())
+            invoices.forEach((k, v) -> {
+                Map<String, String > data = v.getPropertyDataMap();
+
+                boolean matches = data.entrySet().stream()
+                        .anyMatch(e -> e.getValue().toLowerCase().contains(filter.toLowerCase()));
+
+                if(matches){
+                    InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(String.valueOf(k));
+
+                    invoiceButtonPanel.addActionListener(e -> {
+                        this.invoiceGenerator.setupArchivedFields(v);
+                        this.workingInvoiceNum = k;
+                        cardLayout.show(this.background, "fillInvoiceDataCard");
+                    });
+
+                    lastInvoiceRenderPanel.add(invoiceButtonPanel);
+                }
+            });
+        else
+            displayInvoices();
+
+        lastInvoiceRenderPanel.revalidate();
+        lastInvoiceRenderPanel.repaint();
+    }
+
+
+
 
     public void saveCurrentInvoice(ReadyInvoice rdyInvoice){
 
@@ -169,8 +231,6 @@ public class StorageHandler {
             System.err.println("Wystąpił błąd: " + e.getMessage());
             e.printStackTrace();
         }
-
-
     }
 
     private void applyFileLimits() {
@@ -260,4 +320,8 @@ public class StorageHandler {
     }
 
 
+    public void reloadArchiveMenu() {
+        this.searchField.setText("Wyszukaj fakturę  (numer, data, adres)");
+        displayInvoices();
+    }
 }

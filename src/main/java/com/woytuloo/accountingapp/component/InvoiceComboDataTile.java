@@ -4,7 +4,10 @@
  */
 package com.woytuloo.accountingapp.component;
 
+import com.formdev.flatlaf.ui.FlatComboBoxUI;
+
 import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -52,6 +55,7 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         jComboBox1.setMaximumRowCount(8);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>());
         jComboBox1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBox1.setEditable(true);
 
 
         javax.swing.GroupLayout invoiceTile2Layout = new javax.swing.GroupLayout(invoiceTile2);
@@ -87,7 +91,7 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(invoiceTile2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jComboBox1.setEditable(true);
+
 
 
     }// </editor-fold>//GEN-END:initComponents
@@ -99,21 +103,56 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         System.out.println(parameterName);
         initComponents();
         jLabel1.setText(parameterName);
+        jComboBox1.setPopupVisible(false);
 
-
-        jComboBox1.addPopupMenuListener(new PopupMenuListener() {
+        jComboBox1.setUI(new FlatComboBoxUI() {
             @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                ((JComboBox<?>) e.getSource()).hidePopup();
+            protected JButton createArrowButton() {
+                return new JButton() {
+                    @Override
+                    public int getWidth() {
+                        return 100;
+                    }
+                };
             }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {}
         });
 
+        jComboBox1.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                }
+            }
+        });
+
+        Component arrowButton = jComboBox1.getComponent(0);
+        if (arrowButton instanceof JButton) {
+            arrowButton.setEnabled(false);
+            for (MouseListener ml : arrowButton.getMouseListeners()) {
+                arrowButton.removeMouseListener(ml);
+            }
+        }
+        jComboBox1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                jComboBox1.setPopupVisible(false);
+                e.consume();
+            }
+        });
+
+        Component[] components = jComboBox1.getComponents();
+        for (Component c : components) {
+            if (c instanceof JButton) {
+                c.setVisible(false);
+                c.setBackground(jComboBox1.getBackground());
+            }
+        }
+
+
+
+        jComboBox1.revalidate();
+        jComboBox1.repaint();
 
     }
 

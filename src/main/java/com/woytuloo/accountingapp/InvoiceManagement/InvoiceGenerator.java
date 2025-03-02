@@ -1,5 +1,6 @@
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import com.formdev.flatlaf.ui.FlatComboBoxUI;
 import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
 import com.woytuloo.accountingapp.component.InvoiceDataTile;
 import com.woytuloo.accountingapp.handlers.AutoCompleteHandler;
@@ -10,11 +11,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -44,7 +50,7 @@ public class InvoiceGenerator {
     };
 
 
-    public InvoiceGenerator(JButton generateButton ,JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler, AutoCompleteHandler autoCompleteHandler) {
+    public InvoiceGenerator(JButton generateButton , JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler, AutoCompleteHandler autoCompleteHandler, CardLayout cardLayout, JPanel background) {
         this.invoiceDataRenderPanel = invoiceDataRenderPanel;
         this.configStorage = configStorage;
         this.autoCompleteHandler = autoCompleteHandler;
@@ -62,13 +68,17 @@ public class InvoiceGenerator {
         generateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!workingOnArchived)
+                if(!workingOnArchived){
                     generateInvoice();
-                else
+                    cardLayout.show(background,"1 1");
+                }
+                else {
                     updateInvoice();
+                    storageHandler.displayInvoices();
+                    cardLayout.show(background,"2 1");
+                }
             }
         });
-
     }
 
     public void setupFields(Invoice invoice){
@@ -129,6 +139,7 @@ public class InvoiceGenerator {
         int i = 0;
         for(String key : data.keySet()){
             InvoiceComboDataTile tile = new InvoiceComboDataTile(key, data.get(key), i);
+            customizeComboBox(tile.getComboBox());
             i++;
             tiles.add(tile);
             invoiceDataRenderPanel.add(tile, gridBagConstraints);
@@ -142,7 +153,6 @@ public class InvoiceGenerator {
         tempConstr.anchor = GridBagConstraints.NORTH;
         invoiceDataRenderPanel.add(new JLabel(), tempConstr);
     }
-
 
     public void loadAutomation(){
 
@@ -158,6 +168,7 @@ public class InvoiceGenerator {
                     String text = textField.getText();
                     if ("Autouzupełnianie".equals(text)) {
                         comboBox.removeAllItems();
+                        comboBox.addItem("");
                         textField.setText("");
                     }
                 }
@@ -167,6 +178,7 @@ public class InvoiceGenerator {
                     String text = textField.getText();
                     if (text.isEmpty()) {
                         comboBox.addItem("Autouzupełnianie");
+
                         textField.setText("Autouzupełnianie");
                     }
                 }
@@ -179,14 +191,16 @@ public class InvoiceGenerator {
                         String text = textField.getText();
                         HashSet<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(autofillTileMap.get(k)).getParameterName(), text);
                         comboBox.removeAllItems();
-                        comboBox.addItem(text);
+                        if(!text.isBlank())
+                            comboBox.addItem(text);
+
                         for (String suggestion : suggestions) {
-                            comboBox.addItem(suggestion);
+                            if(!text.equals(suggestion))
+                                comboBox.addItem(suggestion);
                         }
                     }
                 }
             });
-
         });
 
 
@@ -194,8 +208,16 @@ public class InvoiceGenerator {
 
         automationTextfieldMap.forEach((key, value) -> {
             switch (key){
+                case "N" -> {
+                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("N")).getComboBox();
+                    customizeComboBox(comboBox);
+                }
+
                 case "U" -> {
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("U")).getComboBox();
+
+                    customizeComboBox(comboBox);
+
                     JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
                     textField.addFocusListener(new FocusListener() {
@@ -218,23 +240,12 @@ public class InvoiceGenerator {
                             }
                         }
                     });
-
-                    comboBox.addPopupMenuListener(new PopupMenuListener() {
-                        @Override
-                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                            ((JComboBox<?>) e.getSource()).hidePopup();
-                        }
-
-                        @Override
-                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-
-                        @Override
-                        public void popupMenuCanceled(PopupMenuEvent e) {}
-                    });
                 }
 
                 case "Q" -> {
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("Q")).getComboBox();
+
+                    customizeComboBox(comboBox);
                     JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
                     textField.addFocusListener(new FocusListener() {
@@ -256,23 +267,15 @@ public class InvoiceGenerator {
                                 textField.setText("Podaj Ilość produktów");
                             }
                         }
-                    });
-                    comboBox.addPopupMenuListener(new PopupMenuListener() {
-                        @Override
-                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                            ((JComboBox<?>) e.getSource()).hidePopup();
-                        }
 
-                        @Override
-                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-
-                        @Override
-                        public void popupMenuCanceled(PopupMenuEvent e) {}
                     });
                 }
 
                 case "T" -> {
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
+
+                    customizeComboBox(comboBox);
+
                     JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
                     textField.addFocusListener(new FocusListener() {
@@ -300,22 +303,13 @@ public class InvoiceGenerator {
                             }
                         }
                     });
-                    comboBox.addPopupMenuListener(new PopupMenuListener() {
-                        @Override
-                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                            ((JComboBox<?>) e.getSource()).hidePopup();
-                        }
-
-                        @Override
-                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-
-                        @Override
-                        public void popupMenuCanceled(PopupMenuEvent e) {}
-                    });
                 }
 
                 case "S" -> {
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("S")).getComboBox();
+
+                    customizeComboBox(comboBox);
+
                     JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
 
                     textField.addFocusListener(new FocusListener() {
@@ -345,28 +339,79 @@ public class InvoiceGenerator {
                             }
                         }
                     });
-                    comboBox.addPopupMenuListener(new PopupMenuListener() {
-                        @Override
-                        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                            ((JComboBox<?>) e.getSource()).hidePopup();
-                        }
-
-                        @Override
-                        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-
-                        @Override
-                        public void popupMenuCanceled(PopupMenuEvent e) {}
-                    });
                 }
-
             }
         });
+    }
+
+    public void customizeComboBox(JComboBox<String> comboBox){
+
+
+        comboBox.setUI(new FlatComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                return new JButton() {
+                    @Override
+                    public int getWidth() {
+                        return 100;
+                    }
+                };
+            }
+
+            @Override
+            protected ComboPopup createPopup() {
+                return new BasicComboPopup(comboBox) {
+                    @Override
+                    public Dimension getPreferredSize() {
+                        Dimension size = super.getPreferredSize();
+                        size.height = Math.max(size.height, 10); // Minimalna wysokość 10px
+                        return size;
+                    }
+                };
+            }
+        });
+
+        comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                }
+            }
+        });
+
+        Component arrowButton = comboBox.getComponent(0);
+        if (arrowButton instanceof JButton) {
+            arrowButton.setEnabled(false);
+            for (MouseListener ml : arrowButton.getMouseListeners()) {
+                arrowButton.removeMouseListener(ml);
+            }
+        }
+        comboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                comboBox.setPopupVisible(false);
+                e.consume();
+            }
+        });
+
+        Component[] components = comboBox.getComponents();
+        for (Component c : components) {
+            if (c instanceof JButton) {
+                c.setVisible(false);
+                c.setBackground(comboBox.getBackground());
+            }
+        }
+
+        comboBox.revalidate();
+        comboBox.repaint();
+
     }
 
     public String getAutomationValue(String auto){
         return switch (auto){
             case "D" -> LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            case "N" -> configStorage.getCurrentInvoiceNum() + "/" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
+            case "N" -> ConfigStorage.getCurrentInvoiceNum() + "/" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
             case "T" -> "Naciśnij by uzyskać kwotę";
             case "Q" -> "Podaj Ilość produktów";
             case "U" -> "Podaj cenę produktu";
@@ -432,7 +477,7 @@ public class InvoiceGenerator {
         getAutoFillData();
 
 
-        Path filePath = Paths.get(this.configStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + readyInvoice.getNumber() + "." + invoice.getExtension());
+        Path filePath = Paths.get(ConfigStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + readyInvoice.getNumber() + "." + invoice.getExtension());
 
         fillInvoice(readyInvoice, filePath);
 
@@ -449,8 +494,6 @@ public class InvoiceGenerator {
         timer.start();
 
         dialog.setVisible(true);
-
-
     }
 
     public void updateInvoice(){
@@ -474,8 +517,6 @@ public class InvoiceGenerator {
 
         dialog.setVisible(true);
     }
-
-
 
     public void fillInvoice(ReadyInvoice readyInvoice, Path filePath){
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
