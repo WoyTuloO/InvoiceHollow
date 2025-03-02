@@ -25,7 +25,6 @@ import javax.swing.text.Style;
  */
 public class InvoiceButtonPanel extends JButton {
     Dimension size = new Dimension(210,340);
-
     Invoice invoice;
 
     public InvoiceButtonPanel(){
@@ -82,6 +81,8 @@ public class InvoiceButtonPanel extends JButton {
         setHideActionText(true);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+
     }
 
     

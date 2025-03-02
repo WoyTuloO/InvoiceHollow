@@ -28,7 +28,7 @@ public class mainApp {
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(frame.getGenerateInvoiceButton(), frame.getInvoiceDataRenderPanel(), configStorage, storageHandler, autoCompleteHandler, frame.getCardLayout(), frame.getBackgroundPanel());
         storageHandler.setInvoiceGenerator(invoiceGenerator);
 
-        InvoiceBlueprintDisplayHandler invoiceDisplayHandler = new InvoiceBlueprintDisplayHandler(frame.getBackgroundPanel(), frame.getChoseInvoiceDisplayPanel(), collection, invoiceGenerator, frame.getCardLayout());
+        InvoiceDisplayHandler invoiceDisplayHandler = new InvoiceDisplayHandler(frame.getBackgroundPanel(), frame.getChoseInvoiceDisplayPanel(), collection, invoiceGenerator, frame.getCardLayout());
 
         MenuHandler menuHandler = new MenuHandler(frame.getMenu(), frame.getBackgroundPanel(), frame.getCardLayout(), invoiceDisplayHandler, storageHandler);
 
