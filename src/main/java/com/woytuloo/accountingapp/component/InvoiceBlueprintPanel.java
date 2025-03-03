@@ -19,25 +19,22 @@ public class InvoiceBlueprintPanel extends JButton {
         setLayout(null);
         setPreferredSize(new Dimension(210, 340));
         setBorder(null);
-        setOpaque(false);  // Musi być false, żeby malować własne tło
-        setContentAreaFilled(false); // Usunięcie domyślnego koloru przycisku
-        setBorderPainted(false); // Usunięcie domyślnej obwódki
+        setOpaque(false);
+        setContentAreaFilled(false);
+        setBorderPainted(false);
 
-        // Ikona faktury
         ImageIcon iconInvoice = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/InvoiceIcon.png")));
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92, Image.SCALE_SMOOTH);
         iconLabel = new JLabel(new ImageIcon(imgInvoice));
         iconLabel.setBounds(55, 80, 100, 100);
         add(iconLabel);
 
-        // Tekst
         nameLabel = new JLabel(invoice.getName(), SwingConstants.CENTER);
         nameLabel.setForeground(Color.LIGHT_GRAY);
         nameLabel.setFont(new Font("Arial", Font.ITALIC, 16));
         nameLabel.setBounds(20, 200, 170, 30);
         add(nameLabel);
 
-        // Przycisk zamknięcia
         closeButton = new JButton();
         closeButton.setBounds(175, 10, 25, 25);
         closeButton.setMargin(new Insets(0, 0, 0, 0));
@@ -68,7 +65,6 @@ public class InvoiceBlueprintPanel extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Rysowanie zaokrąglonego panelu
         g2.setColor(new Color(15, 15, 15));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 
@@ -77,6 +73,9 @@ public class InvoiceBlueprintPanel extends JButton {
 
     @Override
     protected void paintBorder(Graphics g) {
-        // Usunięcie domyślnej obwódki
+    }
+
+    public JButton getRemoveButton() {
+        return closeButton;
     }
 }

@@ -38,14 +38,34 @@ public class InvoiceBlueprintHandler {
                         invoiceBlueprintAdder.setupEdit(invoice);
                     }
             );
+
+            invoiceBlueprintPanel.getRemoveButton().addActionListener(
+                    e -> {
+                        removeInvoice(invoice);
+                        reloadBlueprints();
+                    }
+            );
+
             savedBlueprintDisplayPanel.add(invoiceBlueprintPanel);
         }
 
         savedBlueprintDisplayPanel.revalidate();
         savedBlueprintDisplayPanel.repaint();
+    }
 
 
+    public void removeInvoice(Invoice invoice){
+        int response = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć szablon?", "Potwierdzenie usunięcia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
+        if (response == JOptionPane.YES_OPTION) {
+            deleteInvoice(invoice.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Usunięcie szablonu anulowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void deleteInvoice(String invoiceName) {
+        collection.remove(invoiceName);
     }
 
 

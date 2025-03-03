@@ -9,8 +9,8 @@ import java.awt.*;
 public class MenuHandler {
 
     private Menu menu;
-    private JPanel background1;
-    private CardLayout cardLayout;
+    private static JPanel background1;
+    private static CardLayout cardLayout;
     private InvoiceDisplayHandler invoiceDisplayHandler;
     private StorageHandler storageHandler;
 
@@ -32,6 +32,10 @@ public class MenuHandler {
             }
         });
 
+    }
+
+    public static void goToArchiveCard(){
+        cardLayout.show(background1, "2 0");
     }
 
     public void setupFocus(String constr){

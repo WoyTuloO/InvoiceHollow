@@ -27,7 +27,7 @@ public class ArchivedInvoice {
         invoiceName = split[1];
 
         for(int i = 2; i < split.length; i++){
-            String[] split2 = split[i].split(":");
+            String[] split2 = split[i].split(";");
             propertyDataMap.put(split2[0], split2[1]);
         }
     }
@@ -39,14 +39,11 @@ public class ArchivedInvoice {
 
     }
 
-
-
-
     public String toString(){
 
         StringBuilder sb = new StringBuilder();
         propertyDataMap.forEach((k, v) -> {
-            sb.append(k).append(":").append(v).append(",");
+            sb.append(k).append(";").append(v).append(",");
         });
 
         return number + "," + invoiceName + "," + sb;

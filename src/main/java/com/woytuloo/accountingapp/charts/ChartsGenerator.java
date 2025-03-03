@@ -24,19 +24,17 @@ public class ChartsGenerator {
     private static int incomeBound;
     private static int invoiceBound;
 
-    public static void setMaxIncomeBound(int maxBound) {
-        ChartsGenerator.incomeBound = maxBound;
-    }
-    public static void setMaxInvoiceBound(int maxBound) {
-        ChartsGenerator.invoiceBound = maxBound;
-    }
 
-    public static void showIncomeChart(JPanel p,Map<String, Integer> monthMoneyMap) {
+    public static void showIncomeChart(JPanel p,Map<String, Double > monthMoneyMap) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+        incomeBound = 1000;
         monthMoneyMap.forEach((month,money)->{
             dataset.setValue(money, "", month);
+            incomeBound = (int) Math.max(incomeBound, money);
         });
+        if(invoiceBound > 1000)
+            incomeBound += 1000;
 
 
         JFreeChart chart = ChartFactory.createBarChart("", "", "Dochód",
@@ -85,10 +83,12 @@ public class ChartsGenerator {
     public static void showWorkDoneChart(JPanel p, Map<String, Integer> monthWorkMap) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+        invoiceBound = 0;
         monthWorkMap.forEach((month,work)->{
             dataset.setValue(work, "", month);
+            invoiceBound = Math.max(invoiceBound, work);
         });
-
+        invoiceBound += 2;
 
         JFreeChart chart = ChartFactory.createBarChart("", "", "Faktury",
                 dataset, PlotOrientation.VERTICAL, false, true, false);

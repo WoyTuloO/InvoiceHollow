@@ -1305,7 +1305,7 @@ public class AppFrame extends javax.swing.JFrame {
         };
 
 
-        String data = paramName + ":" + cellName + ":" + entrySubstring + ":" + textAlignment + ":" + autoParam;
+        String data = paramName + ";" + cellName + ";" + entrySubstring + ";" + textAlignment + ";" + autoParam;
         paramCellCombo.addItem(data);
         paramCellCombo.setSelectedIndex(paramCellCombo.getItemCount()-1);
 

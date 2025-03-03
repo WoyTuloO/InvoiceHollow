@@ -2,25 +2,16 @@ package com.woytuloo.accountingapp.InvoiceManagement;
 
 import com.formdev.flatlaf.ui.FlatComboBoxUI;
 import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
-import com.woytuloo.accountingapp.component.InvoiceDataTile;
-import com.woytuloo.accountingapp.handlers.AutoCompleteHandler;
-import com.woytuloo.accountingapp.handlers.ConfigStorage;
-import com.woytuloo.accountingapp.handlers.NumberToWordsConvertionHandler;
-import com.woytuloo.accountingapp.handlers.StorageHandler;
+import com.woytuloo.accountingapp.handlers.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.Timer;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -42,6 +33,7 @@ public class InvoiceGenerator {
     private StorageHandler storageHandler;
     private AutoCompleteHandler autoCompleteHandler;
     private HashMap<String, Integer> autofillTileMap;
+    private HashMap<String, Integer> totalPriceMap;
     private boolean  workingOnArchived = false;
 
     String[] months = {
@@ -56,7 +48,8 @@ public class InvoiceGenerator {
         this.autoCompleteHandler = autoCompleteHandler;
         this.storageHandler = storageHandler;
         this.autofillTileMap = new HashMap<>();
-        automationTextfieldMap = new HashMap<>();
+        this.automationTextfieldMap = new HashMap<>();
+        this.totalPriceMap = new HashMap<>();
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -87,6 +80,7 @@ public class InvoiceGenerator {
         this.invoice = invoice;
         this.autofillTileMap = new HashMap<>();
         this.automationTextfieldMap = new HashMap<>();
+        this.totalPriceMap = new HashMap<>();
 
 
         String[] configStr = invoice.getConfigurationDataString().split(",");
@@ -97,11 +91,11 @@ public class InvoiceGenerator {
         for(int i = 0; i < configStr.length; i++){
 
             InvoiceComboDataTile tile;
-            String[] split = configStr[i].split(":");
+            String[] split = configStr[i].split(";");
             if(split[4].equals("."))
-                tile = new InvoiceComboDataTile(configStr[i].split(":")[0], i);
+                tile = new InvoiceComboDataTile(configStr[i].split(";")[0], i);
             else
-                tile = new InvoiceComboDataTile(configStr[i].split(":")[0], getAutomationValue(configStr[i].split(":")[4]), i);
+                tile = new InvoiceComboDataTile(configStr[i].split(";")[0], getAutomationValue(configStr[i].split(";")[4]), i);
 
             tiles.add(tile);
             invoiceDataRenderPanel.add(tile, gridBagConstraints);
@@ -116,7 +110,6 @@ public class InvoiceGenerator {
         tempConstr.weighty = 1;
         tempConstr.anchor = GridBagConstraints.NORTH;
         invoiceDataRenderPanel.add(new JLabel(), tempConstr);
-
     }
 
     public void setupArchivedFields(ArchivedInvoice ai){
@@ -129,7 +122,7 @@ public class InvoiceGenerator {
         this.invoice = InvoiceBlueprintAdder.getInvoiceBlueprint(ai.getName());
         if(invoice == null){
             JOptionPane.showMessageDialog(null, "Nie udało się wczytać szablonu faktury");
-            return;
+            MenuHandler.goToArchiveCard();
         }
         invoiceDataRenderPanel.removeAll();
         Map<String, String> data = new HashMap<>(ai.getPropertyDataMap());
@@ -178,7 +171,6 @@ public class InvoiceGenerator {
                     String text = textField.getText();
                     if (text.isEmpty()) {
                         comboBox.addItem("Autouzupełnianie");
-
                         textField.setText("Autouzupełnianie");
                     }
                 }
@@ -202,6 +194,45 @@ public class InvoiceGenerator {
                 }
             });
         });
+
+
+        totalPriceMap.forEach((k, v)->{
+            JComboBox<String> comboBox = tiles.get(totalPriceMap.get(k)).getComboBox();
+
+            customizeComboBox(comboBox);
+
+            JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+
+            textField.addFocusListener(new FocusListener() {
+
+                @Override
+                public void focusGained(FocusEvent e) {
+                    String text = textField.getText();
+                    if ("Naciśnij by uzyskać kwotę".equals(text) || "Błędne formatowanie wartości".equals(text)) {
+                        comboBox.removeAllItems();
+                        textField.setText("");
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    String text = textField.getText();
+                    if (text.isEmpty()) {
+                        try {
+                            int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
+                            int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
+                            textField.setText(String.valueOf(qValue * uValue));
+
+                        } catch (NumberFormatException ex) {
+                            textField.setText("Błędne formatowanie wartości");
+                        }
+                    }
+                }
+            });
+
+        });
+
+
 
 
 
@@ -271,41 +302,43 @@ public class InvoiceGenerator {
                     });
                 }
 
-                case "T" -> {
-                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
-
-                    customizeComboBox(comboBox);
-
-                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
-
-                    textField.addFocusListener(new FocusListener() {
-
-                        @Override
-                        public void focusGained(FocusEvent e) {
-                            String text = textField.getText();
-                            if ("Naciśnij by uzyskać kwotę".equals(text) || "Błędne formatowanie wartości".equals(text)) {
-                                comboBox.removeAllItems();
-                                textField.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void focusLost(FocusEvent e) {
-                            String text = textField.getText();
-                            if (text.isEmpty()) {
-                                try {
-                                    int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
-                                    int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
-                                    textField.setText(String.valueOf(qValue * uValue));
-                                } catch (NumberFormatException ex) {
-                                    textField.setText("Błędne formatowanie wartości");
-                                }
-                            }
-                        }
-                    });
-                }
+//                case "T" -> {
+//                    JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("T")).getComboBox();
+//
+//                    customizeComboBox(comboBox);
+//
+//                    JTextField textField = (JTextField) comboBox.getEditor().getEditorComponent();
+//
+//                    textField.addFocusListener(new FocusListener() {
+//
+//                        @Override
+//                        public void focusGained(FocusEvent e) {
+//                            String text = textField.getText();
+//                            if ("Naciśnij by uzyskać kwotę".equals(text) || "Błędne formatowanie wartości".equals(text)) {
+//                                comboBox.removeAllItems();
+//                                textField.setText("");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void focusLost(FocusEvent e) {
+//                            String text = textField.getText();
+//                            if (text.isEmpty()) {
+//                                try {
+//                                    int qValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("Q")).getComboBoxValue());
+//                                    int uValue = Integer.parseInt(tiles.get(automationTextfieldMap.get("U")).getComboBoxValue());
+//                                    textField.setText(String.valueOf(qValue * uValue));
+//                                } catch (NumberFormatException ex) {
+//                                    textField.setText("Błędne formatowanie wartości");
+//                                }
+//                            }
+//                        }
+//                    });
+//                }
 
                 case "S" -> {
+
+
                     JComboBox<String> comboBox = tiles.get(automationTextfieldMap.get("S")).getComboBox();
 
                     customizeComboBox(comboBox);
@@ -330,7 +363,8 @@ public class InvoiceGenerator {
                             if (text.isEmpty()) {
                                 String priceToWord;
                                 try {
-                                    String comboVal = ((JTextField) tiles.get(automationTextfieldMap.get("T")).getComboBox().getEditor().getEditorComponent()).getText();
+                                    int num = totalPriceMap.values().stream().findFirst().orElse(0);
+                                    String comboVal = ((JTextField) tiles.get(num).getComboBox().getEditor().getEditorComponent()).getText();
                                     priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(comboVal));
                                 } catch (NumberFormatException ex) {
                                     priceToWord = "Błędny format liczby, popraw kwotę całkowitą i spróbuj ponownie";
@@ -424,12 +458,14 @@ public class InvoiceGenerator {
 
     public void loadPriceAutomation(String[] configStr){
         for(int i = 0; i < configStr.length; i++){
-            String[] dataSplit = configStr[i].split(":");
+            String[] dataSplit = configStr[i].split(";");
             String auto = dataSplit[4];
 
             if("F".equals(auto)){
                 autofillTileMap.put(dataSplit[0], i);
-            }else if(!auto.equals("."))
+            }else if("T".equals(auto)){
+                totalPriceMap.put(dataSplit[0], i);
+            }else if(!".".equals(auto))
                 automationTextfieldMap.put(auto, i);
         }
 
@@ -483,7 +519,13 @@ public class InvoiceGenerator {
 
         storageHandler.archiveInvoice(new ArchivedInvoice(readyInvoice));
         storageHandler.saveCurrentInvoice(readyInvoice);
-        configStorage.incrementInvoiceNum();
+
+        int num = totalPriceMap.values().stream().findFirst().orElse(0);
+        String comboVal = ((JTextField) tiles.get(num).getComboBox().getEditor().getEditorComponent()).getText();
+        configStorage.incrementEarningsAndInvoiceCount(Integer.parseInt(comboVal));
+
+
+
 
         JOptionPane optionPane = new JOptionPane("Sukces",
                 JOptionPane.PLAIN_MESSAGE);
@@ -561,7 +603,7 @@ public class InvoiceGenerator {
 
         String[] confStr = invoice.getConfigurationDataString().split(",");
         for(String data : confStr){
-            String[] dataSplit = data.split(":");
+            String[] dataSplit = data.split(";");
 
             String paramName = dataSplit[0];
             String cellPosition = dataSplit[1];
@@ -580,6 +622,10 @@ public class InvoiceGenerator {
 
             CellStyle cellStyle = workbook.createCellStyle();
             cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
 
             switch (alignment) {
                 case "L" -> cellStyle.setAlignment(HorizontalAlignment.LEFT);

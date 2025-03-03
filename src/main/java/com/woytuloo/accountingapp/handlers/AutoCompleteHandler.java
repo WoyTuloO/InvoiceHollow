@@ -82,7 +82,8 @@ public class AutoCompleteHandler {
         if(!paramSuggestionsMap.containsKey(paramName))
             paramSuggestionsMap.put(paramName, new HashSet<>());
         HashSet<String> set = paramSuggestionsMap.get(paramName);
-        set.add(value);
+        if(!"Autouzupełnianie".equals(value))
+            set.add(value);
     }
 
     public static void saveSuggestionsToFile() {
@@ -92,11 +93,11 @@ public class AutoCompleteHandler {
         Path configFilePath = Paths.get(configDirPath.toString(), "autoCompleteSuggestions.csv");
 
         try {
-            FileWriter pw = new FileWriter(new File(configFilePath.toString()));
+            FileWriter pw = new FileWriter(configFilePath.toString());
 
             StringBuilder sb = new StringBuilder();
             for (String paramName : paramSuggestionsMap.keySet()) {
-                sb.append(paramName).append(":");
+                sb.append(paramName).append(";");
                 for (String suggestion : paramSuggestionsMap.get(paramName)) {
                     sb.append(suggestion).append("$");
                 }
@@ -125,7 +126,7 @@ public class AutoCompleteHandler {
             String line;
 
             while((line = reader.readLine()) != null){
-                String[] parts = line.split(":");
+                String[] parts = line.split(";");
                 String paramName = parts[0];
                 String[] suggestions = parts[1].split("\\$");
                 for(String suggestion : suggestions){

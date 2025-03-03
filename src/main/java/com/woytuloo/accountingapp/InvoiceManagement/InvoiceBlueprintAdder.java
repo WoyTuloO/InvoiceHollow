@@ -20,8 +20,8 @@ import javax.swing.*;
  */
 public class InvoiceBlueprintAdder {
 
-    JLabel label;
-    File srcFile;
+    private JLabel label;
+    private File srcFile;
     private static HashMap<String, Invoice> collection;
 
     private JTextField invoiceNameField;
@@ -56,6 +56,8 @@ public class InvoiceBlueprintAdder {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!invoiceNameField.getText().isEmpty() && getFile() != null) {
+
+                    setFile(copyBlueprintFile(srcFile,invoiceNameField.getText()));
                     setupInvoice(invoiceNameField.getText(), getFile());
                     cardLayout.show(backgroundPanel, "fillFormCard");
                 } else {
@@ -95,8 +97,8 @@ public class InvoiceBlueprintAdder {
 
         for (int i = 0; i < comboSize; i++)
             sb.append(",").append(paramCellCombo.getItemAt(i));
-
-        this.currentInvoice.setConfigurationDataString(sb.toString());
+        String configString = sb.toString();
+        this.currentInvoice.setConfigurationDataString(configString.substring(1));
     }
 
     public File setFile() {
@@ -108,6 +110,47 @@ public class InvoiceBlueprintAdder {
         return null;
     }
 
+    public void setFile(Path path){
+        this.srcFile = path.toFile();
+    }
+
+    public Path copyBlueprintFile(File src, String name){
+        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
+
+        Path invooFolderPath = Paths.get(userDocuments, "InvoiceHollow");
+        Path sourceFilePath = Paths.get(src.getAbsolutePath());
+        Path targetFilePath = Paths.get(userDocuments, "InvoiceHollow" , "Forms", src.getName());
+
+
+        try {
+            if (Files.notExists(invooFolderPath)) {
+                Files.createDirectory(invooFolderPath);
+                System.out.println("Folder InvoiceHollow został utworzony.");
+
+            }
+            if(Files.notExists(Paths.get(invooFolderPath.toString(), "Forms"))){
+                Files.createDirectory(Paths.get(invooFolderPath.toString(), "Forms"));
+                System.out.println("Folder Forms został utworzony.");
+            }
+
+            if (Files.exists(targetFilePath)) {
+                System.out.println("Kopia już istnieje.");
+            } else {
+
+                Files.copy(sourceFilePath, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Plik został skopiowany.");
+            }
+        } catch (IOException e) {
+            System.err.println("Wystąpił błąd: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return targetFilePath;
+    }
+
+    public String getFileType(File src){
+        return src.getName().split("\\.")[1];
+    }
+
     public File getFile() {
         return this.srcFile;
     }
@@ -116,10 +159,6 @@ public class InvoiceBlueprintAdder {
         this.invoiceNameField.setText("Nazwa Szablonu");
         this.srcFile = null;
         this.paramCellCombo.removeAllItems();
-    }
-
-    public String getType(File src) {
-        return src.getName().split("\\.")[1];
     }
 
     public void loadInvoiceFromFile() {
@@ -165,7 +204,7 @@ public class InvoiceBlueprintAdder {
     }
 
 
-    public void saveInvoiceToFile() {
+    public static void saveInvoiceToFile() {
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");

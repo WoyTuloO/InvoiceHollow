@@ -15,8 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.util.Objects;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 import javax.swing.text.Style;
 
 /**
@@ -95,13 +94,5 @@ public class InvoiceButtonPanel extends JButton {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         super.paintComponent(g);
     }
-    
 
-    
-    
-    
-    
-    
-    
-    
 }

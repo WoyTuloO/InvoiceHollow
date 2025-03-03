@@ -47,6 +47,7 @@ public class ControllJButton extends JButton {
 
 
     private void closeApp() {
+        InvoiceBlueprintAdder.saveInvoiceToFile();
         StorageHandler.saveInvoices();
         AutoCompleteHandler.saveSuggestionsToFile();
         ConfigStorage.saveConfigToFile();

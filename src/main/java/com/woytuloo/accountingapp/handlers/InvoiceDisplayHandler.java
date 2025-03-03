@@ -22,6 +22,7 @@ public class InvoiceDisplayHandler {
         this.displayPanel = displayPanel;
         this.invoicegenerator = invoiceGenerator;
         this.cardLayout = cardLayout;
+
     }
 
     public void addInvoiceToDisplay(Invoice invoice){
@@ -32,6 +33,7 @@ public class InvoiceDisplayHandler {
             invoicegenerator.setupFields(invoice);
             cardLayout.show(background, "fillInvoiceDataCard");
         });
+
         displayPanel.add(invoiceButtonPanel);
     }
 
@@ -46,10 +48,7 @@ public class InvoiceDisplayHandler {
         displayPanel.repaint();
     }
 
-    public void removeInvoice(){
 
-
-    }
 
 
 }

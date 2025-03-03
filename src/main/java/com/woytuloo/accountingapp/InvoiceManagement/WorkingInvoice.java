@@ -45,7 +45,7 @@ public class WorkingInvoice {
         String[] cellData = invoice.getConfigurationDataString().split(",");
 
         for(String dataString : cellData){
-            String[] dataSplit = dataString.split(":");
+            String[] dataSplit = dataString.split(";");
             String paramName = dataSplit[0];
             String cell = dataSplit[1];
             String placeholder = dataSplit[2];
@@ -89,12 +89,12 @@ public class WorkingInvoice {
         paramAutoCellsMap.forEach((k,v)-> {
             sb.append(",");
             sb.append(k);                               // nazwa parametru
-            sb.append(":");
+            sb.append(";");
             String cellName = propertyCellMap.get(k);
             sb.append(cellName);                        // komorka
-            sb.append(":");
+            sb.append(";");
             sb.append(v);                               // Automatyzacja
-            sb.append(":");
+            sb.append(";");
             sb.append(cellAlignmentMap.get(cellName));  // Alignment
         });
         

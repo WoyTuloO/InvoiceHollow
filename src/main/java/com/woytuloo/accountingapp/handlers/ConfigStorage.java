@@ -6,6 +6,7 @@ package com.woytuloo.accountingapp.handlers;
 
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.component.ControllJButton;
+import org.apache.commons.collections4.map.LinkedMap;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,35 +34,16 @@ import javax.swing.JOptionPane;
  */
 public class ConfigStorage {
 
-    /**
-     * @return the currentInvoiceNum
-     */
-    public static int getCurrentInvoiceNum() {
-        return currentInvoiceNum;
-    }
 
-    /**
-     * @param currentInvoiceNum the currentInvoiceNum to set
-     */
-    public void setCurrentInvoiceNum(int currentInvoiceNum) {
-        this.currentInvoiceNum = currentInvoiceNum;
-    }
 
-    /**
-     * @return the invoiceTreePath
-     */
-    public static String getInvoiceTreePath() {
-        return invoiceTreePath;
-    }
-
-    /**
-     * @param invoiceTreePath the invoiceTreePath to set
-     */
-    public void setInvoiceTreePath(String invoiceTreePath) {
-        this.invoiceTreePath = invoiceTreePath;
-        setupTree();
-    }
-
+    private static int currentInvoiceNum;
+    private static String invoiceTreePath;
+    private Map<String, Integer[]> invoiceCountandMoney = new LinkedHashMap<>();   // <nazwa , {ilość wydanych, dochód całkowity} >
+    private static Map<String, Double> monthIncomeMap = new LinkedHashMap<>();
+    private static Map<String, Integer> monthAmmountMap = new LinkedHashMap<>();
+    private Map<String, String> monthMap = new LinkedHashMap<>();
+    private static int yearlyTarget;
+    private int currentlyEarned;
 
     public void setupTree() {
         Path mainInvoiceFolder = Paths.get(this.invoiceTreePath, "InvoiceHollow");
@@ -103,25 +85,48 @@ public class ConfigStorage {
         }
     }
 
-    /**
-     * @return the invoiceCountandMoney
-     */
+
+    public static int getCurrentInvoiceNum() {
+        return currentInvoiceNum;
+    }
+
+    public void setCurrentInvoiceNum(int currentInvoiceNum) {
+        this.currentInvoiceNum = currentInvoiceNum;
+    }
+
+    public static String getInvoiceTreePath() {
+        return invoiceTreePath;
+    }
+
+    public void setInvoiceTreePath(String invoiceTreePath) {
+        this.invoiceTreePath = invoiceTreePath;
+        setupTree();
+    }
+
+    public void increaseCurrentIncomeBy(int coin){
+        this.currentlyEarned += coin;
+
+        String month = monthMap.get(LocalDate.now().getMonth().toString());
+        monthIncomeMap.put(month, monthIncomeMap.get(month) + coin);
+
+    }
+
+    public void increaseThisMonthsInvoiceCount(){
+        String month = monthMap.get(LocalDate.now().getMonth().toString());
+        monthAmmountMap.put(month, monthAmmountMap.get(month) + 1);
+        currentInvoiceNum += 1;
+    }
+
     public Map<String, Integer[]> getInvoiceCountandMoney() {
         return invoiceCountandMoney;
     }
+    public Map<String, Integer> getMonthAmmountMap() {
+        return monthAmmountMap;
+    }
 
-    private static int currentInvoiceNum;
-    private static String invoiceTreePath;
-    private Map<String, Integer[]> invoiceCountandMoney = new LinkedHashMap<>();   // <nazwa , {ilość wydanych, dochód całkowity} >
-    private static Map<String, Double> monthIncomeMap = new LinkedHashMap<>();
-    private static Map<String, Integer> monthAmmountMap = new LinkedHashMap<>();
-    private Map<String, String> monthMap = new HashMap<>();
-    private static int yearlyTarget;
-    private int currentlyEarned;
-    private int thisMonthsEarnings;
-
-    private int maxMoneyEarned;
-    private int maxWorkDone;
+    public Map<String, Double> getMonthIncomeMap() {
+        return monthIncomeMap;
+    }
 
     public int getYearlyTarget() {
         return yearlyTarget;
@@ -132,15 +137,16 @@ public class ConfigStorage {
     }
 
     public int getThisMonthsTarget() {
-        return yearlyTarget - currentlyEarned / 12;
+        return (yearlyTarget - currentlyEarned) / 12;
     }
 
     public void setYearlyTarget(int target) {
         this.yearlyTarget = target;
     }
 
-    public int getThisMonthsEarnings() {
-        return thisMonthsEarnings;
+    public double getThisMonthsEarnings() {
+        String month = monthMap.get(LocalDate.now().getMonth().toString());
+        return monthIncomeMap.getOrDefault(month, 0.0);
     }
 
     public int getThisMonthsInvoiceCount() {
@@ -149,8 +155,6 @@ public class ConfigStorage {
 
 
     public ConfigStorage(ControllJButton exitButton) {
-
-
         monthMap.put("JANUARY", "styczeń");
         monthMap.put("FEBRUARY", "luty");
         monthMap.put("MARCH", "marzec");
@@ -218,9 +222,6 @@ public class ConfigStorage {
             String[] monthAmount = reader.readLine().split(",");                       // druga - ile opinii wydane w miesiacu
             String[] monthIncome = reader.readLine().split(",");                        // trzecia - ile dochodu w miesiacu
 
-            int maxMoneyEarned = 0;
-            int maxWorkDone = 0;
-
             for (int i = 0; i < 12; i++) {
                 String[] monthAmountUnit = monthAmount[i].split(":");
                 String[] monthIncomeUnit = monthIncome[i].split(":");
@@ -230,22 +231,10 @@ public class ConfigStorage {
 
                 currentlyEarned += income;
 
-                maxMoneyEarned = (int) Math.max(maxMoneyEarned, income);
-                maxWorkDone = Math.max(maxWorkDone, amount);
-
                 monthAmmountMap.put(monthAmountUnit[0], amount);
                 monthIncomeMap.put(monthIncomeUnit[0], income);
                 invoiceCountandMoney.put(monthIncomeUnit[0], new Integer[]{amount, (int)income});
             }
-
-            double earnings = (monthIncomeMap.get(monthMap.get(LocalDate.now().getMonth().toString())));
-            thisMonthsEarnings = (int) earnings;
-
-            System.out.println("Max money earned: " + maxMoneyEarned);
-            System.out.println("Max work done: " + maxWorkDone);
-
-            ChartsGenerator.setMaxIncomeBound(maxMoneyEarned + 1000);
-            ChartsGenerator.setMaxInvoiceBound(maxWorkDone + 10);
 
             setupTree();
 
@@ -284,7 +273,7 @@ public class ConfigStorage {
 
                 try {
                     FileWriter fw = new FileWriter(configDataPath.toString(), true);
-                    fw.append("0," + invoiceTreePath + "\n");
+                    fw.append("0,").append(invoiceTreePath).append("\n");
                     fw.flush();
 
                     fw.append("styczeń:0,luty:0,marzec:0,kwiecień:0,maj:0,czerwiec:0,lipiec:0,sierpień:0,wrzesień:0,październik:0,listopad:0,grudzień:0\n");  //month : ammount
@@ -294,6 +283,9 @@ public class ConfigStorage {
                     fw.flush();
 
                     fw.close();
+
+                    fillDefaultMonthMaps();
+
                 } catch (IOException ex1) {
                     System.out.println("Bład :" + ex1.getMessage());
                 }
@@ -305,8 +297,16 @@ public class ConfigStorage {
 
     }
 
-    public static void saveConfigToFile() {
 
+    private void fillDefaultMonthMaps(){
+
+        monthMap.forEach((k, monthPL) -> {
+            monthAmmountMap.put(monthPL, 0);
+            monthIncomeMap.put(monthPL, 0.0);
+        });
+    }
+
+    public static void saveConfigToFile() {
 
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");
@@ -326,7 +326,7 @@ public class ConfigStorage {
                 sb1.append(k).append(":").append(v).append(",");
             });
 
-            pw.append(sb1.append("\n").toString());
+            pw.append(sb1.append("\n"));
             pw.flush();
 
 
@@ -335,7 +335,7 @@ public class ConfigStorage {
                 sb2.append(k).append(":").append(v).append(",");
             });
 
-            pw.append(sb2.append("\n").toString());
+            pw.append(sb2.append("\n"));
             pw.flush();
             pw.close();
 
@@ -346,8 +346,9 @@ public class ConfigStorage {
 
     }
 
-    public void incrementInvoiceNum() {
-        this.currentInvoiceNum++;
-    }
 
+    public void incrementEarningsAndInvoiceCount(int i) {
+        increaseCurrentIncomeBy(i);
+        increaseThisMonthsInvoiceCount();
+    }
 }

@@ -38,7 +38,7 @@ public class ReadyInvoice {
     public void setupParameterCellMap(String confStr){
         String[] split = confStr.split(",");
         for(String s : split){
-            String[] split2 = s.split(":");
+            String[] split2 = s.split(";");
             parameterCellMap.put(split2[0], split2[1]);
             if("N".equals(split2[4]))
                 setFileParameters(split2[0]);
@@ -54,7 +54,7 @@ public class ReadyInvoice {
 
         StringBuilder sb = new StringBuilder();
         propertyDataMap.forEach((k, v) -> {
-            sb.append(k).append(":").append(v).append(",");
+            sb.append(k).append(";").append(v).append(",");
         });
 
         return number + "," + invoice.getName() + "," + sb;
