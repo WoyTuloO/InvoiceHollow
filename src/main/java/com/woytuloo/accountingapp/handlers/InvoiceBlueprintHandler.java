@@ -1,0 +1,53 @@
+package com.woytuloo.accountingapp.handlers;
+
+import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
+import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
+import com.woytuloo.accountingapp.component.InvoiceBlueprintPanel;
+import com.woytuloo.accountingapp.component.InvoiceButtonPanel;
+
+import javax.swing.*;
+import java.util.HashMap;
+
+public class InvoiceBlueprintHandler {
+
+    private JPanel savedBlueprintDisplayPanel;
+    private HashMap<String, Invoice> collection;
+    private InvoiceBlueprintAdder invoiceBlueprintAdder;
+
+
+    public InvoiceBlueprintHandler(JPanel savedBlueprintCard, JPanel savedBlueprintDisplayPanel, HashMap<String, Invoice> collection, InvoiceBlueprintAdder invoiceBlueprintAdder) {
+        this.savedBlueprintDisplayPanel = savedBlueprintDisplayPanel;
+        this.collection = collection;
+        this.invoiceBlueprintAdder = invoiceBlueprintAdder;
+
+        savedBlueprintCard.addComponentListener( new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                reloadBlueprints();
+            }
+        });
+
+    }
+
+    private void reloadBlueprints() {
+        savedBlueprintDisplayPanel.removeAll();
+        for(Invoice invoice : collection.values()){
+            InvoiceBlueprintPanel invoiceBlueprintPanel = new InvoiceBlueprintPanel(invoice);
+
+            invoiceBlueprintPanel.addActionListener(
+                    e -> {
+                        invoiceBlueprintAdder.setupEdit(invoice);
+                    }
+            );
+            savedBlueprintDisplayPanel.add(invoiceBlueprintPanel);
+        }
+
+        savedBlueprintDisplayPanel.revalidate();
+        savedBlueprintDisplayPanel.repaint();
+
+
+
+    }
+
+
+
+}

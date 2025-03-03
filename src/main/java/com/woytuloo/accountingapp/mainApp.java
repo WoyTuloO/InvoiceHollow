@@ -3,6 +3,7 @@ package com.woytuloo.accountingapp;
 import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
+import com.woytuloo.accountingapp.component.InvoiceBlueprintPanel;
 import com.woytuloo.accountingapp.handlers.*;
 import com.woytuloo.accountingapp.main.AppFrame;
 
@@ -24,6 +25,8 @@ public class mainApp {
         DashBoardHandler dashBoardHandler = new DashBoardHandler(frame.getDashBoardChartDisplayPanel(), frame.getYearlyIncomeProgressBar(), frame.getIncomeThisMonthLabel(), frame.getThisMonthsTargetLabel(), frame.getThisMonthInvoiceCountLabel(), frame.getDashBoardPanelCard(), configStorage);
 
         AutoCompleteHandler autoCompleteHandler = new AutoCompleteHandler(frame.getRememberedJPanel(), frame.getParametersCombo(), frame.getSuggestionsTextArea(), frame.getSaveButton(), frame.getDeleteButton());
+
+        InvoiceBlueprintHandler invoiceBlueprintHandler = new InvoiceBlueprintHandler(frame.getSavedBlueprintsCard(), frame.getSavedBlueprintsDisplayPanel(), collection, invoiceBlueprintAdder);
 
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(frame.getGenerateInvoiceButton(), frame.getInvoiceDataRenderPanel(), configStorage, storageHandler, autoCompleteHandler, frame.getCardLayout(), frame.getBackgroundPanel());
         storageHandler.setInvoiceGenerator(invoiceGenerator);

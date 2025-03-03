@@ -364,7 +364,7 @@ public class InvoiceGenerator {
                     @Override
                     public Dimension getPreferredSize() {
                         Dimension size = super.getPreferredSize();
-                        size.height = Math.max(size.height, 10); // Minimalna wysokość 10px
+                        size.height = Math.max(size.height, 10);
                         return size;
                     }
                 };

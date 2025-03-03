@@ -7,8 +7,6 @@ package com.woytuloo.accountingapp.main;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.woytuloo.accountingapp.InvoiceManagement.WorkingInvoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
-//import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
-import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.component.ButtonPanel;
 import com.woytuloo.accountingapp.component.ControllJButton;
 import com.woytuloo.accountingapp.component.RoundedInfoPanel;
@@ -17,12 +15,9 @@ import com.woytuloo.accountingapp.menu.Menu;
 import com.woytuloo.accountingapp.layout.WrapLayout;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.Path2D;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -89,7 +84,7 @@ public class AppFrame extends javax.swing.JFrame {
         lastInvoicesCard = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         lastInvoicesRenderPanel = new javax.swing.JPanel();
-        invoiceButtonPanel3 = new com.woytuloo.accountingapp.component.InvoiceButtonPanel();
+        //invoiceButtonPanel3 = new com.woytuloo.accountingapp.component.InvoiceButtonPanel();
         roundedTile3 = new com.woytuloo.accountingapp.component.RoundedTile();
         lastInvoicesSearchButton = new javax.swing.JButton();
         lastInvoicesSearchBar = new javax.swing.JTextField();
@@ -126,7 +121,6 @@ public class AppFrame extends javax.swing.JFrame {
         savedInvoiceBlueprintCards = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         savedInvoiceBlueprintDisplayPanel = new javax.swing.JPanel();
-        invoiceButtonPanel2 = new com.woytuloo.accountingapp.component.InvoiceButtonPanel();
         fillInvoiceDataCard = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         fillInvoiceDataRenderPanel = new javax.swing.JPanel();
@@ -135,7 +129,6 @@ public class AppFrame extends javax.swing.JFrame {
         choseInvoiceCard = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         choseInvoiceDisplayPanel = new javax.swing.JPanel();
-        invoiceButtonPanel1 = new com.woytuloo.accountingapp.component.InvoiceButtonPanel();
         selectInvoiceFileCard = new javax.swing.JPanel();
         roundedTile1 = new com.woytuloo.accountingapp.component.RoundedTile();
         selectInvoiceNameTextField = new javax.swing.JTextField();
@@ -245,28 +238,6 @@ public class AppFrame extends javax.swing.JFrame {
 
         lastInvoicesRenderPanel.setBackground(new java.awt.Color(204, 0, 51));
         lastInvoicesRenderPanel.setOpaque(false);
-
-        invoiceButtonPanel3.setBackground(new java.awt.Color(255, 0, 51));
-        invoiceButtonPanel3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                invoiceButtonPanel3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout lastInvoicesRenderPanelLayout = new javax.swing.GroupLayout(lastInvoicesRenderPanel);
-        lastInvoicesRenderPanel.setLayout(lastInvoicesRenderPanelLayout);
-        lastInvoicesRenderPanelLayout.setHorizontalGroup(
-            lastInvoicesRenderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastInvoicesRenderPanelLayout.createSequentialGroup()
-                .addComponent(invoiceButtonPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 559, Short.MAX_VALUE))
-        );
-        lastInvoicesRenderPanelLayout.setVerticalGroup(
-            lastInvoicesRenderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastInvoicesRenderPanelLayout.createSequentialGroup()
-                .addComponent(invoiceButtonPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 151, Short.MAX_VALUE))
-        );
 
         lastInvoicesRenderPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 30, 30));
 
@@ -749,6 +720,7 @@ public class AppFrame extends javax.swing.JFrame {
         savedInvoiceBlueprintCards.setOpaque(false);
 
         jScrollPane5.setBorder(null);
+
         jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane5.setAutoscrolls(true);
         jScrollPane5.setOpaque(false);
@@ -756,11 +728,9 @@ public class AppFrame extends javax.swing.JFrame {
         jScrollPane4.getViewport().setOpaque(false);
         jScrollPane4.getVerticalScrollBar().setUnitIncrement(20);
 
+        jScrollPane5.getViewport().setOpaque(false);
         savedInvoiceBlueprintDisplayPanel.setOpaque(false);
-        savedInvoiceBlueprintDisplayPanel.setLayout(new java.awt.BorderLayout());
-        savedInvoiceBlueprintDisplayPanel.add(invoiceButtonPanel2, java.awt.BorderLayout.CENTER);
-
-        choseInvoiceDisplayPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 30, 30));
+        savedInvoiceBlueprintDisplayPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 30, 30));
 
         jScrollPane5.setViewportView(savedInvoiceBlueprintDisplayPanel);
 
@@ -849,10 +819,8 @@ public class AppFrame extends javax.swing.JFrame {
         jScrollPane4.getVerticalScrollBar().setUnitIncrement(20);
 
         choseInvoiceDisplayPanel.setOpaque(false);
-        choseInvoiceDisplayPanel.setLayout(new java.awt.BorderLayout());
-        choseInvoiceDisplayPanel.add(invoiceButtonPanel1, java.awt.BorderLayout.CENTER);
-
         choseInvoiceDisplayPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 30, 30));
+
 
         jScrollPane4.setViewportView(choseInvoiceDisplayPanel);
 
@@ -929,8 +897,8 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100)
+                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedTile1Layout.setVerticalGroup(
@@ -1033,7 +1001,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         autoParamChoice.setBackground(new java.awt.Color(30, 30, 30));
         autoParamChoice.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
+        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Dopełnianie", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
         autoParamChoice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1508,9 +1476,6 @@ public class AppFrame extends javax.swing.JFrame {
     public JPanel getBackgroundPanel() {
         return background1;
     }
-    public JPanel getChoseInvoiceCard() {
-        return choseInvoiceCard;
-    }
     public JPanel getChoseInvoiceDisplayPanel() {
         return choseInvoiceDisplayPanel;
     }
@@ -1557,9 +1522,6 @@ public class AppFrame extends javax.swing.JFrame {
     private javax.swing.JButton fillInvoiceGenerateButton;
     private javax.swing.JLabel incomeThisMonthLabel;
     private com.woytuloo.accountingapp.component.RoundedInfoPanel3 incomeThisMonthPanel;
-    private com.woytuloo.accountingapp.component.InvoiceButtonPanel invoiceButtonPanel1;
-    private com.woytuloo.accountingapp.component.InvoiceButtonPanel invoiceButtonPanel2;
-    private com.woytuloo.accountingapp.component.InvoiceButtonPanel invoiceButtonPanel3;
     private com.woytuloo.accountingapp.component.InvoiceDataTile invoiceDataTile1;
     private com.woytuloo.accountingapp.component.RoundedInfoPanel3 invoicesThisMonthPanel;
     private javax.swing.JLabel jLabel1;
@@ -1649,6 +1611,14 @@ public class AppFrame extends javax.swing.JFrame {
 
     public JTextField getSearchTextField() {
         return lastInvoicesSearchBar;
+    }
+
+    public JPanel getSavedBlueprintsCard() {
+        return savedInvoiceBlueprintCards;
+    }
+
+    public JPanel getSavedBlueprintsDisplayPanel() {
+        return savedInvoiceBlueprintDisplayPanel;
     }
 
     // End of variables declaration//GEN-END:variables
