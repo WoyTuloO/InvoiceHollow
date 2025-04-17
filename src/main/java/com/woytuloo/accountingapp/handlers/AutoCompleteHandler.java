@@ -2,6 +2,8 @@ package com.woytuloo.accountingapp.handlers;
 
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import org.apache.commons.collections4.list.TreeList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.io.*;
@@ -13,6 +15,7 @@ import java.util.*;
 
 public class AutoCompleteHandler {
 
+    private static final Logger logger = LogManager.getLogger(AutoCompleteHandler.class);
     private static Map<String, HashSet<String>> paramSuggestionsMap;
 
     public AutoCompleteHandler(JPanel rememberedJPanel,JComboBox parametersCombo, JTextArea suggestionsTextArea, JButton save, JButton delete) {
@@ -109,6 +112,7 @@ public class AutoCompleteHandler {
 
         }catch (IOException ex) {
             System.out.println("Bład :" + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
         }
     }
 
@@ -136,6 +140,7 @@ public class AutoCompleteHandler {
 
         } catch (Exception ex) {
             System.out.println("Bład :" + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
         }
 
 

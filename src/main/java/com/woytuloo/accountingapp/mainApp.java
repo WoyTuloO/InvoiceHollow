@@ -7,11 +7,36 @@ import com.woytuloo.accountingapp.component.InvoiceBlueprintPanel;
 import com.woytuloo.accountingapp.handlers.*;
 import com.woytuloo.accountingapp.main.AppFrame;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class mainApp {
 
+    private static org.apache.logging.log4j.Logger logger ;
+
+
     public static void main(String[] args) {
+try{
+    String userHome = System.getProperty("user.home");
+
+    String logPath = userHome + "/.logs/InvoiceHollow";
+
+    System.setProperty("log.path", logPath);
+
+    File dir = new File(logPath);
+    if (!dir.exists()) {
+        dir.mkdirs();
+    }
+
+    logger = org.apache.logging.log4j.LogManager.getLogger(mainApp.class);
+
+
+    Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            logger.error("Nieobsłużony wyjątek w wątku " + thread.getName(), throwable);
+        });
+
+
         AppFrame frame = new AppFrame();
 
         ConfigStorage configStorage = new ConfigStorage(frame.getExitButton());
@@ -36,6 +61,15 @@ public class mainApp {
         MenuHandler menuHandler = new MenuHandler(frame.getMenu(), frame.getBackgroundPanel(), frame.getCardLayout(), invoiceDisplayHandler, storageHandler);
 
         frame.setVisible(true);
+
+} catch (Exception e) {
+    try {
+        PrintWriter pw = new PrintWriter("fatal_error.log");
+        e.printStackTrace(pw);
+        pw.close();
+    } catch (Exception ignored) {}
+    throw new RuntimeException("Fatal error", e);
+}
 
 
     }

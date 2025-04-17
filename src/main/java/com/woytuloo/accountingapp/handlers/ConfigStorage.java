@@ -7,6 +7,8 @@ package com.woytuloo.accountingapp.handlers;
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.component.ControllJButton;
 import org.apache.commons.collections4.map.LinkedMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +36,7 @@ import javax.swing.JOptionPane;
  */
 public class ConfigStorage {
 
-
+private static final Logger logger = LogManager.getLogger(ConfigStorage.class);
 
     private static int currentInvoiceNum;
     private static String invoiceTreePath;
@@ -52,6 +54,8 @@ public class ConfigStorage {
                 Files.createDirectory(mainInvoiceFolder);
             } catch (IOException ex1) {
                 System.out.println("Bład tworzenia folderu.");
+                logger.error("Bład :" + ex1.getMessage());
+
 
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
@@ -69,6 +73,8 @@ public class ConfigStorage {
                 Files.createDirectory(monthInvoicePath);
             } catch (IOException ex1) {
                 System.out.println("Bład tworzenia folderu.");
+                logger.error("Bład :" + ex1.getMessage());
+
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
         }
@@ -80,6 +86,8 @@ public class ConfigStorage {
                 Files.createDirectory(dayInvoicePath);
             } catch (IOException ex1) {
                 System.out.println("Bład tworzenia folderu.");
+                logger.error("Bład :" + ex1.getMessage());
+
             }
             System.out.println("Folder InvoiceHollow został utworzony.");
         }
@@ -265,6 +273,8 @@ public class ConfigStorage {
                     Files.createDirectory(Paths.get(invooFolderPath.toString(), "Config"));
                 } catch (IOException ex1) {
                     System.out.println("Bład tworzenia folderu.");
+                    logger.error("Bład :" + ex1.getMessage());
+
                 }
                 System.out.println("Folder Config został utworzony.");
             }
@@ -288,11 +298,15 @@ public class ConfigStorage {
 
                 } catch (IOException ex1) {
                     System.out.println("Bład :" + ex1.getMessage());
+                    logger.error("Bład :" + ex1.getMessage());
+
                 }
             }
 
         } catch (Exception ex) {
             System.out.println("Bład :" + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
+
         }
 
     }
@@ -341,6 +355,8 @@ public class ConfigStorage {
 
         } catch (IOException ex) {
             System.out.println("Bład :" + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
+
         }
 
 

@@ -20,6 +20,7 @@ import javax.swing.*;
  */
 public class InvoiceBlueprintAdder {
 
+    private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(InvoiceBlueprintAdder.class);
     private JLabel label;
     private File srcFile;
     private static HashMap<String, Invoice> collection;
@@ -142,6 +143,8 @@ public class InvoiceBlueprintAdder {
             }
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
         return targetFilePath;
@@ -200,6 +203,8 @@ public class InvoiceBlueprintAdder {
             }
         } catch (IOException ex) {
             System.err.println("Wystąpił błąd: " + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
+
         }
     }
 
@@ -232,6 +237,8 @@ public class InvoiceBlueprintAdder {
 
         } catch (IOException ex) {
             System.err.println("Wystąpił błąd: " + ex.getMessage());
+            logger.error("Bład :" + ex.getMessage());
+
         }
     }
 

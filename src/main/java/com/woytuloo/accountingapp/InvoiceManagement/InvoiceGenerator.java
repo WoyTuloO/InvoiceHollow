@@ -24,6 +24,7 @@ import java.util.*;
 
 public class InvoiceGenerator {
 
+    private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(InvoiceGenerator.class);
     private final JPanel invoiceDataRenderPanel;
     private ArrayList<InvoiceComboDataTile> tiles;
     private GridBagConstraints gridBagConstraints;
@@ -225,6 +226,8 @@ public class InvoiceGenerator {
 
                         } catch (NumberFormatException ex) {
                             textField.setText("Błędne formatowanie wartości");
+                            logger.error("Bład :" + ex.getMessage());
+
                         }
                     }
                 }
@@ -578,6 +581,8 @@ public class InvoiceGenerator {
             fileInputStream = new FileInputStream(outputFile);
         } catch (FileNotFoundException ex) {
             System.out.println("Błąd odczytu pliku");
+            logger.error("Bład :" + ex.getMessage());
+
             return;
         }
 
@@ -587,6 +592,8 @@ public class InvoiceGenerator {
                 workbook = new HSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
                 System.out.println("Błąd wyboru pliku");
+                logger.error("Bład :" + ex.getMessage());
+
             }
         }
         if (invoice.getExtension().equals("xlsx")) {
@@ -594,6 +601,8 @@ public class InvoiceGenerator {
                 workbook = new XSSFWorkbook(fileInputStream);
             } catch (IOException ex) {
                 System.out.println("Błąd wyboru pliku");
+                logger.error("Bład :" + ex.getMessage());
+
             }
         }
 
@@ -648,6 +657,8 @@ public class InvoiceGenerator {
             workbook.write(fileOutputStream);
         } catch (IOException ex) {
             System.out.println("Błąd zapisu pliku");
+            logger.error("Bład :" + ex.getMessage());
+
         }
     }
 

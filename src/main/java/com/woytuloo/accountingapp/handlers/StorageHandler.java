@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class StorageHandler {
 
+    private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(StorageHandler.class);
     ConfigStorage configStorage;
     JPanel lastInvoiceRenderPanel;
     InvoiceGenerator invoiceGenerator;
@@ -161,6 +162,8 @@ public class StorageHandler {
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
     }
@@ -188,6 +191,7 @@ public class StorageHandler {
                     writer.write(v.toString());
                     writer.newLine();
                 } catch (IOException e) {
+                    logger.error("Bład :" + e.getMessage());
                     e.printStackTrace();
                 }
             });
@@ -196,6 +200,8 @@ public class StorageHandler {
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
     }
@@ -229,6 +235,8 @@ public class StorageHandler {
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
     }
@@ -258,6 +266,8 @@ public class StorageHandler {
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
 
@@ -296,6 +306,8 @@ public class StorageHandler {
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
+            logger.error("Bład :" + e.getMessage());
+
             e.printStackTrace();
         }
 
@@ -307,6 +319,8 @@ public class StorageHandler {
             writer.write("");
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: podczas czyszczenia pliku cache.");
+            logger.error("Bład :" + e.getMessage());
+
         }
     }
 
@@ -316,6 +330,8 @@ public class StorageHandler {
             Files.write(archiveFile, archived, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: podczas mergowania archuwum.");
+            logger.error("Bład :" + e.getMessage());
+
         }
     }
 
