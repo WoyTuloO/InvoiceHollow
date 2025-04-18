@@ -93,7 +93,7 @@ public class MenuItem extends JButton {
             this.setFont(montserrat18);
 
             this.setContentAreaFilled(true);
-            this.setHorizontalAlignment(SwingConstants.LEFT);
+            this.setHorizontalAlignment(SwingConstants.CENTER);
             this.setBorder(new EmptyBorder(12,20,12,10));
             this.setIconTextGap(10);
             

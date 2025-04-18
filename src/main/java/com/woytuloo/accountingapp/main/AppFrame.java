@@ -175,7 +175,7 @@ public class AppFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(mvPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(100, 100, 100)
                 .addComponent(customScrollpane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
@@ -307,11 +307,9 @@ public class AppFrame extends javax.swing.JFrame {
         dashboardInfoDataPanel.setBackground(new java.awt.Color(15, 15, 15));
         dashboardInfoDataPanel.setOpaque(true);
 
-        yearlyIncomeProgressBar.setBackground(new java.awt.Color(102, 102, 102));
         yearlyIncomeProgressBar.setFont(FontHandler.montserrat18); // NOI18N
         yearlyIncomeProgressBar.setForeground(new java.awt.Color(51, 196, 32));
         yearlyIncomeProgressBar.setMaximum(200000);
-        yearlyIncomeProgressBar.setValue(40000);
         yearlyIncomeProgressBar.setStringPainted(true);
 
         jLabel2.setBackground(new java.awt.Color(230, 230, 230));

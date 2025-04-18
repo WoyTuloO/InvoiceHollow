@@ -51,6 +51,7 @@ public class DashBoardHandler {
         this.progressBar.setMaximum(config.getYearlyTarget());
         this.progressBar.setValue(config.getCurrentlyEarned());
         this.progressBar.setString(config.getCurrentlyEarned() + " PLN" );
+        this.progressBar.setBackground(new java.awt.Color(35, 35, 35));
 
         if(config.getCurrentlyEarned() > (config.getYearlyTarget() * 3 / 4))
             this.progressBar.setForeground(new java.awt.Color(250, 205, 0));
