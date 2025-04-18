@@ -31,7 +31,7 @@ public class InvoiceBlueprintPanel extends JButton {
 
         nameLabel = new JLabel(invoice.getName(), SwingConstants.CENTER);
         nameLabel.setForeground(Color.LIGHT_GRAY);
-        nameLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+        nameLabel.setFont(new Font("Montserrat", Font.PLAIN, 16));
         nameLabel.setBounds(20, 200, 170, 30);
         add(nameLabel);
 

@@ -8,7 +8,6 @@ import com.woytuloo.accountingapp.component.ButtonPanel;
 import com.woytuloo.accountingapp.component.InvoiceButtonPanel;
 import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;

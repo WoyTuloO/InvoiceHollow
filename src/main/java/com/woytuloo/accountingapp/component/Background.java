@@ -47,11 +47,12 @@ public class Background extends javax.swing.JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        GradientPaint grad = new GradientPaint(0,0,new Color(60,70,150),getWidth(),getHeight(), new Color(25,35,75));
-        g2.setPaint(grad);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         int width = getWidth();
         int height = getHeight();
+        GradientPaint grad = new GradientPaint(0,height/2,new Color(60,70,150),width,height, new Color(25,35,75));
+        g2.setPaint(grad);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
         int arcSize = 10; 
 
         Path2D path = new Path2D.Double();

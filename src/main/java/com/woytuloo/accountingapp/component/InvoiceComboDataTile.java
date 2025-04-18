@@ -5,9 +5,13 @@
 package com.woytuloo.accountingapp.component;
 
 import com.formdev.flatlaf.ui.FlatComboBoxUI;
+import com.woytuloo.accountingapp.handlers.FontHandler;
+import com.woytuloo.accountingapp.main.AppFrame;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -23,6 +27,8 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
     private String value;
     int index;
     private DefaultComboBoxModel<String> comboBoxModel;
+    Font montserrat18 = FontHandler.montserrat18;
+
 
     /**
      * Creates new form InvoiceDataTile
@@ -103,7 +109,10 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         System.out.println(parameterName);
         initComponents();
         jLabel1.setText(parameterName);
+
+        jLabel1.setFont(montserrat18);
         jComboBox1.setPopupVisible(false);
+        jComboBox1.setFont(montserrat18.deriveFont(16f));
 
         jComboBox1.setUI(new FlatComboBoxUI() {
             @Override
@@ -163,7 +172,9 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         System.out.println(parameterName);
         initComponents();
         jComboBox1.setSelectedItem(value);
+        jComboBox1.setFont(montserrat18.deriveFont(16f));
         jLabel1.setText(parameterName);
+        jLabel1.setFont(montserrat18);
     }
 
     public void setSuggestions(List<String> suggestions) {

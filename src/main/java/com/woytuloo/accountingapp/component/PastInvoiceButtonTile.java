@@ -33,7 +33,7 @@ public class PastInvoiceButtonTile extends JButton {
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92,  java.awt.Image.SCALE_SMOOTH);
         this.setIcon(new ImageIcon(imgInvoice));
         setText("Nazwa Szablonu");
-        setFont(new Font("Segoe UI", 2, 14));
+        setFont(new Font("Montserrat", Font.PLAIN, 14));
         setToolTipText("");
         setHideActionText(true);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

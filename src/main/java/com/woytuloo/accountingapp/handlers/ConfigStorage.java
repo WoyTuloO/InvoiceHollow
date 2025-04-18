@@ -144,8 +144,8 @@ private static final Logger logger = LogManager.getLogger(ConfigStorage.class);
         return currentlyEarned;
     }
 
-    public int getThisMonthsTarget() {
-        return (yearlyTarget - currentlyEarned) / 12;
+    public double getThisMonthsTarget() {
+        return (double) (yearlyTarget - currentlyEarned) / 12;
     }
 
     public void setYearlyTarget(int target) {

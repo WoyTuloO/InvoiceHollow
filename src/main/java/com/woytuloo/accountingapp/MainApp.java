@@ -3,17 +3,20 @@ package com.woytuloo.accountingapp;
 import com.woytuloo.accountingapp.InvoiceManagement.Invoice;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
-import com.woytuloo.accountingapp.component.InvoiceBlueprintPanel;
 import com.woytuloo.accountingapp.handlers.*;
 import com.woytuloo.accountingapp.main.AppFrame;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class mainApp {
+public class MainApp {
 
     private static org.apache.logging.log4j.Logger logger ;
+    public static boolean settingUp = true;
 
 
     public static void main(String[] args) {
@@ -29,7 +32,9 @@ try{
         dir.mkdirs();
     }
 
-    logger = org.apache.logging.log4j.LogManager.getLogger(mainApp.class);
+    logger = org.apache.logging.log4j.LogManager.getLogger(MainApp.class);
+
+
 
 
     Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
@@ -38,6 +43,7 @@ try{
 
 
         AppFrame frame = new AppFrame();
+
 
         ConfigStorage configStorage = new ConfigStorage(frame.getExitButton());
         StorageHandler storageHandler = new StorageHandler(configStorage, frame.getLastInvoiceRenderPanel(), frame.getCardLayout(), frame.getBackgroundPanel(),frame.showLastInvoicesButtonPanel(), frame.getSearchButton(), frame.getSearchTextField());

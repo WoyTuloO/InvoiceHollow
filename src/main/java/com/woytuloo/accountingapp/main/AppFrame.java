@@ -11,6 +11,7 @@ import com.woytuloo.accountingapp.component.ButtonPanel;
 import com.woytuloo.accountingapp.component.ControllJButton;
 import com.woytuloo.accountingapp.component.RoundedInfoPanel;
 import com.woytuloo.accountingapp.handlers.ConfigStorage;
+import com.woytuloo.accountingapp.handlers.FontHandler;
 import com.woytuloo.accountingapp.menu.Menu;
 import com.woytuloo.accountingapp.layout.WrapLayout;
 
@@ -18,6 +19,8 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.Path2D;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -32,25 +35,25 @@ public class AppFrame extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
+
         private Shape createCustomShape(int width, int height) {
-        int arcSize = 15; 
+        int arcSize = 15;
         Path2D path = new Path2D.Double();
 
-        path.moveTo(0, arcSize);                      
-        path.quadTo(0, 0, arcSize, 0);                
-        path.lineTo(width, 0);                        
-        path.lineTo(width, height);                   
-        path.lineTo(0, height);                      
-        path.closePath();                             
+        path.moveTo(0, arcSize);
+        path.quadTo(0, 0, arcSize, 0);
+        path.lineTo(width, 0);
+        path.lineTo(width, height);
+        path.lineTo(0, height);
+        path.closePath();
 
         return path;
     }
-    
+
     public AppFrame() {
         FlatDarculaLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
-           
+
         initComponents();
 
         this.setShape(createCustomShape(getWidth(), getHeight()));
@@ -60,7 +63,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         initCardLayout();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,7 +189,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         jLabel1.setBackground(new java.awt.Color(230, 230, 230));
-        jLabel1.setFont(new java.awt.Font("MV Boli", 0, 14)); // NOI18N
+        jLabel1.setFont(FontHandler.montserrat14); // NOI18N
         jLabel1.setForeground(new java.awt.Color(230, 230, 230));
         jLabel1.setText("InvoiceHollow");
 
@@ -249,6 +252,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         lastInvoicesSearchBar.setBackground(new java.awt.Color(30, 30, 30));
         lastInvoicesSearchBar.setText("Wyszukaj fakturę  (numer, data, adres)");
+        lastInvoicesSearchBar.setFont(FontHandler.montserrat14);
         lastInvoicesSearchBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout roundedTile3Layout = new javax.swing.GroupLayout(roundedTile3);
@@ -304,27 +308,26 @@ public class AppFrame extends javax.swing.JFrame {
         dashboardInfoDataPanel.setOpaque(true);
 
         yearlyIncomeProgressBar.setBackground(new java.awt.Color(102, 102, 102));
-        yearlyIncomeProgressBar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        yearlyIncomeProgressBar.setFont(FontHandler.montserrat18); // NOI18N
         yearlyIncomeProgressBar.setForeground(new java.awt.Color(51, 196, 32));
         yearlyIncomeProgressBar.setMaximum(200000);
         yearlyIncomeProgressBar.setValue(40000);
-        yearlyIncomeProgressBar.setString("nigga");
         yearlyIncomeProgressBar.setStringPainted(true);
 
         jLabel2.setBackground(new java.awt.Color(230, 230, 230));
-        jLabel2.setFont(new java.awt.Font("Leelawadee UI", 1, 18)); // NOI18N
+        jLabel2.setFont(FontHandler.montserrat18); // NOI18N
         jLabel2.setForeground(new java.awt.Color(230, 230, 230));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Podsumowanie");
 
         jPanel3.setBackground(new java.awt.Color(51, 102, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(970, 1));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1094, 1));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1036, Short.MAX_VALUE)
+            .addGap(0, 1094, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,14 +336,14 @@ public class AppFrame extends javax.swing.JFrame {
 
         incomeThisMonthPanel.setPreferredSize(new java.awt.Dimension(360, 244));
 
-        incomeThisMonthLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        incomeThisMonthLabel.setFont(FontHandler.montserrat48); // NOI18N
         incomeThisMonthLabel.setForeground(new java.awt.Color(230, 230, 230));
         incomeThisMonthLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        incomeThisMonthLabel.setText("9800 zł");
+        incomeThisMonthLabel.setText("0 zł");
         incomeThisMonthLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         incomeThisMonthLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel6.setFont(FontHandler.montserrat24); // NOI18N
         jLabel6.setForeground(new java.awt.Color(230, 230, 230));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Dochód w tym miesiącu:");
@@ -372,17 +375,17 @@ public class AppFrame extends javax.swing.JFrame {
 
         thisMonthlyTargetPanel.setPreferredSize(new java.awt.Dimension(360, 244));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setFont(FontHandler.montserrat24); // NOI18N
         jLabel7.setForeground(new java.awt.Color(230, 230, 230));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Aktualny miesięczny cel:");
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        thisMonthsTargetLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        thisMonthsTargetLabel.setFont(FontHandler.montserrat48); // NOI18N
         thisMonthsTargetLabel.setForeground(new java.awt.Color(230, 230, 230));
         thisMonthsTargetLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        thisMonthsTargetLabel.setText("32");
+        thisMonthsTargetLabel.setText("0 zł");
         thisMonthsTargetLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         thisMonthsTargetLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -411,22 +414,22 @@ public class AppFrame extends javax.swing.JFrame {
 
         roundedInfoPanel34.setPreferredSize(new java.awt.Dimension(360, 244));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel8.setFont(FontHandler.montserrat24);
         jLabel8.setForeground(new java.awt.Color(230, 230, 230));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Faktury w tym miesiącu:");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        thisMonthInvoiceCountLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        thisMonthInvoiceCountLabel.setFont(FontHandler.montserrat48);
         thisMonthInvoiceCountLabel.setForeground(new java.awt.Color(230, 230, 230));
         thisMonthInvoiceCountLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        thisMonthInvoiceCountLabel.setText("23");
+        thisMonthInvoiceCountLabel.setText("0");
         thisMonthInvoiceCountLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         thisMonthInvoiceCountLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout roundedInfoPanel34Layout = new javax.swing.GroupLayout(roundedInfoPanel34);
-        roundedInfoPanel34.setLayout(roundedInfoPanel34Layout);
+        javax.swing.GroupLayout roundedInfoPanel34Layout = new javax.swing.GroupLayout(invoicesThisMonthPanel);
+        invoicesThisMonthPanel.setLayout(roundedInfoPanel34Layout);
         roundedInfoPanel34Layout.setHorizontalGroup(
             roundedInfoPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundedInfoPanel34Layout.createSequentialGroup()
@@ -447,38 +450,37 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(thisMonthInvoiceCountLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        javax.swing.GroupLayout invoicesThisMonthPanelLayout = new javax.swing.GroupLayout(invoicesThisMonthPanel);
-        invoicesThisMonthPanel.setLayout(invoicesThisMonthPanelLayout);
-        invoicesThisMonthPanelLayout.setHorizontalGroup(
-            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
-            .addGroup(invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(invoicesThisMonthPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(roundedInfoPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        invoicesThisMonthPanelLayout.setVerticalGroup(
-            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(invoicesThisMonthPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(roundedInfoPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
+//
+//        javax.swing.GroupLayout invoicesThisMonthPanelLayout = new javax.swing.GroupLayout(invoicesThisMonthPanel);
+//        invoicesThisMonthPanel.setLayout(invoicesThisMonthPanelLayout);
+//        invoicesThisMonthPanelLayout.setHorizontalGroup(
+//            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                .addGroup(invoicesThisMonthPanelLayout.createSequentialGroup()
+//                    .addContainerGap()
+//                    .addComponent(roundedInfoPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+//        );
+//        invoicesThisMonthPanelLayout.setVerticalGroup(
+//            invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 0, Short.MAX_VALUE)
+//            .addGroup(invoicesThisMonthPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                .addGroup(invoicesThisMonthPanelLayout.createSequentialGroup()
+//                    .addContainerGap()
+//                    .addComponent(roundedInfoPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                    .addContainerGap()))
+//        );
 
         javax.swing.GroupLayout dashboardInfoDataPanelLayout = new javax.swing.GroupLayout(dashboardInfoDataPanel);
         dashboardInfoDataPanel.setLayout(dashboardInfoDataPanelLayout);
         dashboardInfoDataPanelLayout.setHorizontalGroup(
             dashboardInfoDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardInfoDataPanelLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(65, 65, 65)
                 .addGroup(dashboardInfoDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1036, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yearlyIncomeProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1094, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearlyIncomeProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1094, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(dashboardInfoDataPanelLayout.createSequentialGroup()
                         .addComponent(invoicesThisMonthPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -537,7 +539,7 @@ public class AppFrame extends javax.swing.JFrame {
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         buttonPanel1.setIcon(new ImageIcon(imgInvoice));
         buttonPanel1.setText("Ostatnie Faktury");
-        buttonPanel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buttonPanel1.setFont(FontHandler.montserrat18); // NOI18N
         buttonPanel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonPanel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -560,7 +562,7 @@ public class AppFrame extends javax.swing.JFrame {
         Image imgReg = iconReg.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         buttonPanel2.setIcon(new javax.swing.ImageIcon(imgReg));
         buttonPanel2.setText("Spis podpowiedzi");
-        buttonPanel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buttonPanel2.setFont(FontHandler.montserrat18); // NOI18N
         buttonPanel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonPanel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonPanel2.addActionListener(new java.awt.event.ActionListener() {
@@ -587,7 +589,7 @@ public class AppFrame extends javax.swing.JFrame {
         Image imgBp = iconBp.getImage().getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         buttonPanel3.setIcon(new javax.swing.ImageIcon(imgBp));
         buttonPanel3.setText("Szablony");
-        buttonPanel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buttonPanel3.setFont(FontHandler.montserrat18); // NOI18N
         buttonPanel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonPanel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonPanel3.addActionListener(new java.awt.event.ActionListener() {
@@ -652,6 +654,7 @@ public class AppFrame extends javax.swing.JFrame {
         suggestionsDisplayTextArea.setColumns(20);
         suggestionsDisplayTextArea.setRows(5);
         suggestionsDisplayTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
+        suggestionsDisplayTextArea.setFont(FontHandler.montserrat14);
 
         jScrollPane1.setViewportView(suggestionsDisplayTextArea);
         jScrollPane1.setBackground(new java.awt.Color(30, 30, 30));
@@ -659,10 +662,12 @@ public class AppFrame extends javax.swing.JFrame {
 
         deleteSavedAutoFillCellButton.setBackground(new java.awt.Color(30, 30, 30));
         deleteSavedAutoFillCellButton.setText("Usuń");
+        deleteSavedAutoFillCellButton.setFont(FontHandler.montserrat14);
         deleteSavedAutoFillCellButton.setBorderPainted(false);
 
         editSavedAutoFillCellButton.setBackground(new java.awt.Color(30, 30, 30));
         editSavedAutoFillCellButton.setText("Zapisz");
+        editSavedAutoFillCellButton.setFont(FontHandler.montserrat14);
         editSavedAutoFillCellButton.setBorderPainted(false);
 
         javax.swing.GroupLayout roundedTile4Layout = new javax.swing.GroupLayout(roundedTile4);
@@ -776,6 +781,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         fillInvoiceGenerateButton.setBackground(new java.awt.Color(15, 15, 15));
         fillInvoiceGenerateButton.setText("Generuj");
+        fillInvoiceGenerateButton.setFont(FontHandler.montserrat14);
         fillInvoiceGenerateButton.setBorderPainted(false);
         fillInvoiceGenerateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -846,7 +852,7 @@ public class AppFrame extends javax.swing.JFrame {
         selectInvoiceFileCard.setOpaque(false);
 
         selectInvoiceNameTextField.setBackground(new java.awt.Color(30, 30, 30));
-        selectInvoiceNameTextField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        selectInvoiceNameTextField.setFont(FontHandler.montserrat18.deriveFont(16f)); // NOI18N
         selectInvoiceNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         selectInvoiceNameTextField.setText("Nazwa Szablonu");
         selectInvoiceNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -865,7 +871,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         selectInvoiceFileButton.setBackground(new java.awt.Color(30, 30, 30));
-        selectInvoiceFileButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        selectInvoiceFileButton.setFont(FontHandler.montserrat14); // NOI18N
         selectInvoiceFileButton.setText("Wybierz plik");
         selectInvoiceFileButton.setBorderPainted(false);
         selectInvoiceFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -875,7 +881,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         proceedToTemplateConfigurationButton.setBackground(new java.awt.Color(30, 30, 30));
-        proceedToTemplateConfigurationButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        proceedToTemplateConfigurationButton.setFont(FontHandler.montserrat14); // NOI18N
         proceedToTemplateConfigurationButton.setText("Przejdź do konfiguracji");
         proceedToTemplateConfigurationButton.setBorderPainted(false);
         proceedToTemplateConfigurationButton.addActionListener(new java.awt.event.ActionListener() {
@@ -897,8 +903,8 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92)
+                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedTile1Layout.setVerticalGroup(
@@ -935,7 +941,7 @@ public class AppFrame extends javax.swing.JFrame {
         fillFormCard.setOpaque(false);
 
         parameterNameTf.setBackground(new java.awt.Color(30, 30, 30));
-        parameterNameTf.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        parameterNameTf.setFont(FontHandler.montserrat14); // NOI18N
         parameterNameTf.setText("Nazwa parametru");
         parameterNameTf.setBorder(new CompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), new EmptyBorder(0,10,0,0)));
         parameterNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -953,7 +959,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         cellNameTf.setBackground(new java.awt.Color(30, 30, 30));
-        cellNameTf.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cellNameTf.setFont(FontHandler.montserrat14);
         cellNameTf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cellNameTf.setText("Komórka  (np. B3)");
         cellNameTf.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -972,7 +978,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         addNewParameterButton.setBackground(new java.awt.Color(30, 30, 30));
-        addNewParameterButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        addNewParameterButton.setFont(FontHandler.montserrat14); // NOI18N
         addNewParameterButton.setText("Dodaj");
         addNewParameterButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         addNewParameterButton.addActionListener(new java.awt.event.ActionListener() {
@@ -990,7 +996,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         saveForm.setBackground(new java.awt.Color(30, 30, 30));
-        saveForm.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        saveForm.setFont(FontHandler.montserrat14); // NOI18N
         saveForm.setText("Zapisz Szablon");
         saveForm.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         saveForm.addActionListener(new java.awt.event.ActionListener() {
@@ -1000,7 +1006,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         autoParamChoice.setBackground(new java.awt.Color(30, 30, 30));
-        autoParamChoice.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        autoParamChoice.setFont(FontHandler.montserrat14); // NOI18N
         autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Dopełnianie", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
         autoParamChoice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
@@ -1011,6 +1017,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         deleteParameterButton.setBackground(new java.awt.Color(30, 30, 30));
         deleteParameterButton.setText("Usuń");
+        deleteParameterButton.setFont(FontHandler.montserrat14);
         deleteParameterButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         deleteParameterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1019,7 +1026,7 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         textAlignmentCombo.setBackground(new java.awt.Color(30, 30, 30));
-        textAlignmentCombo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        textAlignmentCombo.setFont(FontHandler.montserrat14); // NOI18N
         textAlignmentCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Pozycja w komórce>", "Lewo", "Środek", "Prawo" }));
         textAlignmentCombo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         textAlignmentCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -1029,8 +1036,8 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         entrySubstringTf.setBackground(new java.awt.Color(30, 30, 30));
-        entrySubstringTf.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+        entrySubstringTf.setFont(FontHandler.montserrat14); // NOI18N
+        entrySubstringTf.setText("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)");
         entrySubstringTf.setBorder(new CompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), new EmptyBorder(0,10,0,0)));
         entrySubstringTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -1051,7 +1058,7 @@ public class AppFrame extends javax.swing.JFrame {
         roundedTile2Layout.setHorizontalGroup(
             roundedTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundedTile2Layout.createSequentialGroup()
-                .addContainerGap(74, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addGroup(roundedTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(roundedTile2Layout.createSequentialGroup()
                         .addComponent(paramCellCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1063,16 +1070,16 @@ public class AppFrame extends javax.swing.JFrame {
                         .addGroup(roundedTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(addNewParameterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(roundedTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(entrySubstringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(entrySubstringTf, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(roundedTile2Layout.createSequentialGroup()
                                     .addComponent(parameterNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(cellNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cellNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(autoParamChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addComponent(textAlignmentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         roundedTile2Layout.setVerticalGroup(
             roundedTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1169,14 +1176,14 @@ public class AppFrame extends javax.swing.JFrame {
         entrySubstringTf.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if(entrySubstringTf.getText().equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")) {
+                if(entrySubstringTf.getText().equals("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)")) {
                     entrySubstringTf.setText("");
                 }
             }
             @Override
             public void focusLost(FocusEvent e) {
                 if(entrySubstringTf.getText().isEmpty()) {
-                    entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+                    entrySubstringTf.setText("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)");
                 }
             }
         });
@@ -1214,13 +1221,13 @@ public class AppFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonPanel1ActionPerformed
 
-    private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {                                          
+    private void buttonPanel1MousePressed(java.awt.event.MouseEvent evt) {
         cardLayout.show(background1, "2 1");
-    }                                         
+    }
 
-    private void buttonPanel2MousePressed(java.awt.event.MouseEvent evt) {                                          
+    private void buttonPanel2MousePressed(java.awt.event.MouseEvent evt) {
         cardLayout.show(background1, "2 2");
-    }                                         
+    }
 
     private void buttonPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPanel1MousePressed
         cardLayout.show(background1, "2 3");
@@ -1281,7 +1288,7 @@ public class AppFrame extends javax.swing.JFrame {
         }
 
         String entrySubstring = entrySubstringTf.getText();
-        if(entrySubstring.isEmpty() || entrySubstring.equals("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)")){
+        if(entrySubstring.isEmpty() || entrySubstring.equals("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)")){
             entrySubstring = "";
         }
 
@@ -1319,7 +1326,7 @@ public class AppFrame extends javax.swing.JFrame {
     private void resetInvoiceConfigForm(){
         parameterNameTf.setText("Nazwa parametru");
         cellNameTf.setText("Komórka  (np. B3)");
-        entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+        entrySubstringTf.setText("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)");
         textAlignmentCombo.setSelectedIndex(0);
         autoParamChoice.setSelectedIndex(0);
     }
@@ -1363,7 +1370,7 @@ public class AppFrame extends javax.swing.JFrame {
     private void proceedToTemplateConfigurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedToTemplateConfigurationButtonActionPerformed
         parameterNameTf.setText("Nazwa parametru");
         cellNameTf.setText("Komórka  (np. B3)");
-        entrySubstringTf.setText("Aby otoczyć wartość tekstem podaj go wraz z wartością zapisaną jako @ (np. teskt @ tekst)");
+        entrySubstringTf.setText("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)");
         textAlignmentCombo.setSelectedIndex(0);
         autoParamChoice.setSelectedIndex(0);
         paramCellCombo.removeAllItems();

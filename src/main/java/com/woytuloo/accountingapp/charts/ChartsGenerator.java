@@ -5,9 +5,13 @@
 package com.woytuloo.accountingapp.charts;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import javax.swing.*;
 
+import com.woytuloo.accountingapp.handlers.FontHandler;
+import com.woytuloo.accountingapp.main.AppFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -23,14 +27,35 @@ public class ChartsGenerator {
 
     private static int incomeBound;
     private static int invoiceBound;
+    private static final Font montserratFont = FontHandler.montserrat18.deriveFont(17f);
+    private static final Map<String, String> monthToRoman;
 
+    static {
+
+
+        monthToRoman = Map.ofEntries(
+                Map.entry("styczeń", "I"),
+                Map.entry("luty", "II"),
+                Map.entry("marzec", "III"),
+                Map.entry("kwiecień", "IV"),
+                Map.entry("maj", "V"),
+                Map.entry("czerwiec", "VI"),
+                Map.entry("lipiec", "VII"),
+                Map.entry("sierpień", "VIII"),
+                Map.entry("wrzesień", "IX"),
+                Map.entry("październik", "X"),
+                Map.entry("listopad", "XI"),
+                Map.entry("grudzień", "XII")
+        );
+    }
 
     public static void showIncomeChart(JPanel p,Map<String, Double > monthMoneyMap) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+
         incomeBound = 1000;
         monthMoneyMap.forEach((month,money)->{
-            dataset.setValue(money, "", month);
+            dataset.setValue(money, "", monthToRoman.get(month));
             incomeBound = (int) Math.max(incomeBound, money);
         });
         if(invoiceBound > 1000)
@@ -44,20 +69,20 @@ public class ChartsGenerator {
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255, 0, 0));
         categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255, 0, 0));
-        //categoryPlot.setRangeGridlinePaint(Color.BLUE);
+        categoryPlot.setRangeGridlinePaint(new Color(15, 15, 15));
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(230, 230, 230));
-        domainAxis.setLabelPaint(new Color(230, 230, 230));
-        domainAxis.setLabelFont(new Font("Arial", 1, 14));
-        domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+        domainAxis.setTickLabelPaint(new Color(240, 240, 240));
+        domainAxis.setLabelPaint(new Color(240, 240, 240));
+        domainAxis.setLabelFont(montserratFont);
+        domainAxis.setTickLabelFont(montserratFont);
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
         rangeAxis.setTickLabelPaint(new Color(0, 255, 0));
         rangeAxis.setLabelPaint(new Color(0, 255, 0));
-        rangeAxis.setLabelFont(new Font("Arial", 1, 14));
-        rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setLabelFont(montserratFont);
+        rangeAxis.setTickLabelFont(montserratFont);
         rangeAxis.setLowerBound(0);
         rangeAxis.setUpperBound(incomeBound);
 
@@ -83,9 +108,11 @@ public class ChartsGenerator {
     public static void showWorkDoneChart(JPanel p, Map<String, Integer> monthWorkMap) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        invoiceBound = 0;
+
+
+        invoiceBound = 8;
         monthWorkMap.forEach((month,work)->{
-            dataset.setValue(work, "", month);
+            dataset.setValue(work, "", monthToRoman.get(month));
             invoiceBound = Math.max(invoiceBound, work);
         });
         invoiceBound += 2;
@@ -97,20 +124,20 @@ public class ChartsGenerator {
         CategoryPlot categoryPlot = chart.getCategoryPlot();
         categoryPlot.getDomainAxis().setLabelPaint(new Color(255, 0, 0));
         categoryPlot.getRangeAxis().setTickLabelPaint(new Color(255, 0, 0));
-
+        categoryPlot.setRangeGridlinePaint(new Color(15, 15, 15));
 
         CategoryAxis domainAxis = categoryPlot.getDomainAxis();
-        domainAxis.setTickLabelPaint(new Color(230, 230, 230));
-        domainAxis.setLabelPaint(new Color(230, 230, 230));
-        domainAxis.setLabelFont(new Font("Arial", 1, 14));
-        domainAxis.setTickLabelFont(new Font("Arial", 1, 14));
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+        domainAxis.setTickLabelPaint(new Color(240, 240, 240));
+        domainAxis.setLabelPaint(new Color(240, 240, 240));
+        domainAxis.setLabelFont(montserratFont);
+        domainAxis.setTickLabelFont(montserratFont);
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.STANDARD);
 
         ValueAxis rangeAxis = categoryPlot.getRangeAxis();
         rangeAxis.setTickLabelPaint(new Color(0, 255, 0));
         rangeAxis.setLabelPaint(new Color(0, 255, 0));
-        rangeAxis.setLabelFont(new Font("Arial", 1, 14));
-        rangeAxis.setTickLabelFont(new Font("Arial", 1, 14));
+        rangeAxis.setLabelFont(montserratFont);
+        rangeAxis.setTickLabelFont(montserratFont);
         rangeAxis.setLowerBound(0);
         rangeAxis.setUpperBound(invoiceBound);
 

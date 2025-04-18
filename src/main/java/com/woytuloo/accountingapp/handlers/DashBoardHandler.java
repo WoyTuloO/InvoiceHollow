@@ -2,6 +2,8 @@ package com.woytuloo.accountingapp.handlers;
 
 import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.component.RoundedInfoPanel;
+import com.woytuloo.accountingapp.main.AppFrame;
+import com.woytuloo.accountingapp.MainApp;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -11,7 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DashBoardHandler {
-
     private RoundedInfoPanel dashBoardChartDisplayPanel;
     private JProgressBar progressBar;
     private JLabel incomeThisMonthLabel;
@@ -45,7 +46,7 @@ public class DashBoardHandler {
     public void reloadDashBoard(){
         System.out.println("Reloading DashBoard");
         this.incomeThisMonthLabel.setText(config.getThisMonthsEarnings()+" zł");
-        this.thisMonthsTargetLabel.setText(config.getThisMonthsTarget()+"");
+        this.thisMonthsTargetLabel.setText(String.format("%.2f zł", config.getThisMonthsTarget()));
         this.thisMonthsInvoiceCountLabel.setText(config.getThisMonthsInvoiceCount()+"");
         this.progressBar.setMaximum(config.getYearlyTarget());
         this.progressBar.setValue(config.getCurrentlyEarned());
@@ -64,26 +65,8 @@ public class DashBoardHandler {
     }
 
     private void reloadCharts() {
-//        Map<String, Integer[]> countAndMoneyMap =  config.getInvoiceCountandMoney();
-
         Map<String, Double> incomeMap = config.getMonthIncomeMap();
         Map<String, Integer> workDoneMap = config.getMonthAmmountMap();
-
-//        for (Map.Entry<String, Integer[]> entry : countAndMoneyMap.entrySet()) {
-//            String month = entry.getKey();
-//            Integer[] countAndMoney = entry.getValue();
-//
-//            if (countAndMoney == null || countAndMoney.length < 2) {
-//                System.err.println("Niepoprawne dane dla miesiąca: " + month);
-//                continue;
-//            }
-//
-//            int workDone = countAndMoney[0];
-//            int money = countAndMoney[1];
-//
-//            workDoneMap.put(month, workDone);
-//            incomeMap.put(month, money);
-//        }
 
         ChartsGenerator.showIncomeChart(dashBoardChartDisplayPanel.getIncomeChart(), incomeMap);
         ChartsGenerator.showWorkDoneChart(dashBoardChartDisplayPanel.getWorkDoneChart(), workDoneMap);

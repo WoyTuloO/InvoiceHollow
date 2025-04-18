@@ -37,7 +37,7 @@ public class InvoiceButtonPanel extends JButton {
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92,  java.awt.Image.SCALE_SMOOTH);
         this.setIcon(new ImageIcon(imgInvoice));
         setText("Nazwaa");
-        setFont(new Font("Segoe UI", 2, 14));
+        setFont(new Font("Montserrat", Font.PLAIN, 14));
         setToolTipText("");
         setHideActionText(true);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -57,7 +57,7 @@ public class InvoiceButtonPanel extends JButton {
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92,  java.awt.Image.SCALE_SMOOTH);
         this.setIcon(new ImageIcon(imgInvoice));
         setText(this.invoice.getName());
-        setFont(new Font("Segoe UI", 2, 14));
+        setFont(new Font("Montserrat", Font.PLAIN, 14));
         setToolTipText("");
         setHideActionText(true);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -75,7 +75,7 @@ public class InvoiceButtonPanel extends JButton {
         Image imgInvoice = iconInvoice.getImage().getScaledInstance(92, 92,  java.awt.Image.SCALE_SMOOTH);
         this.setIcon(new ImageIcon(imgInvoice));
         setText(name);
-        setFont(new Font("Segoe UI", 2, 14));
+        setFont(new Font("Montserrat", Font.PLAIN, 14));
         setToolTipText("");
         setHideActionText(true);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

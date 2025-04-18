@@ -4,13 +4,14 @@
  */
 package com.woytuloo.accountingapp.menu;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import com.woytuloo.accountingapp.handlers.FontHandler;
+import com.woytuloo.accountingapp.main.AppFrame;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +21,8 @@ import javax.swing.border.EmptyBorder;
  * @author wojte
  */
 public class MenuItem extends JButton {
+
+    Font montserrat18 = FontHandler.montserrat18;
 
         /**
          * @return the index
@@ -86,7 +89,9 @@ public class MenuItem extends JButton {
             
             this.setForeground(new Color(230,230,230));
             this.setBackground(new Color(60,70,150));
-            this.setFont(new Font("Verdana", Font.BOLD, 14));
+
+            this.setFont(montserrat18);
+
             this.setContentAreaFilled(true);
             this.setHorizontalAlignment(SwingConstants.LEFT);
             this.setBorder(new EmptyBorder(12,20,12,10));
@@ -111,7 +116,9 @@ public class MenuItem extends JButton {
         public void initSubMenu(int subMenuIndex, int len){
             this.setSubMenuIndex(subMenuIndex);
             this.setLen(len);
-            this.setFont(new Font("Verdana", 1, 14));
+
+
+            this.setFont(montserrat18);
             setOpaque(true);
             setContentAreaFilled(true);
             this.setBorder(new EmptyBorder(9,33,9,10));
