@@ -1,7 +1,11 @@
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import javax.swing.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class ReadyInvoice {
@@ -17,6 +21,23 @@ public class ReadyInvoice {
 
     public String getName(){
         return invoice.getName();
+    }
+
+    public double getTotal(){
+        List<String> totalFields = Arrays.stream(invoice.getConfigurationDataString().split(",")).filter(par -> par.split(";")[4].equals("T")).toList();
+        double total = -1;
+        for(String s : totalFields){
+            String[] split = s.split(";");
+            String paramName = split[0];
+            double totalV = Double.parseDouble(propertyDataMap.get(paramName));
+            if(total == -1)
+                total = totalV;
+            else if(total != totalV)
+                return -1;
+        }
+
+        return total;
+
     }
 
     public ReadyInvoice(Invoice invoice){
@@ -54,9 +75,9 @@ public class ReadyInvoice {
 
         StringBuilder sb = new StringBuilder();
         propertyDataMap.forEach((k, v) -> {
-            sb.append(k).append(";").append(v).append(",");
+            sb.append(k).append(";").append(v).append("|");
         });
 
-        return number + "," + invoice.getName() + "," + sb;
+        return number + "|" + invoice.getName() + "|" + sb;
     }
 }

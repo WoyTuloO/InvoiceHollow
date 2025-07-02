@@ -897,12 +897,12 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(selectInvoiceNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(selectInvoiceFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(roundedTile1Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(proceedToTemplateConfigurationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundedTile1Layout.setVerticalGroup(
@@ -1005,7 +1005,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         autoParamChoice.setBackground(new java.awt.Color(30, 30, 30));
         autoParamChoice.setFont(FontHandler.montserrat14); // NOI18N
-        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Dopełnianie", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
+        autoParamChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Automatyzuj>", "Numer", "Data", "Dopełnianie","Blok Tekstu", "Cena - Całkowita", "Cena - Ile sztuk", "Cena - Jednostkowa", "Cena - Słownie" }));
         autoParamChoice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         autoParamChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1301,6 +1301,7 @@ public class AppFrame extends javax.swing.JFrame {
         autoParam = switch (autoParam) {
             case "Numer" -> "N";
             case "Data" -> "D";
+            case "Blok Tekstu" -> "L";
             case "Cena - Całkowita" -> "T";
             case "Cena - Ile sztuk" -> "Q";
             case "Cena - Jednostkowa" -> "U";
@@ -1374,7 +1375,8 @@ public class AppFrame extends javax.swing.JFrame {
         paramCellCombo.removeAllItems();
     }//GEN-LAST:event_proceedToTemplateConfigurationButtonActionPerformed
 
-    private void fillInvoiceGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillInvoiceGenerateButtonActionPerformed
+    private void fillInvoiceGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_
+        // GenerateButtonActionPerformed
 
     }//GEN-LAST:event_fillInvoiceGenerateButtonActionPerformed
 

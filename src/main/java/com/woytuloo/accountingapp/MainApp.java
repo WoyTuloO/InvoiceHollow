@@ -6,6 +6,7 @@ import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.handlers.*;
 import com.woytuloo.accountingapp.main.AppFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,8 @@ public class MainApp {
 
 
     public static void main(String[] args) {
-try{
+try {
+
     String userHome = System.getProperty("user.home");
 
     String logPath = userHome + "/.logs/InvoiceHollow";
@@ -34,16 +36,53 @@ try{
 
     logger = org.apache.logging.log4j.LogManager.getLogger(MainApp.class);
 
-
-
-
     Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-            logger.error("Nieobsłużony wyjątek w wątku " + thread.getName(), throwable);
-        });
+        logger.error("Nieobsłużony wyjątek w wątku " + thread.getName(), throwable);
+    });
+
+    EventQueue.invokeLater(() -> {
+
+        JWindow splash = new JWindow();
+        splash.add(new JLabel("Ładowanie…", SwingConstants.CENTER));
+        splash.setSize(300, 120);
+        splash.setLocationRelativeTo(null);
+        splash.setVisible(true);
+
+
+        new SwingWorker<AppFrame, Void>() {
+            @Override
+            protected AppFrame doInBackground() {
+                return setup();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    AppFrame frame = get();
+                    splash.dispose();
+                    frame.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }.execute();
+
+    });
+} catch (Exception e) {
+        try {
+            PrintWriter pw = new PrintWriter("fatal_error.log");
+            e.printStackTrace(pw);
+            pw.close();
+        } catch (Exception ignored) {}
+        throw new RuntimeException("Fatal error", e);
+    }}
+
+public static AppFrame setup(){
+
+
 
 
         AppFrame frame = new AppFrame();
-
 
         ConfigStorage configStorage = new ConfigStorage(frame.getExitButton());
         StorageHandler storageHandler = new StorageHandler(configStorage, frame.getLastInvoiceRenderPanel(), frame.getCardLayout(), frame.getBackgroundPanel(),frame.showLastInvoicesButtonPanel(), frame.getSearchButton(), frame.getSearchTextField());
@@ -51,7 +90,6 @@ try{
 
         InvoiceBlueprintAdder invoiceBlueprintAdder = new InvoiceBlueprintAdder(frame.getInvoiceNameField(), frame.getChoseFileButton(), frame.getProceedButton(), frame.getParamCellCombo(), frame.getSaveFormButton(), frame.getCardLayout(), frame.getBackgroundPanel(), collection);
         invoiceBlueprintAdder.loadInvoiceFromFile();
-
 
         DashBoardHandler dashBoardHandler = new DashBoardHandler(frame.getDashBoardChartDisplayPanel(), frame.getYearlyIncomeProgressBar(), frame.getIncomeThisMonthLabel(), frame.getThisMonthsTargetLabel(), frame.getThisMonthInvoiceCountLabel(), frame.getDashBoardPanelCard(), configStorage);
 
@@ -66,16 +104,9 @@ try{
 
         MenuHandler menuHandler = new MenuHandler(frame.getMenu(), frame.getBackgroundPanel(), frame.getCardLayout(), invoiceDisplayHandler, storageHandler);
 
-        frame.setVisible(true);
+        return frame;
 
-} catch (Exception e) {
-    try {
-        PrintWriter pw = new PrintWriter("fatal_error.log");
-        e.printStackTrace(pw);
-        pw.close();
-    } catch (Exception ignored) {}
-    throw new RuntimeException("Fatal error", e);
-}
+
 
 
     }

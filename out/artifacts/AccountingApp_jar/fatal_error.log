@@ -1,0 +1,13 @@
+java.lang.RuntimeException: java.awt.FontFormatException: java.nio.BufferUnderflowException
+	at com.woytuloo.accountingapp.main.AppFrame.initComponents(AppFrame.java:174)
+	at com.woytuloo.accountingapp.main.AppFrame.<init>(AppFrame.java:56)
+	at com.woytuloo.accountingapp.mainApp.main(mainApp.java:40)
+Caused by: java.awt.FontFormatException: java.nio.BufferUnderflowException
+	at java.desktop/sun.font.TrueTypeFont.init(TrueTypeFont.java:532)
+	at java.desktop/sun.font.TrueTypeFont.<init>(TrueTypeFont.java:216)
+	at java.desktop/sun.font.TrueTypeFont.<init>(TrueTypeFont.java:196)
+	at java.desktop/sun.font.SunFontManager.createFont2D(SunFontManager.java:2208)
+	at java.desktop/java.awt.Font.createFont0(Font.java:1169)
+	at java.desktop/java.awt.Font.createFont(Font.java:1076)
+	at com.woytuloo.accountingapp.main.AppFrame.initComponents(AppFrame.java:169)
+	... 2 more

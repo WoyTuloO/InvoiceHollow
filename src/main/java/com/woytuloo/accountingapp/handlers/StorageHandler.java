@@ -33,6 +33,10 @@ public class StorageHandler {
     private int workingInvoiceNum = 0;
     private JTextField searchField;
 
+    public ArchivedInvoice getInvoice(int num){
+        return invoices.get(num);
+    }
+
     public StorageHandler(ConfigStorage configStorage, JPanel lastInvoiceRenderPanel, CardLayout cardLayout, JPanel background, ButtonPanel showLastInvoicesButtonPanel, JButton searchButton, JTextField searchField){
         invoices = new ConcurrentHashMap<>();
         this.configStorage = configStorage;
@@ -227,7 +231,7 @@ public class StorageHandler {
 
             String line;
             while ((line = reader.readLine()) != null){
-                String[] data = line.split(",");
+                String[] data = line.split("\\|");
                 ArchivedInvoice invoice = new ArchivedInvoice(line);
                 invoices.put(Integer.parseInt(data[0]), invoice);
             }

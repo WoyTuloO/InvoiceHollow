@@ -23,6 +23,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
  */
 public class InvoiceComboDataTile extends javax.swing.JPanel {
 
+    public boolean big;
     private String parameterName;
     private String value;
     int index;
@@ -103,6 +104,63 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 
+    private void initComponents2() {
+
+        invoiceTile2 = new com.woytuloo.accountingapp.component.RoundedTile();
+        jLabel1 = new javax.swing.JLabel();
+        jTextArea = new javax.swing.JTextArea();
+
+        setOpaque(false);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Nazwa Parametru");
+
+
+        jTextArea.setBackground(new java.awt.Color(30, 30, 30));
+
+        jTextArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTextArea.setEditable(true);
+
+
+        javax.swing.GroupLayout invoiceTile2Layout = new javax.swing.GroupLayout(invoiceTile2);
+        invoiceTile2.setLayout(invoiceTile2Layout);
+        invoiceTile2Layout.setHorizontalGroup(
+                invoiceTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, invoiceTile2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextArea, 0, 536, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+        invoiceTile2Layout.setVerticalGroup(
+                invoiceTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, invoiceTile2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(invoiceTile2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jTextArea)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+                                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(invoiceTile2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(invoiceTile2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+
+
+    }// </editor-fold>//GEN-END:initComponents
+
+
     public InvoiceComboDataTile(String parameterName, int i) {
         this.index = i;
         this.parameterName = parameterName;
@@ -113,6 +171,7 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         jLabel1.setFont(montserrat18);
         jComboBox1.setPopupVisible(false);
         jComboBox1.setFont(montserrat18.deriveFont(16f));
+
 
         jComboBox1.setUI(new FlatComboBoxUI() {
             @Override
@@ -166,6 +225,47 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
     }
 
 
+    public InvoiceComboDataTile(String parameterName, int i, boolean big) {
+        this.index = i;
+        this.big = big;
+        this.parameterName = parameterName;
+        System.out.println(parameterName);
+        initComponents2();
+        jLabel1.setText(parameterName);
+
+        jLabel1.setFont(montserrat18);
+
+        jTextArea.setFont(montserrat18.deriveFont(16f));
+
+        jTextArea.setSize(jTextArea.getWidth(), jTextArea.getHeight());
+
+
+
+
+
+
+    }
+    public InvoiceComboDataTile(String parameterName, int i, boolean big, String data) {
+        this.index = i;
+        this.big = big;
+        this.parameterName = parameterName;
+        System.out.println(parameterName);
+        initComponents2();
+        jLabel1.setText(parameterName);
+
+        jLabel1.setFont(montserrat18);
+
+        jTextArea.setFont(montserrat18.deriveFont(16f));
+
+        jTextArea.setSize(jTextArea.getWidth(), jTextArea.getHeight());
+        jTextArea.setText(data);
+
+
+
+
+
+    }
+
     public InvoiceComboDataTile(String parameterName, String value, int i) {
         this.index = i;
         this.parameterName = parameterName;
@@ -185,6 +285,9 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
     }
 
     public String getComboBoxValue() {
+        if(jComboBox1 == null)
+            return jTextArea.getText().replaceAll("\n", " ");
+
         return (String) jComboBox1.getSelectedItem();
     }
 
@@ -199,6 +302,7 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.woytuloo.accountingapp.component.RoundedTile invoiceTile2;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextArea jTextArea;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

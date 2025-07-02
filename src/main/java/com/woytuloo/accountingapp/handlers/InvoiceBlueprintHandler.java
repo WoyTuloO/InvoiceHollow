@@ -11,9 +11,10 @@ import java.util.HashMap;
 public class InvoiceBlueprintHandler {
 
     private JPanel savedBlueprintDisplayPanel;
-    private HashMap<String, Invoice> collection;
+    private static HashMap<String, Invoice> collection;
     private InvoiceBlueprintAdder invoiceBlueprintAdder;
 
+    public static Invoice getInvoiceByName(String name){ return collection.get(name); }
 
     public InvoiceBlueprintHandler(JPanel savedBlueprintCard, JPanel savedBlueprintDisplayPanel, HashMap<String, Invoice> collection, InvoiceBlueprintAdder invoiceBlueprintAdder) {
         this.savedBlueprintDisplayPanel = savedBlueprintDisplayPanel;

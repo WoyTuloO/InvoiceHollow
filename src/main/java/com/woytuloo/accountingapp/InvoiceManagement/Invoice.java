@@ -27,6 +27,11 @@ public class Invoice {
         return file;
     }
 
+    public double getTotal(){
+
+        return 0;
+    }
+
     public String getConfigurationDataString(){
         try {
             return configurationDataString;

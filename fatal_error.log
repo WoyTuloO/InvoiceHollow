@@ -1,0 +1,10 @@
+java.lang.IllegalArgumentException: horizontalAlignment
+	at java.desktop/javax.swing.AbstractButton.checkHorizontalKey(AbstractButton.java:969)
+	at java.desktop/javax.swing.AbstractButton.setHorizontalAlignment(AbstractButton.java:808)
+	at com.woytuloo.accountingapp.menu.MenuItem.<init>(MenuItem.java:96)
+	at com.woytuloo.accountingapp.menu.Menu.addMenu(Menu.java:53)
+	at com.woytuloo.accountingapp.menu.Menu.init(Menu.java:46)
+	at com.woytuloo.accountingapp.menu.Menu.<init>(Menu.java:38)
+	at com.woytuloo.accountingapp.main.AppFrame.initComponents(AppFrame.java:79)
+	at com.woytuloo.accountingapp.main.AppFrame.<init>(AppFrame.java:57)
+	at com.woytuloo.accountingapp.MainApp.main(MainApp.java:45)

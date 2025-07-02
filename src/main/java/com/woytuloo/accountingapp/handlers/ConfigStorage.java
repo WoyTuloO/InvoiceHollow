@@ -367,4 +367,11 @@ private static final Logger logger = LogManager.getLogger(ConfigStorage.class);
         increaseCurrentIncomeBy(i);
         increaseThisMonthsInvoiceCount();
     }
+
+
+    public void updateTotalBy(double total){
+        String month = monthMap.get(LocalDate.now().getMonth().toString());
+        monthIncomeMap.put(month, monthIncomeMap.get(month) + total);
+        currentlyEarned += (int) total;
+    }
 }

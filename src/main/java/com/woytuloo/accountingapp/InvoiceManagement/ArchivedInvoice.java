@@ -1,6 +1,10 @@
 package com.woytuloo.accountingapp.InvoiceManagement;
 
+import com.woytuloo.accountingapp.handlers.InvoiceBlueprintHandler;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ArchivedInvoice {
@@ -14,6 +18,25 @@ public class ArchivedInvoice {
 // pozniej laczyc po nazwie z Invoice przy edycji
 //
 
+    public double getTotal(){
+        Invoice invoice = InvoiceBlueprintHandler.getInvoiceByName(invoiceName);
+        List<String> totalFields = Arrays.stream(invoice.getConfigurationDataString().split(",")).filter(par -> par.split(";")[4].equals("T")).toList();
+        double total = 0;
+        for(String s : totalFields){
+            String[] split = s.split(";");
+            String paramName = split[0];
+            String data = propertyDataMap.get(paramName);
+            if(data == null)
+                continue;
+            double totalV = Double.parseDouble(data);
+            if(total == 0)
+                total = totalV;
+        }
+
+        return total;
+    }
+
+
     public String getName(){
         return invoiceName;
     }
@@ -21,13 +44,15 @@ public class ArchivedInvoice {
     public ArchivedInvoice(String initStr){
         propertyDataMap = new HashMap<>();
 
-        String[] split = initStr.split(",");
+        String[] split = initStr.split("\\|");
 
         number = Integer.parseInt(split[0]);
         invoiceName = split[1];
 
         for(int i = 2; i < split.length; i++){
             String[] split2 = split[i].split(";");
+            if(split2.length < 2)
+                split2 = new String[]{split2[0].isBlank() ? "" : split2[0], ""};
             propertyDataMap.put(split2[0], split2[1]);
         }
     }
@@ -43,10 +68,10 @@ public class ArchivedInvoice {
 
         StringBuilder sb = new StringBuilder();
         propertyDataMap.forEach((k, v) -> {
-            sb.append(k).append(";").append(v).append(",");
+            sb.append(k).append(";").append(v).append("|");
         });
 
-        return number + "," + invoiceName + "," + sb;
+        return number + "|" + invoiceName + "|" + sb;
     }
 
     public Map<String, String> getPropertyDataMap() {
