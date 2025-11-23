@@ -9,6 +9,7 @@ import com.woytuloo.accountingapp.component.InvoiceButtonPanel;
 import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
 
 import javax.swing.*;
+import com.woytuloo.accountingapp.service.ArchiveService;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -24,12 +26,16 @@ import java.util.concurrent.ConcurrentMap;
 public class StorageHandler {
 
     private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(StorageHandler.class);
+
+    // Mostek do wywołań statycznych (z zachowaniem kompatybilności)
+    private static volatile StorageHandler lastInstance;
+
     ConfigStorage configStorage;
     JPanel lastInvoiceRenderPanel;
     InvoiceGenerator invoiceGenerator;
     JPanel background;
     CardLayout cardLayout;
-    private static ConcurrentMap<Integer, ArchivedInvoice> invoices;
+    private final ConcurrentMap<Integer, ArchivedInvoice> invoices;
     private int workingInvoiceNum = 0;
     private JTextField searchField;
 
@@ -37,15 +43,21 @@ public class StorageHandler {
         return invoices.get(num);
     }
 
+    // Expose read-only view for archive querying service
+    public java.util.Map<Integer, ArchivedInvoice> getAllInvoicesView(){
+        return java.util.Collections.unmodifiableMap(invoices);
+    }
+
     public StorageHandler(ConfigStorage configStorage, JPanel lastInvoiceRenderPanel, CardLayout cardLayout, JPanel background, ButtonPanel showLastInvoicesButtonPanel, JButton searchButton, JTextField searchField){
-        invoices = new ConcurrentHashMap<>();
+        this.invoices = new ConcurrentHashMap<>();
         this.configStorage = configStorage;
         this.lastInvoiceRenderPanel = lastInvoiceRenderPanel;
         this.cardLayout = cardLayout;
         this.background = background;
         this.searchField = searchField;
-        importInvoices();
+        lastInstance = this;
 
+        // Rejestracja akcji UI bez IO – import należy uruchomić jawnie przez init()
         showLastInvoicesButtonPanel.addActionListener(e -> {
             displayInvoices();
             cardLayout.show(this.background, "2 1");
@@ -77,6 +89,11 @@ public class StorageHandler {
 
     }
 
+    // Jawna inicjalizacja danych archiwum (IO poza konstruktorem)
+    public void init() {
+        importInvoices();
+    }
+
     public void setInvoiceGenerator(InvoiceGenerator invoiceGenerator){
         this.invoiceGenerator = invoiceGenerator;
     }
@@ -93,17 +110,18 @@ public class StorageHandler {
     public void displayInvoices(){
         lastInvoiceRenderPanel.removeAll();
 
-        invoices.forEach((k, v) -> {
+        ArchiveService archiveService = new ArchiveService(new com.woytuloo.accountingapp.service.Adapters.StorageHandlerArchiveRepoAdapter(this));
+        java.util.List<Integer> numbers = archiveService.listAllNumbers();
+        for (Integer k : numbers) {
+            ArchivedInvoice v = archiveService.getByNumber(k);
             InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(String.valueOf(k));
-
             invoiceButtonPanel.addActionListener(e -> {
                 this.invoiceGenerator.setupArchivedFields(v);
                 this.workingInvoiceNum = k;
                 cardLayout.show(this.background, "fillInvoiceDataCard");
             });
-
             lastInvoiceRenderPanel.add(invoiceButtonPanel);
-        });
+        }
 
         lastInvoiceRenderPanel.revalidate();
         lastInvoiceRenderPanel.repaint();
@@ -112,27 +130,22 @@ public class StorageHandler {
     public void filterInvoices(String filter){
         lastInvoiceRenderPanel.removeAll();
 
-        if(!filter.isBlank())
-            invoices.forEach((k, v) -> {
-                Map<String, String > data = v.getPropertyDataMap();
-
-                boolean matches = data.entrySet().stream()
-                        .anyMatch(e -> e.getValue().toLowerCase().contains(filter.toLowerCase()));
-
-                if(matches){
-                    InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(String.valueOf(k));
-
-                    invoiceButtonPanel.addActionListener(e -> {
-                        this.invoiceGenerator.setupArchivedFields(v);
-                        this.workingInvoiceNum = k;
-                        cardLayout.show(this.background, "fillInvoiceDataCard");
-                    });
-
-                    lastInvoiceRenderPanel.add(invoiceButtonPanel);
-                }
-            });
-        else
+        if(!filter.isBlank()){
+            ArchiveService archiveService = new ArchiveService(new com.woytuloo.accountingapp.service.Adapters.StorageHandlerArchiveRepoAdapter(this));
+            java.util.List<Integer> numbers = archiveService.filterNumbers(filter);
+            for (Integer k : numbers) {
+                ArchivedInvoice v = archiveService.getByNumber(k);
+                InvoiceButtonPanel invoiceButtonPanel = new InvoiceButtonPanel(String.valueOf(k));
+                invoiceButtonPanel.addActionListener(e -> {
+                    this.invoiceGenerator.setupArchivedFields(v);
+                    this.workingInvoiceNum = k;
+                    cardLayout.show(this.background, "fillInvoiceDataCard");
+                });
+                lastInvoiceRenderPanel.add(invoiceButtonPanel);
+            }
+        } else {
             displayInvoices();
+        }
 
         lastInvoiceRenderPanel.revalidate();
         lastInvoiceRenderPanel.repaint();
@@ -156,12 +169,10 @@ public class StorageHandler {
                 System.out.println("Plik InvoiceArchive został utworzony.");
             }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(formsDataPath.toFile(), true));
-
-            writer.write(rdyInvoice.toString());
-            writer.newLine();
-
-            writer.close();
+            // read existing (encrypted or plaintext), append, write encrypted
+            java.util.List<String> lines = Files.readAllLines(formsDataPath);
+            lines.add(rdyInvoice.toString());
+            Files.write(formsDataPath, lines);
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
@@ -173,7 +184,11 @@ public class StorageHandler {
 
 
     public static void saveInvoices(){
-
+        StorageHandler inst = lastInstance;
+        if (inst == null) {
+            // Brak instancji – nic do zapisania, zachowujemy się bezpiecznie
+            return;
+        }
         String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
         Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");
         Path formsDataPath = Paths.get(configDirPath.toString(), "InvoiceArchive1.csv");
@@ -187,19 +202,9 @@ public class StorageHandler {
                 System.out.println("Plik InvoiceArchive został utworzony.");
             }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(formsDataPath.toFile()));
-
-            invoices.forEach((k, v) -> {
-                try {
-                    writer.write(v.toString());
-                    writer.newLine();
-                } catch (IOException e) {
-                    logger.error("Bład :" + e.getMessage());
-                    e.printStackTrace();
-                }
-            });
-
-            writer.close();
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            inst.invoices.forEach((k, v) -> lines.add(v.toString()));
+            Files.write(formsDataPath, lines);
 
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: " + e.getMessage());
@@ -227,10 +232,8 @@ public class StorageHandler {
                 System.out.println("Plik InvoiceArchive został utworzony.");
             }
 
-            BufferedReader reader = new BufferedReader(new FileReader(formsDataPath.toFile()));
-
-            String line;
-            while ((line = reader.readLine()) != null){
+            java.util.List<String> lines = Files.readAllLines(formsDataPath);
+            for (String line : lines) {
                 String[] data = line.split("\\|");
                 ArchivedInvoice invoice = new ArchivedInvoice(line);
                 invoices.put(Integer.parseInt(data[0]), invoice);
@@ -264,7 +267,7 @@ public class StorageHandler {
                 for(int i = archived.size() - 1000; i < archived.size(); i++){
                     newArchived.add(archived.toArray()[i].toString());
                 }
-                Files.write(formsDataPath, newArchived, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                Files.write(formsDataPath, new java.util.ArrayList<>(newArchived));
             }
 
         } catch (IOException e) {
@@ -318,19 +321,18 @@ public class StorageHandler {
     }
 
     private void clearCacheFile(Path formsDataPath2) {
-        try (FileWriter writer = new FileWriter(formsDataPath2.toFile(), false)){
-            writer.write("");
+        try {
+            Files.write(formsDataPath2, new ArrayList<>());
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: podczas czyszczenia pliku cache.");
             logger.error("Bład :" + e.getMessage());
-
         }
     }
 
     private void mergeFiles(Set<String> archived, Set<String> incomingLines, Path archiveFile) {
         archived.addAll(incomingLines);
         try {
-            Files.write(archiveFile, archived, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(archiveFile, new java.util.ArrayList<>(archived));
         } catch (IOException e) {
             System.err.println("Wystąpił błąd: podczas mergowania archuwum.");
             logger.error("Bład :" + e.getMessage());

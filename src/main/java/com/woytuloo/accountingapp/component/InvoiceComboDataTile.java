@@ -58,10 +58,11 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         jLabel1.setText("Nazwa Parametru");
 
 
-        jComboBox1.setBackground(new java.awt.Color(30, 30, 30));
+        jComboBox1.setBackground(new java.awt.Color(20, 20, 20));
         jComboBox1.setMaximumRowCount(8);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>());
-        jComboBox1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBox1.setBorder(new RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
+        jComboBox1.setForeground(new java.awt.Color(200, 200, 200));
         jComboBox1.setEditable(true);
 
 
@@ -116,9 +117,9 @@ public class InvoiceComboDataTile extends javax.swing.JPanel {
         jLabel1.setText("Nazwa Parametru");
 
 
-        jTextArea.setBackground(new java.awt.Color(30, 30, 30));
-
-        jTextArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTextArea.setBackground(new java.awt.Color(20, 20, 20));
+        jTextArea.setForeground(new java.awt.Color(200, 200, 200));
+        jTextArea.setBorder(new RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
         jTextArea.setEditable(true);
 
 

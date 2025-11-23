@@ -38,9 +38,11 @@ public class InvoiceDataTile extends javax.swing.JPanel {
 
         setOpaque(false);
 
-        jTextField1.setBackground(new java.awt.Color(30, 30, 30));
+        jTextField1.setBackground(new java.awt.Color(20, 20, 20));
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTextField1.setBorder(new RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
+        jTextField1.setCaretColor(new java.awt.Color(200, 200, 200));
+        jTextField1.setForeground(new java.awt.Color(200, 200, 200));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);

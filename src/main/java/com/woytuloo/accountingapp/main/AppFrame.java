@@ -250,10 +250,12 @@ public class AppFrame extends javax.swing.JFrame {
         lastInvoicesSearchButton.setIcon(new ImageIcon(new ImageIcon (getClass().getResource("/Images/searchIcon.png")).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH)));
         lastInvoicesSearchButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        lastInvoicesSearchBar.setBackground(new java.awt.Color(30, 30, 30));
+        lastInvoicesSearchBar.setBackground(new java.awt.Color(20, 20, 20));
         lastInvoicesSearchBar.setText("Wyszukaj fakturę  (numer, data, adres)");
         lastInvoicesSearchBar.setFont(FontHandler.montserrat14);
-        lastInvoicesSearchBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        lastInvoicesSearchBar.setBorder(new com.woytuloo.accountingapp.component.RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
+        lastInvoicesSearchBar.setCaretColor(new java.awt.Color(200, 200, 200));
+        lastInvoicesSearchBar.setForeground(new java.awt.Color(200, 200, 200));
 
         javax.swing.GroupLayout roundedTile3Layout = new javax.swing.GroupLayout(roundedTile3);
         roundedTile3.setLayout(roundedTile3Layout);
@@ -849,11 +851,13 @@ public class AppFrame extends javax.swing.JFrame {
 
         selectInvoiceFileCard.setOpaque(false);
 
-        selectInvoiceNameTextField.setBackground(new java.awt.Color(30, 30, 30));
+        selectInvoiceNameTextField.setBackground(new java.awt.Color(20, 20, 20));
         selectInvoiceNameTextField.setFont(FontHandler.montserrat18.deriveFont(16f)); // NOI18N
         selectInvoiceNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         selectInvoiceNameTextField.setText("Nazwa Szablonu");
-        selectInvoiceNameTextField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        selectInvoiceNameTextField.setBorder(new com.woytuloo.accountingapp.component.RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
+        selectInvoiceNameTextField.setCaretColor(new java.awt.Color(200, 200, 200));
+        selectInvoiceNameTextField.setForeground(new java.awt.Color(200, 200, 200));
         selectInvoiceNameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 selectInvoiceNameTextFieldFocusGained(evt);
@@ -938,10 +942,12 @@ public class AppFrame extends javax.swing.JFrame {
 
         fillFormCard.setOpaque(false);
 
-        parameterNameTf.setBackground(new java.awt.Color(30, 30, 30));
+        parameterNameTf.setBackground(new java.awt.Color(20, 20, 20));
         parameterNameTf.setFont(FontHandler.montserrat14); // NOI18N
         parameterNameTf.setText("Nazwa parametru");
-        parameterNameTf.setBorder(new CompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), new EmptyBorder(0,10,0,0)));
+        parameterNameTf.setBorder(new CompoundBorder(new com.woytuloo.accountingapp.component.RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6), new EmptyBorder(0,10,0,0)));
+        parameterNameTf.setCaretColor(new java.awt.Color(200, 200, 200));
+        parameterNameTf.setForeground(new java.awt.Color(200, 200, 200));
         parameterNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 parameterNameTfFocusGained(evt);
@@ -956,11 +962,13 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
-        cellNameTf.setBackground(new java.awt.Color(30, 30, 30));
+        cellNameTf.setBackground(new java.awt.Color(20, 20, 20));
         cellNameTf.setFont(FontHandler.montserrat14);
         cellNameTf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cellNameTf.setText("Komórka  (np. B3)");
-        cellNameTf.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cellNameTf.setBorder(new com.woytuloo.accountingapp.component.RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6));
+        cellNameTf.setCaretColor(new java.awt.Color(200, 200, 200));
+        cellNameTf.setForeground(new java.awt.Color(200, 200, 200));
         cellNameTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cellNameTfFocusGained(evt);
@@ -1033,10 +1041,12 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
 
-        entrySubstringTf.setBackground(new java.awt.Color(30, 30, 30));
+        entrySubstringTf.setBackground(new java.awt.Color(20, 20, 20));
         entrySubstringTf.setFont(FontHandler.montserrat14); // NOI18N
         entrySubstringTf.setText("Aby otoczyć wartość tekstem, zapisz ją jako @ (np. tekst @ tekst)");
-        entrySubstringTf.setBorder(new CompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), new EmptyBorder(0,10,0,0)));
+        entrySubstringTf.setBorder(new CompoundBorder(new com.woytuloo.accountingapp.component.RoundedBorder(new java.awt.Color(60, 60, 60), 1, 6), new EmptyBorder(0,10,0,0)));
+        entrySubstringTf.setCaretColor(new java.awt.Color(200, 200, 200));
+        entrySubstringTf.setForeground(new java.awt.Color(200, 200, 200));
         entrySubstringTf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 entrySubstringTfFocusGained(evt);

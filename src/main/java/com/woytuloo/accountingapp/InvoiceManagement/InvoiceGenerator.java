@@ -3,6 +3,8 @@ package com.woytuloo.accountingapp.InvoiceManagement;
 import com.formdev.flatlaf.ui.FlatComboBoxUI;
 import com.woytuloo.accountingapp.component.InvoiceComboDataTile;
 import com.woytuloo.accountingapp.handlers.*;
+import com.woytuloo.accountingapp.service.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -35,11 +37,12 @@ public class InvoiceGenerator {
     private Invoice invoice;
     private Map<String, Integer> automationTextfieldMap;
     private ConfigStorage configStorage;
-    private StorageHandler storageHandler;
     private AutoCompleteHandler autoCompleteHandler;
     private HashMap<String, Integer> autofillTileMap;
     private HashMap<String, Integer> totalPriceMap;
     private boolean  workingOnArchived = false;
+    private InvoiceService invoiceService;
+    private Adapters.PolishNumberToWordsAdapter numberToWords;
 
     String[] months = {
             "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
@@ -53,14 +56,17 @@ public class InvoiceGenerator {
             "Nacisnij by uzyskać kwotę słownie",
             "Autouzupełnianie"));
 
-    public InvoiceGenerator(JButton generateButton , JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler, AutoCompleteHandler autoCompleteHandler, CardLayout cardLayout, JPanel background) {
+    public InvoiceGenerator(JButton generateButton , JPanel invoiceDataRenderPanel, ConfigStorage configStorage, StorageHandler storageHandler, AutoCompleteHandler autoCompleteHandler, CardLayout cardLayout, JPanel background, InvoiceService invoiceService, Adapters.PolishNumberToWordsAdapter numberToWords) {
         this.invoiceDataRenderPanel = invoiceDataRenderPanel;
         this.configStorage = configStorage;
         this.autoCompleteHandler = autoCompleteHandler;
-        this.storageHandler = storageHandler;
         this.autofillTileMap = new HashMap<>();
         this.automationTextfieldMap = new HashMap<>();
         this.totalPriceMap = new HashMap<>();
+
+        // Initialize injected application service and number-to-words port
+        this.invoiceService = invoiceService;
+        this.numberToWords = numberToWords;
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -138,7 +144,8 @@ public class InvoiceGenerator {
         this.automationTextfieldMap = new HashMap<>();
 
         this.workingOnArchived = true;
-        this.invoice = InvoiceBlueprintAdder.getInvoiceBlueprint(ai.getName());
+        BlueprintService blueprintService = new BlueprintService(new Adapters.InvoiceBlueprintRepoAdapter());
+        this.invoice = blueprintService.getByName(ai.getName());
         if(invoice == null){
             JOptionPane.showMessageDialog(null, "Nie udało się wczytać szablonu faktury");
             MenuHandler.goToArchiveCard();
@@ -147,7 +154,9 @@ public class InvoiceGenerator {
         Map<String, String> data = new HashMap<>(ai.getPropertyDataMap());
 
         tiles = new ArrayList<>();
-        List<String> l = Arrays.stream(invoice.getConfigurationDataString().split(",")).filter(prop -> prop.split(";")[4].equals("L")).map(param -> param.split(";")[0]).toList();
+        List<String> l = Arrays.stream(invoice.getConfigurationDataString().split(","))
+                .filter(prop -> prop.split(";")[4].equals("L"))
+                .map(param -> param.split(";")[0]).toList();
         int i = 0;
         for(String key : data.keySet()){
             InvoiceComboDataTile tile;
@@ -205,7 +214,7 @@ public class InvoiceGenerator {
                 public void keyPressed(KeyEvent evt) {
                     if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                         String text = textField.getText();
-                        HashSet<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(autofillTileMap.get(k)).getParameterName(), text);
+                        Set<String> suggestions = autoCompleteHandler.getSuggestions(tiles.get(autofillTileMap.get(k)).getParameterName(), text);
                         comboBox.removeAllItems();
                         if(!text.isBlank())
                             comboBox.addItem(text);
@@ -388,7 +397,7 @@ public class InvoiceGenerator {
                                 try {
                                     int num = totalPriceMap.values().stream().findFirst().orElse(0);
                                     String comboVal = ((JTextField) tiles.get(num).getComboBox().getEditor().getEditorComponent()).getText();
-                                    priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(comboVal));
+                                    priceToWord = numberToWords.numberToWords(Integer.parseInt(comboVal));
                                 } catch (NumberFormatException ex) {
                                     priceToWord = "Błędny format liczby, popraw kwotę całkowitą i spróbuj ponownie";
                                 }
@@ -404,7 +413,7 @@ public class InvoiceGenerator {
                                 try {
                                     int num = totalPriceMap.values().stream().findFirst().orElse(0);
                                     String comboVal = ((JTextField) tiles.get(num).getComboBox().getEditor().getEditorComponent()).getText();
-                                    priceToWord = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(comboVal));
+                                    priceToWord = numberToWords.numberToWords(Integer.parseInt(comboVal));
                                 } catch (NumberFormatException ex) {
                                     priceToWord = "Błędny format liczby, popraw kwotę całkowitą i spróbuj ponownie";
                                 }
@@ -512,45 +521,45 @@ public class InvoiceGenerator {
 
     }
 
-    public ReadyInvoice scrapData(){
+    public ReadyInvoice scrapData() {
 
         ReadyInvoice readyInvoice = new ReadyInvoice(invoice);
 
-        for(InvoiceComboDataTile tile : tiles){
+        for (InvoiceComboDataTile tile : tiles) {
             String paramName = tile.getParameterName();
             String val;
-            if(tile.big)
+            if (tile.big)
                 val = tile.getComboBoxValue();
             else
                 val = ((JTextField) tile.getComboBox().getEditor().getEditorComponent()).getText();
 
-            if(val.isBlank() || genericPhrases.contains(val)){
+            if (val.isBlank() || genericPhrases.contains(val)) {
                 Optional<String> param = Arrays.stream(invoice.getConfigurationDataString().split(","))
                         .filter(par -> par.split(";")[0].equals(paramName))
                         .findFirst();
-                if(param.isPresent())
+                if (param.isPresent())
                     val = param.get().split(";")[2];
                 String auto;
-                if(param.isPresent())
-                     auto = param.get().split(";")[4];
+                if (param.isPresent())
+                    auto = param.get().split(";")[4];
                 else {
                     auto = "";
                 }
 
 
-                if(val.contains("@")) {
+                if (val.contains("@")) {
                     Optional<String> def;
-                    if(!"S".equals(auto)){
+                    if (!"S".equals(auto)) {
                         def = Arrays.stream(invoice.getConfigurationDataString().split(","))
-                            .filter(par -> par.split(";")[4].equals(auto) && !par.split(";")[2].contains("@"))
-                            .findFirst();
-                    }else {
+                                .filter(par -> par.split(";")[4].equals(auto) && !par.split(";")[2].contains("@"))
+                                .findFirst();
+                    } else {
                         def = Arrays.stream(invoice.getConfigurationDataString().split(","))
                                 .filter(par -> par.split(";")[4].equals("T") && !par.split(";")[2].contains("@"))
                                 .findFirst();
                     }
-                    if(def.isPresent())
-                        if("S".equals(auto))
+                    if (def.isPresent())
+                        if ("S".equals(auto))
                             val = NumberToWordsConvertionHandler.numberToWords(Integer.parseInt(def.get().split(";")[2]));
                         else
                             val = def.get().split(";")[2];
@@ -567,7 +576,6 @@ public class InvoiceGenerator {
 
         return readyInvoice;
     }
-
     public void setNumberForInvoice(ReadyInvoice readyInvoice){
         int nr = ConfigStorage.getCurrentInvoiceNum();
 
@@ -589,44 +597,30 @@ public class InvoiceGenerator {
         });
     }
 
+    private Map<String, String> collectInputs(){
+        Map<String, String> inputs = new LinkedHashMap<>();
+        for(InvoiceComboDataTile tile : tiles){
+            String paramName = tile.getParameterName();
+            String val;
+            if(tile.big)
+                val = tile.getComboBoxValue();
+            else
+                val = ((JTextField) tile.getComboBox().getEditor().getEditorComponent()).getText();
+            inputs.put(paramName, val);
+        }
+        return inputs;
+    }
+
     public void generateInvoice() throws Exception{
-
-        ReadyInvoice readyInvoice = scrapData();
-        setNumberForInvoice(readyInvoice);
-        getAutoFillData();
-
-
-        Path filePath = Paths.get(ConfigStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + readyInvoice.getNumber() + "." + invoice.getExtension());
-
-        fillInvoice(readyInvoice, filePath);
-
-        storageHandler.archiveInvoice(new ArchivedInvoice(readyInvoice));
-        storageHandler.saveCurrentInvoice(readyInvoice);
-
-        int num = totalPriceMap.values().stream().findFirst().orElse(0);
-        String comboVal = ((JTextField) tiles.get(num).getComboBox().getEditor().getEditorComponent()).getText();
-
-        if(comboVal.equals("Naciśnij by uzyskać kwotę")){
-                Optional<String> totalFields = Arrays.stream(invoice.getConfigurationDataString().split(",")).filter(par -> par.split(";")[4].equals("T")).findFirst();
-                String totalField = totalFields.orElse(null);
-                if(totalField != null){
-                    String[] split = totalField.split(";");
-                    comboVal = split[2];    //placeholder
-
-                    try{
-                        Double.parseDouble(comboVal);
-                    } catch(Exception e){
-                        JOptionPane.showMessageDialog(null, "Niepoprawna suma faktury. Sprawdź dane w formularzu.");
-                        return;
-                    }
-                }
-
-            }
-
-        configStorage.incrementEarningsAndInvoiceCount(Integer.parseInt(comboVal));
-
-
-
+        try {
+            Map<String, String> inputs = collectInputs();
+            getAutoFillData();
+            invoiceService.generateNewInvoice(invoice, inputs);
+        } catch (IllegalArgumentException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() != null ? ex.getMessage() : "Błąd generowania faktury.");
+            logger.error("Bład :" + ex.getMessage());
+            throw ex;
+        }
 
         JOptionPane optionPane = new JOptionPane("Sukces",
                 JOptionPane.PLAIN_MESSAGE);
@@ -658,21 +652,14 @@ public class InvoiceGenerator {
 
 
     public void updateInvoice(){
-
-        ReadyInvoice readyInvoice = scrapData();
-        readyInvoice.setupParameterCellMap(invoice.getConfigurationDataString());
-        Path filePath = Paths.get(ConfigStorage.getInvoiceTreePath(), "InvoiceHollow", months[LocalDate.now().getMonthValue() - 1], "" + LocalDateTime.now().getDayOfMonth(), invoice.getName() + readyInvoice.getNumber() + "." + invoice.getExtension());
-
-        if(!comparePricing(readyInvoice, storageHandler.getInvoice(readyInvoice.getNumber())))
+        try {
+            Map<String, String> inputs = collectInputs();
+            invoiceService.updateExistingInvoice(invoice, inputs);
+        } catch (IllegalArgumentException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() != null ? ex.getMessage() : "Błąd generowania faktury.");
+            logger.error("Bład :" + ex.getMessage());
             return;
-
-
-        fillInvoice(readyInvoice, filePath);
-
-        storageHandler.updateArchive(readyInvoice);
-        storageHandler.saveCurrentInvoice(readyInvoice);
-
-
+        }
 
         JOptionPane optionPane = new JOptionPane("Sukces",
                 JOptionPane.PLAIN_MESSAGE);

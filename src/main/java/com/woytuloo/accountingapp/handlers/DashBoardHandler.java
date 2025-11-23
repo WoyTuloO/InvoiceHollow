@@ -1,15 +1,11 @@
 package com.woytuloo.accountingapp.handlers;
 
-import com.woytuloo.accountingapp.charts.ChartsGenerator;
 import com.woytuloo.accountingapp.component.RoundedInfoPanel;
-import com.woytuloo.accountingapp.main.AppFrame;
-import com.woytuloo.accountingapp.MainApp;
+import com.woytuloo.accountingapp.service.ChartsGateway;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DashBoardHandler {
@@ -20,10 +16,17 @@ public class DashBoardHandler {
     private JLabel thisMonthsInvoiceCountLabel;
     private JPanel dashBoardPanelCard;
 
+    private final ChartsGateway charts;
     private ConfigStorage config;
 
-
-    public DashBoardHandler(RoundedInfoPanel dashBoardChartDisplayPanel, JProgressBar progressBar, JLabel incomeThisMonthLabel, JLabel thisMonthsTargetLabel, JLabel thisMonthsInvoiceCountLabel, JPanel dashBoardPanelCard, ConfigStorage configStorage) {
+    public DashBoardHandler(RoundedInfoPanel dashBoardChartDisplayPanel,
+                            JProgressBar progressBar,
+                            JLabel incomeThisMonthLabel,
+                            JLabel thisMonthsTargetLabel,
+                            JLabel thisMonthsInvoiceCountLabel,
+                            JPanel dashBoardPanelCard,
+                            ConfigStorage configStorage,
+                            ChartsGateway chartsGateway) {
         this.dashBoardChartDisplayPanel = dashBoardChartDisplayPanel;
         this.progressBar = progressBar;
         this.incomeThisMonthLabel = incomeThisMonthLabel;
@@ -31,7 +34,7 @@ public class DashBoardHandler {
         this.thisMonthsInvoiceCountLabel = thisMonthsInvoiceCountLabel;
         this.dashBoardPanelCard = dashBoardPanelCard;
         this.config = configStorage;
-
+        this.charts = chartsGateway;
 
         this.dashBoardPanelCard.addComponentListener(new ComponentAdapter() {
             @Override
@@ -41,10 +44,7 @@ public class DashBoardHandler {
         });
     }
 
-
-
     public void reloadDashBoard(){
-        System.out.println("Reloading DashBoard");
         this.incomeThisMonthLabel.setText(config.getThisMonthsEarnings()+" zł");
         this.thisMonthsTargetLabel.setText(String.format("%.2f zł", config.getThisMonthsTarget()));
         this.thisMonthsInvoiceCountLabel.setText(config.getThisMonthsInvoiceCount()+"");
@@ -59,22 +59,16 @@ public class DashBoardHandler {
         if(config.getCurrentlyEarned() > (config.getYearlyTarget() * 9 / 10))
             this.progressBar.setForeground(new java.awt.Color(255, 0, 0));
 
-
         reloadCharts();
-
-
     }
 
     private void reloadCharts() {
         Map<String, Double> incomeMap = config.getMonthIncomeMap();
         Map<String, Integer> workDoneMap = config.getMonthAmmountMap();
 
-        ChartsGenerator.showIncomeChart(dashBoardChartDisplayPanel.getIncomeChart(), incomeMap);
-        ChartsGenerator.showWorkDoneChart(dashBoardChartDisplayPanel.getWorkDoneChart(), workDoneMap);
-
+        charts.showIncomeChart(dashBoardChartDisplayPanel.getIncomeChart(), incomeMap);
+        charts.showWorkDoneChart(dashBoardChartDisplayPanel.getWorkDoneChart(), workDoneMap);
     }
-
-
 }
 
 

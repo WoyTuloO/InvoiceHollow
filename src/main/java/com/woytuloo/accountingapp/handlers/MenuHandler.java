@@ -8,11 +8,13 @@ import java.awt.*;
 
 public class MenuHandler {
 
-    private Menu menu;
-    private static JPanel background1;
-    private static CardLayout cardLayout;
-    private InvoiceDisplayHandler invoiceDisplayHandler;
-    private StorageHandler storageHandler;
+    private static volatile MenuHandler lastInstance;
+
+    private final Menu menu;
+    private final JPanel background1;
+    private final CardLayout cardLayout;
+    private final InvoiceDisplayHandler invoiceDisplayHandler;
+    private final StorageHandler storageHandler;
 
     public MenuHandler(Menu menu, JPanel background, CardLayout cardLayout, InvoiceDisplayHandler invoiceDisplayHandler, StorageHandler storageHandler) {
         this.menu = menu;
@@ -20,13 +22,13 @@ public class MenuHandler {
         this.cardLayout = cardLayout;
         this.invoiceDisplayHandler = invoiceDisplayHandler;
         this.storageHandler = storageHandler;
-
+        lastInstance = this;
 
         menu.setEvent( new MenuEvent(){
             @Override
             public void selected(int index, int subIndex){
                 String indexStr = index + " " + subIndex;
-                cardLayout.show(background1,  indexStr);
+                MenuHandler.this.cardLayout.show(MenuHandler.this.background1,  indexStr);
                 setupFocus(indexStr);
                 System.out.println(index + " " + subIndex);
             }
@@ -35,7 +37,10 @@ public class MenuHandler {
     }
 
     public static void goToArchiveCard(){
-        cardLayout.show(background1, "2 0");
+        MenuHandler inst = lastInstance;
+        if (inst != null) {
+            inst.cardLayout.show(inst.background1, "2 0");
+        }
     }
 
     public void setupFocus(String constr){

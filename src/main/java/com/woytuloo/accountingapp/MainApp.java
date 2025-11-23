@@ -5,12 +5,12 @@ import com.woytuloo.accountingapp.InvoiceManagement.InvoiceBlueprintAdder;
 import com.woytuloo.accountingapp.InvoiceManagement.InvoiceGenerator;
 import com.woytuloo.accountingapp.handlers.*;
 import com.woytuloo.accountingapp.main.AppFrame;
+import com.woytuloo.accountingapp.service.ChartsGeneratorGateway;
+import com.woytuloo.accountingapp.service.FileSuggestionsRepository;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
@@ -83,21 +83,60 @@ public static AppFrame setup(){
 
 
         AppFrame frame = new AppFrame();
-
-        ConfigStorage configStorage = new ConfigStorage(frame.getExitButton());
+//    frame.getExitButton()
+        ConfigStorage configStorage = new ConfigStorage();
+        configStorage.init();
         StorageHandler storageHandler = new StorageHandler(configStorage, frame.getLastInvoiceRenderPanel(), frame.getCardLayout(), frame.getBackgroundPanel(),frame.showLastInvoicesButtonPanel(), frame.getSearchButton(), frame.getSearchTextField());
+        storageHandler.init();
         HashMap<String, Invoice> collection = new HashMap<>();
 
         InvoiceBlueprintAdder invoiceBlueprintAdder = new InvoiceBlueprintAdder(frame.getInvoiceNameField(), frame.getChoseFileButton(), frame.getProceedButton(), frame.getParamCellCombo(), frame.getSaveFormButton(), frame.getCardLayout(), frame.getBackgroundPanel(), collection);
         invoiceBlueprintAdder.loadInvoiceFromFile();
 
-        DashBoardHandler dashBoardHandler = new DashBoardHandler(frame.getDashBoardChartDisplayPanel(), frame.getYearlyIncomeProgressBar(), frame.getIncomeThisMonthLabel(), frame.getThisMonthsTargetLabel(), frame.getThisMonthInvoiceCountLabel(), frame.getDashBoardPanelCard(), configStorage);
+        DashBoardHandler dashBoardHandler = new DashBoardHandler(
+                frame.getDashBoardChartDisplayPanel(),
+                frame.getYearlyIncomeProgressBar(),
+                frame.getIncomeThisMonthLabel(),
+                frame.getThisMonthsTargetLabel(),
+                frame.getThisMonthInvoiceCountLabel(),
+                frame.getDashBoardPanelCard(),
+                configStorage,
+                new ChartsGeneratorGateway()
+        );
 
-        AutoCompleteHandler autoCompleteHandler = new AutoCompleteHandler(frame.getRememberedJPanel(), frame.getParametersCombo(), frame.getSuggestionsTextArea(), frame.getSaveButton(), frame.getDeleteButton());
+        AutoCompleteHandler autoCompleteHandler = new AutoCompleteHandler(
+                frame.getRememberedJPanel(),
+                frame.getParametersCombo(),
+                frame.getSuggestionsTextArea(),
+                frame.getSaveButton(),
+                frame.getDeleteButton(),
+                new FileSuggestionsRepository()
+        );
+        autoCompleteHandler.load();
 
         InvoiceBlueprintHandler invoiceBlueprintHandler = new InvoiceBlueprintHandler(frame.getSavedBlueprintsCard(), frame.getSavedBlueprintsDisplayPanel(), collection, invoiceBlueprintAdder);
 
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(frame.getGenerateInvoiceButton(), frame.getInvoiceDataRenderPanel(), configStorage, storageHandler, autoCompleteHandler, frame.getCardLayout(), frame.getBackgroundPanel());
+        // Build new backend service and ports, inject into GUI
+        var invoiceService = new com.woytuloo.accountingapp.service.InvoiceService(
+                new com.woytuloo.accountingapp.service.Adapters.ConfigStorageAdapter(configStorage),
+                new com.woytuloo.accountingapp.service.Adapters.StorageHandlerArchiveAdapter(storageHandler),
+                new com.woytuloo.accountingapp.service.Adapters.AutoCompleteSuggestionsAdapter(autoCompleteHandler),
+                new com.woytuloo.accountingapp.service.Adapters.PoiDocumentFillerAdapter(),
+                new com.woytuloo.accountingapp.service.Adapters.SystemDateTimeProvider(),
+                new com.woytuloo.accountingapp.service.Adapters.PolishNumberToWordsAdapter()
+        );
+        var numberToWordsPort = new com.woytuloo.accountingapp.service.Adapters.PolishNumberToWordsAdapter();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(
+                frame.getGenerateInvoiceButton(),
+                frame.getInvoiceDataRenderPanel(),
+                configStorage,
+                storageHandler,
+                autoCompleteHandler,
+                frame.getCardLayout(),
+                frame.getBackgroundPanel(),
+                invoiceService,
+                numberToWordsPort
+        );
         storageHandler.setInvoiceGenerator(invoiceGenerator);
 
         InvoiceDisplayHandler invoiceDisplayHandler = new InvoiceDisplayHandler(frame.getBackgroundPanel(), frame.getChoseInvoiceDisplayPanel(), collection, invoiceGenerator, frame.getCardLayout());

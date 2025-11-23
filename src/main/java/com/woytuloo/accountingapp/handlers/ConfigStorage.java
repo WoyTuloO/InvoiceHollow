@@ -162,7 +162,7 @@ private static final Logger logger = LogManager.getLogger(ConfigStorage.class);
     }
 
 
-    public ConfigStorage(ControllJButton exitButton) {
+    public ConfigStorage() {
         monthMap.put("JANUARY", "styczeń");
         monthMap.put("FEBRUARY", "luty");
         monthMap.put("MARCH", "marzec");
@@ -179,18 +179,19 @@ private static final Logger logger = LogManager.getLogger(ConfigStorage.class);
         this.currentInvoiceNum = 0;
         this.yearlyTarget = 200000;
 
-
         setDefault();
+        // IO przeniesione do jawnego init()
+    }
+
+    public void init() {
         loadConfigFile();
 
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM"));
-        System.out.println(date);
         if (date.equals("01.01"))
             reloadForNewYear();
 
         if (invoiceTreePath != null)
             setupTree();
-
     }
 
     private void reloadForNewYear() {

@@ -1,30 +1,33 @@
 package com.woytuloo.accountingapp.handlers;
 
-import com.woytuloo.accountingapp.charts.ChartsGenerator;
-import org.apache.commons.collections4.list.TreeList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.io.IOException;
 import java.util.*;
+
+import com.woytuloo.accountingapp.service.SuggestionsRepository;
 
 public class AutoCompleteHandler {
 
     private static final Logger logger = LogManager.getLogger(AutoCompleteHandler.class);
-    private static Map<String, HashSet<String>> paramSuggestionsMap;
 
-    public AutoCompleteHandler(JPanel rememberedJPanel,JComboBox parametersCombo, JTextArea suggestionsTextArea, JButton save, JButton delete) {
-        paramSuggestionsMap = new HashMap<>();
+    // Ostatnia utworzona instancja, aby zachować kompatybilność ze statycznym wywołaniem saveSuggestionsToFile()
+    private static volatile AutoCompleteHandler lastInstance;
+
+    private final SuggestionsRepository repository;
+    private final Map<String, Set<String>> paramSuggestionsMap;
+
+    public AutoCompleteHandler(JPanel rememberedJPanel, JComboBox<String> parametersCombo, JTextArea suggestionsTextArea, JButton save, JButton delete, SuggestionsRepository repository) {
+        this.repository = repository;
+        this.paramSuggestionsMap = new HashMap<>();
+        lastInstance = this;
 
         rememberedJPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 parametersCombo.removeAllItems();
-                for(String paramName : paramSuggestionsMap.keySet()){
+                for (String paramName : paramSuggestionsMap.keySet()) {
                     parametersCombo.addItem(paramName);
                 }
             }
@@ -33,9 +36,10 @@ public class AutoCompleteHandler {
         parametersCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String selectedParam = (String) parametersCombo.getSelectedItem();
-                if(selectedParam != null){
+                if (selectedParam != null) {
                     suggestionsTextArea.setText("");
-                    for(String suggestion : paramSuggestionsMap.get(selectedParam)){
+                    Set<String> set = paramSuggestionsMap.getOrDefault(selectedParam, Collections.emptySet());
+                    for (String suggestion : set) {
                         suggestionsTextArea.append(suggestion + "\n");
                     }
                 }
@@ -45,7 +49,7 @@ public class AutoCompleteHandler {
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String selectedParam = (String) parametersCombo.getSelectedItem();
-                if(selectedParam != null){
+                if (selectedParam != null) {
                     String[] suggestions = suggestionsTextArea.getText().split("\n");
                     paramSuggestionsMap.put(selectedParam, new HashSet<>(Arrays.asList(suggestions)));
                 }
@@ -55,95 +59,58 @@ public class AutoCompleteHandler {
         delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String selectedParam = (String) parametersCombo.getSelectedItem();
-                if(selectedParam != null){
+                if (selectedParam != null) {
                     paramSuggestionsMap.remove(selectedParam);
                     parametersCombo.removeItem(selectedParam);
                 }
             }
         });
-
-
-
-        loadSuggestionsFromFile();
+        // brak IO w konstruktorze – testy mogą tworzyć instancję bez dotykania dysku
     }
 
+    // Jawne ładowanie sugestii (do wywołania w MainApp po utworzeniu handlera)
+    public void load() {
+        try {
+            Map<String, Set<String>> data = repository.load();
+            paramSuggestionsMap.clear();
+            paramSuggestionsMap.putAll(data);
+        } catch (IOException ex) {
+            logger.error("Błąd ładowania sugestii: {}", ex.getMessage());
+        }
+    }
 
+    // Jawny zapis sugestii (wykorzystany przez statyczny mostek i testy)
+    public void save() {
+        try {
+            repository.save(paramSuggestionsMap);
+        } catch (IOException ex) {
+            logger.error("Błąd zapisu sugestii: {}", ex.getMessage());
+        }
+    }
 
-    public HashSet<String> getSuggestions(String paramName, String text) {
-        HashSet<String> result = new HashSet<>();
-        HashSet<String> suggestions = paramSuggestionsMap.getOrDefault(paramName, new HashSet<>());
-
-        for(String word : suggestions){
-            if(word.startsWith(text)){
+    public Set<String> getSuggestions(String paramName, String text) {
+        Set<String> result = new HashSet<>();
+        Set<String> suggestions = paramSuggestionsMap.getOrDefault(paramName, Collections.emptySet());
+        for (String word : suggestions) {
+            if (word != null && word.startsWith(text)) {
                 result.add(word);
             }
         }
         return result;
     }
 
-    public void fillSuggestions(String paramName, String value){
-        if(!paramSuggestionsMap.containsKey(paramName))
-            paramSuggestionsMap.put(paramName, new HashSet<>());
-        HashSet<String> set = paramSuggestionsMap.get(paramName);
-        if(!"Autouzupełnianie".equals(value))
-            set.add(value);
+    public void fillSuggestions(String paramName, String value) {
+        if (value == null || "Autouzupełnianie".equals(value) || value.isBlank()) return;
+        paramSuggestionsMap.computeIfAbsent(paramName, k -> new HashSet<>()).add(value);
     }
 
+    // Zachowanie kompatybilności z istniejącym wywołaniem statycznym w ControllJButton
     public static void saveSuggestionsToFile() {
-
-        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-        Path configDirPath = Paths.get(userDocuments + File.separator + "InvoiceHollow", "Config");
-        Path configFilePath = Paths.get(configDirPath.toString(), "autoCompleteSuggestions.csv");
-
-        try {
-            FileWriter pw = new FileWriter(configFilePath.toString());
-
-            StringBuilder sb = new StringBuilder();
-            for (String paramName : paramSuggestionsMap.keySet()) {
-                sb.append(paramName).append(";");
-                for (String suggestion : paramSuggestionsMap.get(paramName)) {
-                    sb.append(suggestion).append("$");
-                }
-                pw.write(sb.substring(0, sb.length() - 1) + "\n");
-                sb = new StringBuilder();
-            }
-            pw.flush();
-            pw.close();
-
-        }catch (IOException ex) {
-            System.out.println("Bład :" + ex.getMessage());
-            logger.error("Bład :" + ex.getMessage());
+        AutoCompleteHandler inst = lastInstance;
+        if (inst != null) {
+            inst.save();
+        } else {
+            logger.warn("Brak instancji AutoCompleteHandler – pomijam zapis sugestii.");
         }
     }
-
-    public void loadSuggestionsFromFile(){
-
-        String userDocuments = System.getProperty("user.home") + File.separator + "Documents";
-        Path invooFolderPath = Paths.get(userDocuments, "InvoiceHollow");
-        Path configDirPath = Paths.get(invooFolderPath.toString(), "Config");
-        Path configDataPath = Paths.get(configDirPath.toString(), "autoCompleteSuggestions.csv");
-
-
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(configDataPath.toString()));
-            String line;
-
-            while((line = reader.readLine()) != null){
-                String[] parts = line.split(";");
-                String paramName = parts[0];
-                String[] suggestions = parts[1].split("\\$");
-                for(String suggestion : suggestions){
-                    fillSuggestions(paramName, suggestion);
-                }
-            }
-
-        } catch (Exception ex) {
-            System.out.println("Bład :" + ex.getMessage());
-            logger.error("Bład :" + ex.getMessage());
-        }
-
-
-    }
-
 }
